@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>바이브 코딩 가이드</title>
-<meta name="description" content="바이브 코딩 입문, 심화, 에이전트 응용실습을 한곳에서 시작하는 학습 인덱스">
+<meta name="description" content="바이브 코딩 입문, 심화, 에이전트 응용실습(기사 작성·논문 검색)을 한곳에서 시작하는 학습 인덱스">
 <meta property="og:title" content="바이브 코딩 가이드">
-<meta property="og:description" content="입문부터 심화, 뉴스 작성 에이전트 실습까지 이어지는 바이브 코딩 학습 로드맵">
+<meta property="og:description" content="입문부터 심화, 기사 작성·논문 검색 에이전트 실습까지 이어지는 바이브 코딩 학습 로드맵">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://jonghhhh.github.io/vibecoding_guide/">
 <link rel="canonical" href="https://jonghhhh.github.io/vibecoding_guide/">
@@ -24,6 +24,7 @@
   --accent:#5a40e8;
   --accent-2:#0f8b8d;
   --accent-3:#b05a00;
+  --accent-4:#0a6cf0;
   --accent-soft:#efeaff;
   --line:#e5e7ef;
   --panel:#fafbfe;
@@ -185,7 +186,7 @@ h2{
 }
 .path{
   display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
+  grid-template-columns:repeat(2,minmax(0,1fr));
   gap:16px;
   margin-bottom:54px;
 }
@@ -216,6 +217,7 @@ h2{
 }
 .module:nth-child(2)::before{background:var(--accent-2)}
 .module:nth-child(3)::before{background:var(--accent-3)}
+.module:nth-child(4)::before{background:var(--accent-4)}
 .module h3{
   margin:0;
   color:var(--ink);
@@ -248,6 +250,7 @@ h2{
 }
 .module:nth-child(2) li::before{background:var(--accent-2)}
 .module:nth-child(3) li::before{background:var(--accent-3)}
+.module:nth-child(4) li::before{background:var(--accent-4)}
 .module .open{
   margin-top:auto;
   display:flex;
@@ -273,6 +276,7 @@ h2{
 }
 .module:nth-child(2) .open a.main{border-color:var(--accent-2); color:var(--accent-2)}
 .module:nth-child(3) .open a.main{border-color:var(--accent-3); color:var(--accent-3)}
+.module:nth-child(4) .open a.main{border-color:var(--accent-4); color:var(--accent-4)}
 .band{
   display:grid;
   grid-template-columns:1.05fr .95fr;
@@ -377,22 +381,23 @@ footer{
   <main id="main">
     <section class="hero" aria-labelledby="page-title">
       <p class="eyebrow">Learn by building</p>
-      <h1 id="page-title">입문에서 심화, 기사 작성 에이전트 실습까지</h1>
+      <h1 id="page-title">입문에서 심화, 에이전트 실습까지</h1>
       <p class="hero-copy">
         바이브 코딩을 처음 접하는 학습자가 개발 환경을 잡고, Claude Code·Codex·Gemini의 작업 방식을 비교한 뒤,
-        실제 뉴스 기사 작성 파이프라인까지 응용해 보는 단일 학습 허브입니다.
+        기사 작성과 논문 검색 두 가지 에이전트 파이프라인까지 응용해 보는 단일 학습 허브입니다.
       </p>
       <div class="hero-actions" aria-label="빠른 시작">
         <a class="btn primary" href="https://jonghhhh.github.io/vibecoding_guide/vibecoding_basic.html">입문부터 시작</a>
         <a class="btn" href="https://jonghhhh.github.io/vibecoding_guide/vibecoding_advanced.html">심화로 이동</a>
-        <a class="btn" href="https://jonghhhh.github.io/vibecoding_guide/agent_newsmaking.html">기사 작성 실습 보기</a>
+        <a class="btn" href="https://jonghhhh.github.io/vibecoding_guide/agent_newsmaking.html">기사 작성 실습</a>
+        <a class="btn" href="https://jonghhhh.github.io/vibecoding_guide/agent_paperfinder.html">논문 검색 실습</a>
       </div>
     </section>
 
     <section class="content">
       <div class="section-head" id="courses">
         <h2>학습 로드맵</h2>
-        <p>세 자료는 순서대로 보도록 설계했습니다. 기본 도구 사용법을 익힌 뒤, 자동화 개념을 확장하고, 마지막에 실제 업무형 파이프라인으로 연결합니다.</p>
+        <p>네 과정은 순서대로 보도록 설계했습니다. 기본 도구 사용법을 익힌 뒤 자동화 개념을 확장하고, 마지막에 기사 작성·논문 검색 두 가지 에이전트 파이프라인으로 연결합니다.</p>
       </div>
 
       <div class="path" aria-label="바이브 코딩 학습 과정">
@@ -434,6 +439,19 @@ footer{
             <a class="main" href="https://jonghhhh.github.io/vibecoding_guide/agent_newsmaking.html">실습 문서 열기</a>
           </div>
         </article>
+
+        <article class="module" data-step="04">
+          <h3>논문 검색 에이전트 실습</h3>
+          <p>검색어 한 마디로 관련 논문을 모아 관련도를 선별하고 보기 좋은 HTML 한 장으로 정리하는 응용 실습입니다.</p>
+          <ul>
+            <li>paper-search-mcp 연결(논문 검색·PDF 다운로드)</li>
+            <li>researcher 서브에이전트로 논문 수집·선별</li>
+            <li>make-report 스킬로 HTML 리포트 생성</li>
+          </ul>
+          <div class="open">
+            <a class="main" href="https://jonghhhh.github.io/vibecoding_guide/agent_paperfinder.html">실습 문서 열기</a>
+          </div>
+        </article>
       </div>
 
       <section class="band" aria-labelledby="how-title">
@@ -441,10 +459,10 @@ footer{
           <h2 id="how-title">이렇게 진행하면 됩니다</h2>
           <p>
             처음에는 입문 가이드에서 도구별 사용 감각을 잡고, 심화 가이드에서 명령어와 프로젝트 지침을 이해합니다.
-            이후 기사 작성 실습에서 입력 자료, 중간 산출물, 검증 보고서가 이어지는 엔드투엔드 흐름을 직접 확인합니다.
+            이후 두 에이전트 실습(기사 작성·논문 검색)에서 입력 자료, 중간 산출물, 결과물이 이어지는 엔드투엔드 흐름을 직접 확인합니다.
           </p>
           <p>
-            수업이나 워크숍에서는 1일차에 입문, 2일차에 심화, 3일차에 기사 작성 응용실습으로 나누면 무리가 없습니다.
+            수업이나 워크숍에서는 1일차에 입문, 2일차에 심화, 3일차에 에이전트 응용실습(기사 작성·논문 검색)으로 나누면 무리가 없습니다.
           </p>
         </div>
         <div class="checklist" aria-label="권장 진행 순서">
@@ -458,7 +476,7 @@ footer{
           </div>
           <div class="check">
             <strong>응용 실습</strong>
-            <span>실제 원자료를 넣고 기사 초안, 팩트체크, 수정본까지 만듭니다.</span>
+            <span>실제 자료로 기사 작성과 논문 검색 두 가지 에이전트 파이프라인을 직접 만듭니다.</span>
           </div>
         </div>
       </section>
@@ -479,7 +497,11 @@ footer{
           </div>
           <div class="file-row">
             <a href="https://jonghhhh.github.io/vibecoding_guide/agent_newsmaking.html">agent_newsmaking.html</a>
-            <span>뉴스 기사 작성 에이전트 응용실습 문서</span>
+            <span>기사 작성 에이전트 응용실습 문서</span>
+          </div>
+          <div class="file-row">
+            <a href="https://jonghhhh.github.io/vibecoding_guide/agent_paperfinder.html">agent_paperfinder.html</a>
+            <span>논문 검색·정리 에이전트 응용실습 문서</span>
           </div>
           <div class="file-row">
             <a href="https://github.com/jonghhhh/vibecoding_guide/">github.com/jonghhhh/vibecoding_guide</a>
@@ -499,14 +521,15 @@ footer{
         <p>
           내부 자료는 각각 <code>https://jonghhhh.github.io/vibecoding_guide/vibecoding_basic.html</code>,
           <code>https://jonghhhh.github.io/vibecoding_guide/vibecoding_advanced.html</code>,
-          <code>https://jonghhhh.github.io/vibecoding_guide/agent_newsmaking.html</code> 경로로 연결됩니다.
+          <code>https://jonghhhh.github.io/vibecoding_guide/agent_newsmaking.html</code>,
+          <code>https://jonghhhh.github.io/vibecoding_guide/agent_paperfinder.html</code> 경로로 연결됩니다.
         </p>
       </section>
     </section>
   </main>
 
   <footer>
-    바이브 코딩 기본 학습, 심화 학습, 응용 실습을 묶은 정적 학습 인덱스입니다.
+    바이브 코딩 기본 학습, 심화 학습, 두 가지 에이전트 응용 실습(기사 작성·논문 검색)을 묶은 정적 학습 인덱스입니다.
   </footer>
 </div>
 </body>
