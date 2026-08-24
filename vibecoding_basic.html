@@ -486,13 +486,13 @@ source .venv/bin/activate
 <p><strong>방법 A — 설치 스크립트 (curl / irm)</strong></p>
 <p>내 컴퓨터와 터미널 종류에 맞는 <strong>한 줄만</strong> 복사해 실행하세요.</p>
 <pre><code class="language-bash"># macOS · Linux · WSL
-curl -fsSL https://claude.ai/install.sh | bash
+curl -fsSL <a href="https://claude.ai/install.sh">https://claude.ai/install.sh</a> | bash
 </code></pre>
 <pre><code class="language-powershell"># Windows · PowerShell  (창 왼쪽에 PS 가 보이면 PowerShell)
-irm https://claude.ai/install.ps1 | iex
+irm <a href="https://claude.ai/install.ps1">https://claude.ai/install.ps1</a> | iex
 </code></pre>
 <pre><code class="language-batch">REM Windows · 명령 프롬프트(CMD)  (PS 없이 C:\ 로 시작하면 CMD)
-curl -fsSL https://claude.ai/install.cmd -o install.cmd &amp;&amp; install.cmd &amp;&amp; del install.cmd
+curl -fsSL <a href="https://claude.ai/install.cmd">https://claude.ai/install.cmd</a> -o install.cmd &amp;&amp; install.cmd &amp;&amp; del install.cmd
 </code></pre>
 <blockquote>
 <p><strong>PowerShell인지 CMD인지 구분하는 법</strong> — 입력줄이 <code>PS C:\Users\이름&gt;</code>이면 <strong>PowerShell</strong>, <code>C:\Users\이름&gt;</code>이면 <strong>CMD</strong>입니다. <code>'irm' is not recognized</code> 오류가 나면 CMD에서 PowerShell 명령을 쓴 것이고, <code>'&amp;&amp;' is not a valid statement separator</code> 오류가 나면 그 반대입니다.</p>
@@ -664,10 +664,10 @@ print(&quot;문장 수:&quot;, sentence_count)
 <h3 id="4-2-1">4-2. 설치 — 두 가지 방법 중 택 1</h3>
 <p><strong>방법 A — 설치 스크립트 (curl / irm)</strong></p>
 <pre><code class="language-bash"># macOS · Linux
-curl -fsSL https://chatgpt.com/codex/install.sh | sh
+curl -fsSL <a href="https://chatgpt.com/codex/install.sh">https://chatgpt.com/codex/install.sh</a> | sh
 </code></pre>
 <pre><code class="language-powershell"># Windows
-powershell -ExecutionPolicy ByPass -c &quot;irm https://chatgpt.com/codex/install.ps1 | iex&quot;
+powershell -ExecutionPolicy ByPass -c &quot;irm <a href="https://chatgpt.com/codex/install.ps1">https://chatgpt.com/codex/install.ps1</a> | iex&quot;
 </code></pre>
 <p><strong>방법 B — npm</strong></p>
 <pre><code class="language-bash">npm install -g @openai/codex
@@ -823,13 +823,13 @@ index.html 한 파일로 만들고 싶어. 브라우저 저장 기능도 포함�
 <h3 id="5-3">5-3. 설치와 로그인</h3>
 <p><strong>Antigravity CLI는 npm 패키지가 아닙니다.</strong> 설치 스크립트로만 깝니다. Node.js도 필요 없습니다.</p>
 <pre><code class="language-bash"># macOS · Linux
-curl -fsSL https://antigravity.google/cli/install.sh | bash
+curl -fsSL <a href="https://antigravity.google/cli/install.sh">https://antigravity.google/cli/install.sh</a> | bash
 </code></pre>
 <pre><code class="language-powershell"># Windows · PowerShell
-irm https://antigravity.google/cli/install.ps1 | iex
+irm <a href="https://antigravity.google/cli/install.ps1">https://antigravity.google/cli/install.ps1</a> | iex
 </code></pre>
 <pre><code class="language-batch">REM Windows · 명령 프롬프트(CMD)
-curl -fsSL https://antigravity.google/cli/install.cmd -o install.cmd &amp;&amp; install.cmd &amp;&amp; del install.cmd
+curl -fsSL <a href="https://antigravity.google/cli/install.cmd">https://antigravity.google/cli/install.cmd</a> -o install.cmd &amp;&amp; install.cmd &amp;&amp; del install.cmd
 </code></pre>
 <p>설치 스크립트가 OS와 CPU 종류를 알아서 판별해 실행파일을 내려받고, 체크섬을 확인한 뒤 <code>~/.local/bin/agy</code>에 넣어 줍니다. 이후 업데이트도 자동입니다.</p>
 <p><strong>실행과 로그인</strong> — 작업 폴더에서 <code>agy</code>를 입력하면 브라우저가 열리며 구글 계정 인증을 진행합니다.</p>
@@ -1301,7 +1301,7 @@ agy inspect
 <h3 id="c-2">C-2. 설치부터 첫 실습까지</h3>
 <p><strong>① 공통 준비는 동일합니다</strong> — VS Code·터미널·Node.js·파이썬·작업 폴더(1부), 가상환경(2부). 여기까지는 도구와 무관하게 같습니다.</p>
 <p><strong>② 설치와 로그인</strong></p>
-<pre><code class="language-bash">curl -fsSL https://chatgpt.com/codex/install.sh | sh
+<pre><code class="language-bash">curl -fsSL <a href="https://chatgpt.com/codex/install.sh">https://chatgpt.com/codex/install.sh</a> | sh
 cd my-first-vibe
 codex
 </code></pre>
@@ -1370,20 +1370,20 @@ codex
 <hr />
 <h2 id="_3">참고문헌</h2>
 <ol>
-<li>조태호, 『혼자 공부하는 바이브코딩 with 클로드코드』 공식 GitHub. https://github.com/taehojo/vibecoding</li>
-<li>Claude Code 설치·설정 공식 문서. https://code.claude.com/docs/en/setup</li>
-<li>Claude Code VS Code 확장 공식 문서. https://code.claude.com/docs/en/vs-code</li>
-<li>Anthropic, 모델 개요(Claude Opus 5 · Sonnet 5 · Haiku 4.5). https://platform.claude.com/docs/en/about-claude/models/overview</li>
-<li>OpenAI Codex 공식 저장소(설치 명령). https://github.com/openai/codex</li>
-<li>OpenAI Codex 모델 목록·종료 일정. https://learn.chatgpt.com/docs/models</li>
-<li>OpenAI Codex 변경 이력. https://learn.chatgpt.com/docs/changelog</li>
-<li>Google, Gemini CLI → Antigravity CLI 이전 안내(2026.6.18). https://antigravity.google/docs/gcli-migration</li>
-<li>Google Antigravity CLI 설치·인증 공식 문서. https://antigravity.google/docs/cli/install/</li>
-<li>Google Antigravity CLI 설정(settings.json) 문서. https://antigravity.google/docs/cli/settings/</li>
-<li>파이썬 공식 문서 — <code>venv</code> 가상환경. https://docs.python.org/ko/3/library/venv.html</li>
-<li>파이썬 공식 가이드 — pip로 패키지 설치하기. https://packaging.python.org/ko/latest/tutorials/installing-packages/</li>
-<li>Visual Studio Code 공식 다운로드. https://code.visualstudio.com</li>
-<li>Node.js 공식 다운로드(LTS). https://nodejs.org</li>
+<li>조태호, 『혼자 공부하는 바이브코딩 with 클로드코드』 공식 GitHub. <a href="https://github.com/taehojo/vibecoding">https://github.com/taehojo/vibecoding</a></li>
+<li>Claude Code 설치·설정 공식 문서. <a href="https://code.claude.com/docs/en/setup">https://code.claude.com/docs/en/setup</a></li>
+<li>Claude Code VS Code 확장 공식 문서. <a href="https://code.claude.com/docs/en/vs-code">https://code.claude.com/docs/en/vs-code</a></li>
+<li>Anthropic, 모델 개요(Claude Opus 5 · Sonnet 5 · Haiku 4.5). <a href="https://platform.claude.com/docs/en/about-claude/models/overview">https://platform.claude.com/docs/en/about-claude/models/overview</a></li>
+<li>OpenAI Codex 공식 저장소(설치 명령). <a href="https://github.com/openai/codex">https://github.com/openai/codex</a></li>
+<li>OpenAI Codex 모델 목록·종료 일정. <a href="https://learn.chatgpt.com/docs/models">https://learn.chatgpt.com/docs/models</a></li>
+<li>OpenAI Codex 변경 이력. <a href="https://learn.chatgpt.com/docs/changelog">https://learn.chatgpt.com/docs/changelog</a></li>
+<li>Google, Gemini CLI → Antigravity CLI 이전 안내(2026.6.18). <a href="https://antigravity.google/docs/gcli-migration">https://antigravity.google/docs/gcli-migration</a></li>
+<li>Google Antigravity CLI 설치·인증 공식 문서. <a href="https://antigravity.google/docs/cli/install/">https://antigravity.google/docs/cli/install/</a></li>
+<li>Google Antigravity CLI 설정(settings.json) 문서. <a href="https://antigravity.google/docs/cli/settings/">https://antigravity.google/docs/cli/settings/</a></li>
+<li>파이썬 공식 문서 — <code>venv</code> 가상환경. <a href="https://docs.python.org/ko/3/library/venv.html">https://docs.python.org/ko/3/library/venv.html</a></li>
+<li>파이썬 공식 문서 — 모듈 설치하기(pip). <a href="https://docs.python.org/ko/3/installing/index.html">https://docs.python.org/ko/3/installing/index.html</a></li>
+<li>Visual Studio Code 공식 다운로드. <a href="https://code.visualstudio.com">https://code.visualstudio.com</a></li>
+<li>Node.js 공식 다운로드(LTS). <a href="https://nodejs.org">https://nodejs.org</a></li>
 </ol>
 <blockquote>
 <p>도구 버전·모델·요금·전환 일정은 2026년 8월 기준이며 변경이 잦습니다. 위 1차 출처에서 최신 정보를 확인하세요.</p>
