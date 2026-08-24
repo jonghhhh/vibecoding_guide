@@ -403,7 +403,7 @@ tour/
 4. Google AI Studio — 개발 문서. https://aistudio.google.com/docs
 5. Gemini API 파이썬 SDK. https://googleapis.github.io/python-genai/
 6. python-dotenv 문서. https://pypi.org/project/python-dotenv/
-7. GitHub Pages 시작하기. https://docs.github.com/pages
+7. GitHub Pages 시작하기. https://docs.github.com/en/pages
 8. Hugging Face Spaces 문서. https://huggingface.co/docs/hub/spaces
 9. 재미있는 글쓰기 참고 예시. https://blog.naver.com/sunyoool/223358899915
 
