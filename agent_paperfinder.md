@@ -1,17 +1,17 @@
-# AI와 함께하는 논문 검색·정리 (기초)
+# AI와 함께하는 논문 검색·정리
 
-### Claude Code의 CLAUDE.md · 서브에이전트 · 스킬 · MCP를 가장 간단하게 경험하기
+### 검색어 한 마디로 논문을 모아 HTML 한 장으로
 
-> 대상: 코딩 경험이 거의 없는 연구자·학생
-> 도구: Claude Code (터미널 기반 AI 코딩 에이전트) + paper-search-mcp (논문 검색·PDF 다운로드 MCP)
-> 목표: 검색어 한 마디로 관련 논문을 모아 → 관련도 선별 → 보기 좋은 HTML 한 장으로 정리. 그 과정에서 Claude Code의 네 기능을 직접 경험한다.
-> 핵심 원칙: 파이썬 코드 0줄. AI가 찾고 만들고, 최종 확인은 사람이 한다.
+> **대상**: 코딩 경험이 거의 없는 연구자·학생<br>
+> **도구**: Claude Code + **paper-search-mcp** (논문 검색·PDF 다운로드 MCP)<br>
+> **목표**: 검색어 한 마디 → 논문 수집 → 관련도 선별 → **보기 좋은 HTML 한 장**<br>
+> **핵심 원칙**: 파이썬 코드 0줄. AI가 찾고 만들고, **최종 확인은 사람**이 합니다.
 
 ---
 
-## 1. 무엇을 만들고, 무엇을 경험하나
+## 1. 무엇을 만드나
 
-검색어 한 마디면 다음 순서로 진행됩니다.
+검색어 한 마디면 이 순서로 진행됩니다.
 
 ```text
 "<검색어>" 한 마디
@@ -23,25 +23,26 @@
    ▼ 3. HTML 정리      → output/report.html (make-report 스킬: 인용 + 초록 + 링크)
 ```
 
-경험하는 네 기능은 다음과 같습니다.
+이 과정에서 심화 가이드의 네 기능을 실제로 써 봅니다.
 
-- CLAUDE.md: 프로젝트의 규칙·작업 순서·인용 규칙을 담아 두면, 매번 자동으로 적용됩니다.
-- MCP(paper-search-mcp): 논문 검색과 PDF 다운로드를 해 주는 외부 도구입니다. 우리가 만들지 않고 **연결**만 합니다.
-- 서브에이전트(researcher): 검색이라는 '시끄러운' 작업을 별도의 독립된 문맥에서 처리해, 메인 대화를 깨끗하게 유지합니다.
-- 스킬(make-report): HTML로 정리하는 절차를 담아 두면, 정리 단계에서 자동으로 그 절차가 적용됩니다.
+| 기능 | 하는 일 | 이 실습에서 |
+|---|---|---|
+| **CLAUDE.md** | 규칙을 매 세션 자동으로 읽힘 | 작업 순서·인용 규칙 |
+| **MCP** | 외부 도구를 AI에 연결 | paper-search-mcp (우리가 만들지 않고 **연결만**) |
+| **서브에이전트** | 독립된 문맥에서 따로 일함 | 검색이라는 '시끄러운' 작업 담당 |
+| **스킬** | 절차를 저장해 두면 자동 적용 | HTML 정리 절차 |
 
-> 왜 검색을 서브에이전트로 두나요? 검색 한 번에 웹검색 수십 번 + MCP 호출 + PDF 다운로드로 메시지가 폭증합니다. 이 과정을 서브에이전트(독립 문맥)에 맡기면, 메인 대화는 결과 '목록'만 돌려받아 깔끔해집니다. 그래서 'Claude 자체 검색'은 서브에이전트로 두는 것이 좋습니다.
-
-관련도 선별은 별도 파일 없이 메인 세션(기본 Claude)이 직접 합니다. 서브에이전트가 모아 온 목록을 보고, 주제에 가장 맞는 것만 고릅니다.
+> **왜 검색을 서브에이전트로 두나요?** 검색 한 번에 웹검색 수십 번 + MCP 호출 + PDF 다운로드로 메시지가 폭증합니다. 이 과정을 독립 문맥에 맡기면 **메인 대화는 결과 '목록'만** 돌려받아 깔끔하게 유지됩니다.
 
 ---
 
-## 2. 폴더 구조 (최대한 간결하게)
+## 2. 폴더 구조
 
 ```text
 paper-finder/
 ├── CLAUDE.md          # 규칙 + 작업 순서 + 인용 규칙
 ├── .mcp.json          # MCP 연결 (paper-search-mcp)
+├── .venv/             # 가상환경 (3-2에서 만듭니다)
 ├── output/            # 결과물 (report.html + 받은 PDF)
 └── .claude/
     ├── agents/
@@ -50,7 +51,7 @@ paper-finder/
         └── make-report/SKILL.md      # 스킬 1개 (HTML 정리)
 ```
 
-파일은 사실상 CLAUDE.md, .mcp.json, 서브에이전트 1개, 스킬 1개 — 이렇게 네 개뿐입니다. 파이썬 파일도, 가상환경(.venv)도 없습니다.
+우리가 만드는 건 **설정 파일 네 개**뿐입니다. 파이썬 파일은 한 개도 쓰지 않습니다.
 
 ---
 
@@ -58,41 +59,74 @@ paper-finder/
 
 ### 3-1. Claude Code 실행
 
-설치가 끝났다면(npm install -g @anthropic-ai/claude-code 후 Anthropic 계정 로그인), 폴더를 만들고 그 안에서 실행합니다.
+```bash
+# macOS · Linux · WSL
+curl -fsSL https://claude.ai/install.sh | bash
+```
+
+```powershell
+# Windows · PowerShell
+irm https://claude.ai/install.ps1 | iex
+```
+
+폴더를 만들고 그 안에서 실행합니다.
 
 ```bash
 mkdir paper-finder && cd paper-finder
 claude
 ```
 
-### 3-2. uv 설치 (paper-search-mcp 실행용)
+### 3-2. paper-search-mcp 설치 (pip) {#pip}
 
-paper-search-mcp는 `uvx` 명령으로 실행됩니다. `uvx`는 **설치 없이 그 자리에서 받아 실행**해 주므로 가상환경이 필요 없습니다. `uvx`를 쓰려면 `uv`만 한 번 깔면 됩니다.
+`paper-search-mcp`는 **평범한 파이썬 패키지**입니다. 가상환경을 만들고 `pip`로 설치하면 됩니다.
 
-```powershell
-# Windows (PowerShell)
-powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-```
-```cmd
-# Windows (Command Prompt / cmd)
-powershell -ExecutionPolicy ByPass -Command "irm https://astral.sh/uv/install.ps1 | iex"
-```
 ```bash
-# macOS / Linux (Bash / Zsh)
-curl -LsSf https://astral.sh/uv/install.sh | sh
+# ① 가상환경 만들기 (Windows는 python, macOS/Linux는 python3)
+python -m venv .venv
+
+# ② 활성화 — Windows PowerShell
+.venv\Scripts\Activate.ps1
+# ② 활성화 — macOS / Linux
+source .venv/bin/activate
+
+# ③ 설치
+pip install "paper-search-mcp" "mcp[cli]<2"
 ```
 
-새 터미널에서 `uv --version`이 찍히면 성공입니다.
+> ⚠️ **`"mcp[cli]<2"`를 반드시 함께 적으세요.** paper-search-mcp는 MCP 라이브러리 버전을 열어 둔 채 배포됐는데, 그 라이브러리가 2.0으로 올라가면서 내부 경로가 바뀌었습니다. 그냥 `pip install paper-search-mcp`만 하면 실행할 때 `ModuleNotFoundError: No module named 'mcp.server.fastmcp'`가 납니다. 위처럼 버전을 묶어 설치하면 정상 동작합니다.
 
-> **설치가 막히면 Claude Code에 맡기세요.** 위 명령이 권한·실행정책·PATH 문제로 잘 안 되면, Claude Code 안에서 이렇게 부탁하면 됩니다: **"uv가 안 깔려. 내 OS(Windows)에 맞게 uv를 설치하고, `uv --version`으로 확인까지 해줘."** Claude Code가 알맞은 설치 명령을 직접 실행하고, 설치 후 `uvx.exe`의 전체 경로까지 찾아 줍니다(이 경로는 바로 아래 `.mcp.json`에 필요합니다).
+설치가 됐는지 확인합니다.
+
+```bash
+python -c "import paper_search_mcp.server; print('설치 OK')"
+```
+
+> ✅ **체크포인트**: 경고 몇 줄이 지나간 뒤 `설치 OK`가 찍히면 성공입니다. (`No CORE API key provided` 같은 경고는 **정상**입니다 — 선택 사항인 유료 소스를 안 쓴다는 안내일 뿐입니다.)
+
+이제 **가상환경 안의 파이썬 전체 경로**를 알아 둡니다. 다음 단계 `.mcp.json`에 넣어야 합니다.
+
+```bash
+# Windows PowerShell
+(Get-Command python).Source
+# macOS / Linux
+which python
+```
+
+> **막히면 Claude Code에 맡기세요** — "paper-search-mcp를 .venv에 `mcp[cli]<2`와 함께 설치하고, 가상환경 파이썬의 전체 경로를 알려 줘."
+
+> **설치 없이 쓰고 싶다면 (선택)** — [uv](https://astral.sh/uv)를 쓰면 가상환경 없이 그 자리에서 받아 실행할 수 있습니다. 다만 위와 같은 버전 문제가 있어 `--with` 옵션을 함께 줘야 합니다. 이 경우 `.mcp.json`의 `command`는 `uvx`(Windows는 `uvx.exe` 전체 경로), `args`는 아래 명령의 뒷부분이 됩니다.
+
+```bash
+uvx --with "mcp[cli]<2" --from paper-search-mcp python -m paper_search_mcp.server
+```
 
 ---
 
 ## 4. 설정 파일 만들기
 
-아래 내용을 그대로 저장합니다. (Claude Code 안에서 "아래 내용으로 OO 파일을 만들어 줘"라고 시켜도 됩니다.)
+네 파일을 만듭니다. Claude Code 안에서 "이 문서의 4-1~4-4 내용대로 파일을 만들어 줘"라고 시켜도 됩니다.
 
-### 4-1. CLAUDE.md
+### 4-1. `CLAUDE.md`
 
 ```markdown
 # 논문 검색 → HTML 정리 프로젝트 규칙
@@ -118,24 +152,20 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 
 ## 금지
 - 없는 논문, 가짜 초록, 추측한 메타데이터. 모르면 비운다.
+- 정식 절차를 벗어난 경로로 논문 원문을 내려받지 않는다.
 ```
 
-### 4-2. .mcp.json  (MCP 연결)
+### 4-2. `.mcp.json` — MCP 연결
 
-> **paper-search-mcp란?** arXiv·PubMed·bioRxiv·medRxiv·Google Scholar 등 **여러 학술 데이터베이스를 한 번에 검색**하고, 오픈액세스 논문은 **PDF까지 내려받아 주는** 오픈소스 MCP 서버입니다. 우리가 코드를 짜지 않고 **연결만** 하면, Claude가 이 도구로 검색·다운로드·전문 읽기를 대신합니다.
->
-> 우수한 점:
-> - **다중 소스 통합 검색** — 소스마다 따로 들어갈 필요 없이 한 도구로 arXiv·PubMed·Google Scholar 등을 함께 훑습니다. 특히 **Google Scholar 검색**이 강력해, 해외 저널은 물론 **국내 논문(DBpia·학교 리포지터리 등)도 잘 잡힙니다**(이번 '의제설정' 수집에서 가장 많이 건진 소스).
-> - **PDF 자동 다운로드** — 오픈액세스(arXiv·PubMed Central 등) 논문은 `output/` 폴더로 바로 받아 줍니다.
-> - **전문 읽기** — 받은 논문 본문에서 초록·내용을 직접 읽어 와, 초록을 지어내지 않고 원문 그대로 옮길 수 있습니다.
-> - **무료·키 불필요** — 기본 검색에 별도 API 키가 없어도 되고(이메일만 입력), `uvx`로 설치 없이 그 자리에서 실행됩니다.
+`command`에 **3-2에서 알아낸 가상환경 파이썬 전체 경로**를 넣습니다.
 
-```json
+```jsonc
+// Windows 예시
 {
   "mcpServers": {
     "paper-search-mcp": {
-      "command": "C:\\Users\\user\\.local\\bin\\uvx.exe",
-      "args": ["--from", "paper-search-mcp", "python", "-m", "paper_search_mcp.server"],
+      "command": "C:\\Users\\사용자명\\paper-finder\\.venv\\Scripts\\python.exe",
+      "args": ["-m", "paper_search_mcp.server"],
       "env": {
         "PAPER_SEARCH_MCP_UNPAYWALL_EMAIL": "your@email.com"
       }
@@ -144,14 +174,37 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 }
 ```
 
-`uvx`로 paper-search-mcp 서버를 띄워 연결한다는 뜻입니다. 이메일만 본인 것으로 바꾸세요(무료 오픈액세스 PDF 검색에 쓰입니다).
+```jsonc
+// macOS / Linux 예시
+{
+  "mcpServers": {
+    "paper-search-mcp": {
+      "command": "/Users/사용자명/paper-finder/.venv/bin/python",
+      "args": ["-m", "paper_search_mcp.server"],
+      "env": {
+        "PAPER_SEARCH_MCP_UNPAYWALL_EMAIL": "your@email.com"
+      }
+    }
+  }
+}
+```
 
-> **Windows에서 실제로 통한 설정입니다.** 위 예시처럼 두 가지를 권장합니다.
-> 1. **`command`는 `uvx.exe`의 전체 경로**로 적습니다(예: `C:\\Users\\<사용자명>\\.local\\bin\\uvx.exe`). PATH에 잡히지 않아 `uvx`만으로는 서버가 안 뜨는 경우가 많습니다. uv 설치 위치를 모르면 Claude Code에 "uvx.exe 전체 경로를 찾아서 .mcp.json에 넣어줘"라고 부탁하세요. (macOS/Linux는 보통 `uvx`만으로도 동작합니다.)
-> 2. **`args`는 `["--from", "paper-search-mcp", "python", "-m", "paper_search_mcp.server"]`** 형태가 안정적입니다. `["paper-search-mcp"]` 단순형은 실행 진입점을 못 찾아 실패하는 경우가 있어, 모듈을 직접 실행(`python -m paper_search_mcp.server`)하도록 명시했습니다.
-> `\\`(역슬래시 두 개)는 JSON에서 경로 구분자를 쓰는 정상 표기입니다.
+- **경로는 반드시 전체 경로로** 적습니다. 그냥 `python`이라고 쓰면 시스템 파이썬이 잡혀 패키지를 못 찾습니다.
+- Windows의 `\\`(역슬래시 두 개)는 JSON에서 경로를 쓰는 정상 표기입니다.
+- 이메일만 본인 것으로 바꾸세요. 무료 오픈액세스 PDF를 찾는 데 쓰이며, **API 키는 필요 없습니다.**
 
-### 4-3. 서브에이전트 — .claude/agents/researcher.md
+저장한 뒤 Claude Code에서 **`/mcp`**를 입력해 연결을 확인합니다. 처음 도구를 쓸 때 권한을 물으면 **허용(allow)**을 누릅니다.
+
+> ✅ **체크포인트**: `/mcp`에 `paper-search-mcp`가 **connected**로 뜨고 도구 수십 개가 보이면 성공입니다.
+
+> **paper-search-mcp란?** arXiv·PubMed·bioRxiv·medRxiv·Google Scholar·OpenAlex·Crossref·DOAJ·Semantic Scholar 등 **여러 학술 데이터베이스를 한 번에 검색**하고, 오픈액세스 논문은 **PDF까지 내려받아 주는** 오픈소스 MCP 서버입니다.
+>
+> - **다중 소스 통합 검색** — 소스마다 따로 들어갈 필요가 없습니다. 특히 **Google Scholar 검색**이 강력해 해외 저널은 물론 **국내 논문도 잘 잡힙니다.**
+> - **PDF 자동 다운로드** — 오픈액세스(arXiv·PubMed Central 등) 논문은 `output/` 폴더로 바로 받아 줍니다.
+> - **전문 읽기** — 받은 논문 본문에서 초록을 직접 읽어 와, 지어내지 않고 원문 그대로 옮깁니다.
+> - **무료** — 기본 검색에 별도 API 키가 필요 없습니다(이메일만 입력).
+
+### 4-3. 서브에이전트 — `.claude/agents/researcher.md`
 
 ```markdown
 ---
@@ -166,13 +219,14 @@ description: 검색어로 관련 학술 논문을 수집할 때 사용. 웹검�
 3. 받을 수 있는 논문은 paper-search-mcp로 PDF를 output/ 폴더에 내려받는다.
 4. 관련도 높은 논문 위주로, 각 논문의 제목·저자·연도·저널·초록·링크·PDF경로를 정리한다.
 5. 한국 논문은 저자를 한글로, 영문 병기는 뺀다. 모르는 값은 비운다(추측 금지).
+6. 정식 절차를 벗어난 경로의 다운로드 도구는 쓰지 않는다.
 
 결과는 번호를 매긴 논문 목록으로만 보고한다. HTML은 만들지 않는다(메인 세션 몫).
 ```
 
-> tools 줄을 적지 않으면 서브에이전트가 메인 세션의 모든 도구(웹검색·MCP 포함)를 그대로 씁니다. 그래서 researcher는 paper-search-mcp를 바로 쓸 수 있습니다.
+> `tools` 줄을 적지 않으면 서브에이전트가 **메인 세션의 모든 도구**(웹검색·MCP 포함)를 그대로 씁니다. 그래서 researcher는 paper-search-mcp를 바로 쓸 수 있습니다.
 
-### 4-4. 스킬 — .claude/skills/make-report/SKILL.md
+### 4-4. 스킬 — `.claude/skills/make-report/SKILL.md`
 
 ```markdown
 ---
@@ -190,41 +244,35 @@ description: 수집된 논문 목록을 보기 좋은 HTML 한 장으로 정리�
 5. output/report.html 한 파일로 저장한다.
 ```
 
-### 4-5. .claude/settings.local.json  (권한·MCP 활성화 — 대부분 자동 생성)
+### 4-5. `.claude/settings.local.json` — 만들 필요 없습니다
 
-이 파일은 **직접 만들 필요가 없습니다.** `/mcp`로 서버를 켜고, 도구 권한을 물을 때 **허용(allow)** 을 누르면 Claude Code가 알아서 아래 같은 내용을 채워 줍니다. (개인 설정이라 보통 git에 올리지 않습니다.)
+`/mcp`로 서버를 켜고 권한 창에서 **허용**을 누르면 Claude Code가 알아서 채워 줍니다. 개인 설정이라 보통 git에 올리지 않습니다.
 
 ```json
 {
-  "enabledMcpjsonServers": [
-    "paper-search-mcp"
-  ],
+  "enabledMcpjsonServers": ["paper-search-mcp"],
   "permissions": {
-    "allow": [
-      "mcp__paper-search-mcp__read_arxiv_paper"
-    ]
+    "allow": ["mcp__paper-search-mcp__search_google_scholar"]
   }
 }
 ```
 
-- `enabledMcpjsonServers`: `.mcp.json`에 적은 서버 중 **이 프로젝트에서 켤 서버** 목록입니다. `/mcp`에서 서버를 활성화하면 여기에 추가됩니다.
-- `permissions.allow`: 매번 묻지 않고 **자동 허용할 도구** 목록입니다. 위 예시는 arXiv 논문 읽기 도구를 허용해 둔 상태입니다. 권한 창에서 "이번 세션 항상 허용"을 고르면 `mcp__paper-search-mcp__search_google_scholar` 같은 항목이 이 목록에 더 쌓입니다.
-
-> 권한을 손으로 미리 넣어 두고 싶으면 Claude Code에 "paper-search-mcp 검색·다운로드 도구를 settings.local.json에서 자동 허용으로 추가해줘"라고 부탁해도 됩니다.
-
-저장한 뒤 Claude Code에서 `/mcp`를 입력해 paper-search-mcp가 연결됐는지 확인하세요. 처음 도구를 쓸 때 권한을 물으면 **허용(allow)** 을 누릅니다.
+- `enabledMcpjsonServers`: 이 프로젝트에서 **켤 서버** 목록.
+- `permissions.allow`: 매번 묻지 않고 **자동 허용할 도구** 목록. 권한 창에서 "항상 허용"을 고를 때마다 여기에 쌓입니다.
 
 ---
 
 ## 5. 실행
 
-준비가 끝나면 한 마디면 됩니다. `<검색어>`만 바꾸세요.
+`<검색어>`만 바꿔서 한 마디 하면 됩니다.
 
 ```text
 "<검색어>" 논문 찾아서 HTML로 정리해줘. CLAUDE.md 순서대로 수집 → 선별 → report.html 까지 진행하고, 단계마다 한 줄로 보고해.
 ```
 
-기능을 하나씩 체감하고 싶을 때는 단계를 끊어서 시키면 됩니다.
+> ✅ **체크포인트**: `output/report.html`이 생기고, 브라우저로 열었을 때 논문 카드가 10편 이상 보이면 성공입니다.
+
+단계를 끊어서 시키면 어느 기능이 언제 작동하는지 눈으로 볼 수 있습니다.
 
 ```text
 researcher 서브에이전트로 "<검색어>" 관련 논문을 모아줘.
@@ -234,26 +282,33 @@ researcher 서브에이전트로 "<검색어>" 관련 논문을 모아줘.
 방금 모은 목록에서 관련도 높은 12편을 골라, make-report 스킬로 output/report.html 을 만들어줘.
 ```
 
-큰 작업 전에 Shift+Tab으로 플랜 모드에 들어가면, 어떤 서브에이전트·스킬이 언제 작동하는지 계획으로 먼저 보여 주어 교육용으로 좋습니다.
+**예시 검색어**: `생성형 AI 저널리즘`, `뉴스 품질 평가`, `large language model fact-checking`
 
-예시 검색어: `생성형 AI 저널리즘`, `뉴스 품질 평가`, `large language model fact-checking`
+> **큰 작업 전에는 `Shift+Tab`으로 플랜 모드**에 들어가세요. 어떤 서브에이전트·스킬이 언제 작동하는지 계획으로 먼저 보여 줍니다.
 
 ---
 
-## 6. PDF에 대해
+## 6. 자주 막히는 곳
 
-paper-search-mcp가 받는 PDF는 대부분 오픈액세스(arXiv·PubMed Central 등)입니다. 유료(페이월) 논문은 직접 받을 수 없고, 그 경우 사이트·DOI 링크가 남습니다(정상). 강의 전에 검색어 한두 개로 미리 돌려, 몇 편이나 PDF가 받아지는지 확인해 두면 안전합니다.
-
-한국 논문은 해외 소스 중심인 paper-search-mcp에서 적게 잡힐 수 있습니다. 이럴 때는 "웹검색으로 한국 논문을 더 찾아서 추가해줘"라고 말하면, Claude 자체 검색이 보완합니다.
+| 증상 | 해결 |
+|---|---|
+| `ModuleNotFoundError: No module named 'mcp.server.fastmcp'` | 버전 문제입니다. `pip install "paper-search-mcp" "mcp[cli]<2"`로 다시 설치하세요([3-2절](#pip)) |
+| `/mcp`에 서버가 안 보임 | `.mcp.json`의 `command` 경로가 **가상환경 파이썬 전체 경로**인지 확인. 고친 뒤 Claude Code 재시작 |
+| 서버가 `failed`로 뜸 | 터미널에서 `python -m paper_search_mcp.server`를 직접 실행해 오류 메시지를 확인하세요 |
+| `No CORE API key provided` 경고 | **정상입니다.** 선택 사항인 유료 소스를 안 쓴다는 안내일 뿐, 검색은 됩니다 |
+| PDF가 거의 안 받아짐 | 유료(페이월) 논문은 받을 수 없습니다. 링크만 남는 것이 정상입니다 |
+| 한국 논문이 적게 잡힘 | "웹검색으로 한국 논문을 더 찾아서 추가해줘"라고 하면 Claude 자체 검색이 보완합니다 |
 
 ---
 
 ## 7. 잊지 말 것
 
-- 파이썬 파일·가상환경(.venv)은 0개입니다. 우리가 만든 건 설정 파일 네 개뿐이고, 검색·다운로드·HTML 작성은 모두 Claude가 합니다.
-- MCP가 `/mcp`에 안 보이면 `uv --version`을 먼저 확인하세요(uv가 있어야 `uvx`가 동작합니다). 그래도 안 되면 Claude Code를 재시작합니다.
-- 윤리: 초록·인용·수치는 사람이 1차 출처로 다시 확인합니다. AI는 찾기와 초안을 돕는 도구이며, 최종 책임은 사람에게 있습니다.
+**파이썬 파일은 0개**입니다. 우리가 만든 건 설정 파일 네 개뿐이고, 검색·다운로드·HTML 작성은 모두 Claude가 합니다.
 
-> 도구 명령·기본 모델은 2026년 6월 기준이며 자주 바뀝니다. 막히면 Claude Code에서 /help 를 먼저 확인하세요.
+**PDF는 대부분 오픈액세스**(arXiv·PubMed Central 등)입니다. 유료 논문은 사이트·DOI 링크만 남습니다. 강의 전에 검색어 한두 개로 미리 돌려 몇 편이나 받아지는지 확인해 두면 안전합니다.
 
-AI와 함께하는 논문 검색·정리 입문 슬림판 · 도구 버전·모델은 2026년 6월 기준이며 자주 바뀝니다.
+> ⚠️ **정식 경로로만 받으세요.** paper-search-mcp에는 정식 구독·오픈액세스 경로를 벗어나 논문을 받는 도구도 섞여 있습니다. 저작권 문제가 있으니 쓰지 마세요. 위 `CLAUDE.md`와 서브에이전트 지침에 이미 금지 문구를 넣어 두었고, 권한 창에서 그런 도구를 물으면 **거부**하면 됩니다.
+
+**윤리**: 초록·인용·수치는 사람이 1차 출처로 다시 확인합니다. AI는 찾기와 초안을 돕는 도구이며, **최종 책임은 사람**에게 있습니다.
+
+> 도구 명령·패키지 버전은 2026년 8월 기준이며 자주 바뀝니다. 막히면 Claude Code에서 `/help`를 먼저 확인하세요.
