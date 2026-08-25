@@ -386,42 +386,83 @@ python chatbot/chatbot.py
 
 ### 5-4. (선택) Hugging Face Spaces에 배포하기
 
-챗봇을 웹에서 쓰게 하고 싶을 때만 하면 됩니다.
+챗봇을 웹 주소로 만들어 남에게 보여 주고 싶을 때만 하면 됩니다. 손으로 하는 일은 **토큰 발급 하나**뿐이고, 나머지(스페이스 만들기 → Secret 등록 → 파일 만들기 → 업로드)는 프롬프트 하나로 끝납니다.
 
-1. [huggingface.co](https://huggingface.co)에 가입합니다.
-2. **Settings → Access Tokens**에서 **읽기·쓰기(read and write)** 토큰을 발급받습니다.
-3. **New Space**에서 `tour` 스페이스를 만듭니다. SDK는 **Gradio**를 고릅니다.
-4. 스페이스의 **Settings → Variables and secrets**에 `GOOGLE_API_KEY`와 `DATAGOKR_API_KEY`를 **Secret**으로 등록합니다.
+#### ① 토큰 발급 — 이것만 직접 합니다
 
-> **`.env` 파일은 절대 업로드하지 마세요.** 스페이스에서는 Secret 기능이 `.env` 역할을 대신합니다. 코드의 `os.getenv("GOOGLE_API_KEY")`는 그대로 동작합니다.
+1. [huggingface.co](https://huggingface.co)에 가입·로그인합니다.
+2. 오른쪽 위 프로필 → **Settings → Access Tokens → Create new token**.
+3. 종류는 반드시 **Write**를 고릅니다. Read 토큰으로는 스페이스를 만들 수 없습니다.
+4. 만들어진 토큰을 `tour/.env`에 넣습니다. **창을 닫으면 다시 볼 수 없습니다.**
 
-올릴 파일 준비는 AI에게 맡깁니다.
+```bash
+# Hugging Face (선택 — 배포할 때만)
+HF_TOKEN=여기에_발급받은_토큰_붙여넣기
+```
+
+> 이름을 `HF_TOKEN`으로 두면 `huggingface_hub` 라이브러리가 알아서 찾아 씁니다.
+
+#### ② 나머지는 프롬프트 하나로
+
+먼저 라이브러리를 설치합니다. 이 라이브러리가 스페이스 만들기·Secret 등록·파일 업로드를 다 해 줍니다.
+
+```bash
+pip install huggingface_hub
+```
 
 ```text
 [목표]
-chatbot.py 를 Hugging Face Spaces(Gradio)에서 그대로 돌아가게 바꿔 줘.
+chatbot.py 를 Hugging Face Spaces(Gradio)에 올려 웹 주소로 쓸 수 있게 해 줘.
+파일 만들기부터 스페이스 생성·Secret 등록·업로드까지 네가 다 해 줘.
 
 [참고 자료]
-- chatbot/chatbot.py — 여기 있는 관광공사 API 호출과 Gemini 호출 로직을 그대로 재사용한다.
-  화면만 Gradio로 감싸는 것이지, 동작을 다시 짜는 것이 아니다.
-- 키는 Spaces의 Secret에서 온다. 코드는 지금처럼 os.getenv("DATAGOKR_API_KEY"),
-  os.getenv("GOOGLE_API_KEY") 로 읽고, load_dotenv() 는 로컬에서만 쓰이도록 둔다.
+- chatbot/chatbot.py — 관광공사 API 호출과 Gemini 호출 로직이 여기 있다.
+  그대로 재사용하고 화면만 Gradio로 감싼다. 동작을 다시 짜지 마.
+- 허깅페이스 인증은 tour/.env 의 HF_TOKEN(Write 권한)을 huggingface_hub 로 읽어 쓴다.
+  토큰 값을 화면에 출력하거나 파일에 적지 마.
+- 스페이스에 넣을 키 값은 tour/.env 의 DATAGOKR_API_KEY, GOOGLE_API_KEY 에 있다.
 
 [할 일]
-1. chatbot/app.py 를 만들고 gr.ChatInterface 로 대화 화면을 붙인다.
-2. 답변 아래에 참고한 관광지 이름·주소 목록이 그대로 나오게 한다.
-3. chatbot/requirements.txt 에 gradio, requests, google-genai, python-dotenv 를 적는다.
-4. chatbot/README.md 를 만들고 맨 위에 Spaces용 머리말(title, sdk: gradio, app_file: app.py)을 넣는다.
-5. 스페이스에 올려야 할 파일 목록을 정리해서 알려 준다.
+1. 올릴 파일 3개를 chatbot/space/ 폴더에 만든다. 이 폴더 안의 것만 업로드 대상이다.
+   - app.py           : gr.ChatInterface 로 대화 화면. 답변 아래에 참고한 관광지 이름·주소 목록을 그대로 붙인다.
+   - requirements.txt : gradio, requests, google-genai
+   - README.md        : 맨 위에 Spaces 머리말 (title: tour / sdk: gradio / app_file: app.py / pinned: false)
+2. huggingface_hub 의 whoami 로 내 계정 아이디를 알아낸다. 나에게 묻지 마.
+3. create_repo(repo_id="<내아이디>/tour", repo_type="space", space_sdk="gradio", exist_ok=True)
+   로 스페이스를 만든다.
+4. add_space_secret 으로 DATAGOKR_API_KEY 와 GOOGLE_API_KEY 를 스페이스 Secret 에 등록한다.
+   값은 tour/.env 에서 읽어 넣되, 값 자체는 절대 출력하지 마.
+5. upload_folder 로 chatbot/space/ 안의 3개 파일을 올린다.
+6. 스페이스 주소(https://huggingface.co/spaces/<내아이디>/tour)를 알려 준다.
 
 [제약]
-- .env 파일과 인증키 값은 업로드 목록에 절대 넣지 마. 목록을 알려 줄 때 이 점을 한 번 더 확인해 줘.
-- 키가 없을 때는 화면에 "Secret에 DATAGOKR_API_KEY / GOOGLE_API_KEY 를 등록하세요"라고 안내한다.
+- .env 파일, 인증키 값, 허깅페이스 토큰은 절대 업로드하지 마. 올릴 파일은 chatbot/space/ 안의 3개뿐이다.
+- app.py 는 키를 os.getenv("DATAGOKR_API_KEY") / os.getenv("GOOGLE_API_KEY") 로만 읽는다.
+  스페이스에는 .env 가 없으므로, load_dotenv() 를 쓰더라도 파일이 없을 때 그냥 넘어가게 한다.
+- 키가 비어 있으면 화면에 "스페이스 Settings → Variables and secrets 에 키를 등록하세요"라고 안내한다.
+- 관광공사 API 호출 방식(요청 주소·오퍼레이션·공통 파라미터)은 chatbot.py 에 있는 것을 그대로 쓴다. 바꾸지 마.
 
 [확인]
-로컬에서 python chatbot/app.py 로 한 번 띄운 뒤,
-"제주 오름 알려 줘"를 넣었을 때 관광공사 API 결과가 화면에 나오는지 확인하고 결과를 알려 줘.
+1. 올리기 전에 로컬에서 python chatbot/space/app.py 로 한 번 띄워,
+   "제주 오름 알려 줘"에 관광공사 API 결과가 나오는지 확인하고 결과를 보여 줘.
+2. 올린 뒤 스페이스의 빌드 상태(runtime stage)를 확인해서, RUNNING 이 되면 알려 줘.
+   BUILD_ERROR 나 RUNTIME_ERROR 면 로그를 가져와 원인을 알려 줘.
 ```
+
+> ✅ **체크포인트**: 스페이스 주소를 열었을 때 대화창이 뜨고, "제주 오름 알려 줘"에 실제 오름 이름과 주소가 나오면 성공입니다. 빌드에 1~3분 걸립니다.
+
+#### ③ 막히면 — 손으로 올리는 방법
+
+프롬프트가 중간에 실패해도, 파일 3개(`chatbot/space/`)만 만들어져 있으면 웹에서 직접 올릴 수 있습니다.
+
+1. huggingface.co 오른쪽 위 **+ → New Space**. 이름은 `tour`, SDK는 **Gradio**, 공개 여부는 **Public**.
+2. 만들어진 스페이스에서 **Settings → Variables and secrets → New secret**으로 `DATAGOKR_API_KEY`와 `GOOGLE_API_KEY` 두 개를 등록합니다. **Variable이 아니라 Secret**입니다. Variable로 넣으면 키가 남에게 보입니다.
+3. **Files → ＋ Add file → Upload files**로 `app.py`, `requirements.txt`, `README.md` 세 개를 끌어다 놓고 아래 **Commit changes to main**을 누릅니다.
+4. 위쪽 **App** 탭으로 가면 빌드가 돌아갑니다. 1~3분 뒤 화면이 뜹니다.
+
+> **`.env` 파일은 절대 올리지 마세요.** 스페이스에서는 Secret 기능이 `.env` 역할을 대신합니다. 코드의 `os.getenv("GOOGLE_API_KEY")`는 그대로 동작합니다.
+
+> **빌드가 실패하면** 스페이스의 **Logs** 탭(또는 Build logs)을 열어 오류 메시지를 **그대로 복사해** AI에게 붙여 넣으세요. 대부분 `requirements.txt`에 빠진 패키지 하나입니다.
 
 ---
 
@@ -753,6 +794,7 @@ tour-collector 서브에이전트만 먼저 돌려서 "제주 오름" 자료를 
 6. python-dotenv 문서. https://pypi.org/project/python-dotenv/
 7. GitHub Pages 시작하기. https://docs.github.com/en/pages
 8. Hugging Face Spaces 문서. https://huggingface.co/docs/hub/spaces
-9. Indie Essentials — How to make your blog more entertaining. https://indieessentials.co.uk/make-your-blog-more-entertaining/
+9. huggingface_hub — 스페이스 만들기·Secret 등록·업로드 API. https://huggingface.co/docs/huggingface_hub/package_reference/hf_api
+10. Indie Essentials — How to make your blog more entertaining. https://indieessentials.co.uk/make-your-blog-more-entertaining/
 
 > API 주소·모델명·무료 한도는 2026년 8월 기준이며 자주 바뀝니다. 막히면 각 도구에서 `/help`를 먼저 확인하고 위 문서를 참고하세요.
