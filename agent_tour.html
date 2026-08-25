@@ -621,8 +621,79 @@ chatbot/chatbot.py 하나로 도는 터미널 챗봇을 만들어 줘.
 이때도 답은 새로 호출한 관광공사 API 결과에 근거해야 한다. 기억은 3턴까지만.
 </code></pre>
 <h3 id="5-4-hugging-face-spaces">5-4. (선택) Hugging Face Spaces에 배포하기</h3>
-<p>챗봇을 웹 주소로 만들어 남에게 보여 주고 싶을 때만 하면 됩니다. 손으로 하는 일은 <strong>토큰 발급 하나</strong>뿐이고, 나머지(스페이스 만들기 → Secret 등록 → 파일 만들기 → 업로드)는 프롬프트 하나로 끝납니다.</p>
-<h4 id="1_3">① 토큰 발급 — 이것만 직접 합니다</h4>
+<p>챗봇을 웹 주소로 만들어 남에게 보여 주고 싶을 때만 하면 됩니다. 건너뛰어도 실습에는 지장이 없습니다.</p>
+<blockquote>
+<p><strong>먼저 알아 둘 것 — 지금 막 가입한 무료 계정으로는 파이썬 챗봇을 스페이스에 띄울 수 없습니다.</strong> 허깅페이스가 정책을 바꿨습니다. 이 절은 그 상황을 우회해 <strong>무료 계정도 오늘 바로 배포할 수 있는 방법</strong>을 안내합니다.</p>
+</blockquote>
+<h4 id="5-4-1">① 지금 허깅페이스는 이렇습니다</h4>
+<p>스페이스는 종류가 세 가지인데, 무료로 만들 수 있는 것은 하나뿐입니다.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>스페이스 종류</th>
+<th>무엇이 실행되나</th>
+<th>무료 계정으로 새로 만들 수 있나</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Gradio · Docker</strong></td>
+<td>파이썬이 서버에서 돈다</td>
+<td><strong>불가</strong> — PRO 유료 구독이 필요합니다</td>
+</tr>
+<tr>
+<td><strong>Gradio (ZeroGPU)</strong></td>
+<td>파이썬이 서버에서 돈다</td>
+<td><strong>조건부</strong> — 이메일 인증 + <strong>계정 생성 후 30일 경과</strong>, 최대 2개</td>
+</tr>
+<tr>
+<td><strong>Static</strong></td>
+<td>HTML·CSS·JS만. 서버가 없다</td>
+<td><strong>가능</strong> — 누구나 무료</td>
+</tr>
+</tbody>
+</table></div>
+<p>허깅페이스 공식 문서의 문구입니다.</p>
+<blockquote>
+<p>Static Spaces are free for everyone. Gradio and Docker Spaces run on compute and <strong>require a paid plan to create</strong>: PRO for personal accounts, Team or Enterprise for organizations. Free personal accounts <strong>in good standing</strong> can still host up to 2 Gradio Spaces running on ZeroGPU.<br />
+— <a href="https://huggingface.co/docs/hub/spaces-overview">Spaces Overview</a></p>
+<p>Free personal accounts: Maximum of 2 ZeroGPU Spaces, for accounts in good standing (<strong>verified email, account older than 30 days</strong>).<br />
+— <a href="https://huggingface.co/docs/hub/spaces-zerogpu">Spaces ZeroGPU</a></p>
+</blockquote>
+<p>정리하면 이렇습니다. <strong>오늘 가입한 사람은 Gradio 스페이스를 만들 수 없습니다.</strong> 30일이 지나기를 기다려 ZeroGPU로 만들거나, PRO를 구독해야 합니다. 웹에서 손으로 만들어도 마찬가지입니다 — 막히는 곳이 파일 업로드가 아니라 <strong>스페이스 생성</strong>이기 때문입니다. 실패하면 <code>402 Payment Required</code>가 돌아옵니다.</p>
+<h4 id="5-4-2">② 그래서 이렇게 갑니다 — 정적 스페이스 + 이용자 키 입력</h4>
+<p>남은 길은 정적 스페이스인데, 여기서는 파이썬이 돌지 않습니다. 그래서 <strong>배포용으로 HTML 한 장을 더 만듭니다.</strong> 1단계에서 만든 <code>web/index.html</code>과 같은 방식입니다.</p>
+<blockquote>
+<p><strong><code>chatbot.py</code>를 버리는 것이 아닙니다.</strong> 파이썬 챗봇은 2단계의 본체이고 그대로 둡니다. 배포용 HTML은 <strong>같은 로직을 자바스크립트로 옮긴 사본</strong>입니다. 나중에 PRO를 구독하거나 계정이 30일을 넘기면, 파이썬 파일을 그대로 Gradio 스페이스에 올리면 됩니다.</p>
+</blockquote>
+<p>여기서 <strong>키를 어떻게 할 것인가</strong>가 핵심입니다. 정적 스페이스는 서버가 없으니 키를 숨길 곳이 없습니다. 게다가 허깅페이스 문서에 따르면 정적 스페이스는 <strong>Secret으로 넣어도 클라이언트 자바스크립트에서 읽힙니다.</strong></p>
+<blockquote>
+<p>For Static Spaces, both are available through client-side JavaScript in <code>window.huggingface.variables</code>.<br />
+— <a href="https://huggingface.co/docs/hub/spaces-overview">Spaces Overview</a>, Managing secrets and environment variables</p>
+</blockquote>
+<p>그래서 <strong>Gemini 키는 아예 페이지에 넣지 않고, 쓰는 사람이 각자 자기 키를 입력하게 합니다.</strong> 입력한 키는 그 사람 브라우저에만 저장되고(<code>localStorage</code>), 구글 외의 어디로도 가지 않습니다. 여러 사람이 써도 각자 자기 할당량을 씁니다.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>키</th>
+<th>어디에 두나</th>
+<th>왜</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DATAGOKR_API_KEY</code></td>
+<td>HTML 안에 직접 (Encoding 키)</td>
+<td>무료 공개 데이터 키. 1단계 <code>web/index.html</code>과 같은 방식입니다</td>
+</tr>
+<tr>
+<td><code>GOOGLE_API_KEY</code></td>
+<td><strong>넣지 않는다.</strong> 이용자가 화면에서 입력</td>
+<td>구글 계정에 묶인 키라 노출되면 안 됩니다</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="5-4-3">③ 토큰 발급 — 이것만 직접 합니다</h4>
 <ol>
 <li><a href="https://huggingface.co">huggingface.co</a>에 가입·로그인합니다.</li>
 <li>오른쪽 위 프로필 → <strong>Settings → Access Tokens → Create new token</strong>.</li>
@@ -635,51 +706,102 @@ HF_TOKEN=여기에_발급받은_토큰_붙여넣기
 <blockquote>
 <p>이름을 <code>HF_TOKEN</code>으로 두면 <code>huggingface_hub</code> 라이브러리가 알아서 찾아 씁니다.</p>
 </blockquote>
-<h4 id="2_3">② 나머지는 프롬프트 하나로</h4>
-<p>먼저 라이브러리를 설치합니다(<code>(.venv)</code>가 켜진 상태에서). 이 라이브러리가 스페이스 만들기·Secret 등록·파일 업로드를 다 해 줍니다.</p>
+<h4 id="5-4-4">④ 나머지는 프롬프트 하나로</h4>
+<p>먼저 라이브러리를 설치합니다(<code>(.venv)</code>가 켜진 상태에서). 이 라이브러리가 스페이스 만들기와 파일 업로드를 해 줍니다.</p>
 <pre><code class="language-bash">pip install huggingface_hub
 </code></pre>
 <pre><code class="language-text">[목표]
-chatbot.py 를 Hugging Face Spaces(Gradio)에 올려 웹 주소로 쓰게 해 줘.
-파일 만들기부터 스페이스 생성·Secret 등록·업로드까지 다 해 줘.
+챗봇을 Hugging Face 정적(static) 스페이스에 올려 웹 주소로 쓰게 해 줘.
+Gemini 키는 페이지에 넣지 말고, 쓰는 사람이 화면에서 직접 입력하게 만든다.
 
 [참고 자료]
-- chatbot/chatbot.py — 관광공사 API·Gemini 호출 로직. 그대로 재사용하고 화면만 Gradio로 감싼다.
+- chatbot/chatbot.py — 관광공사 API·Gemini 호출 로직. 이 로직을 자바스크립트로 그대로 옮긴다.
+  이 파일 자체는 고치지 마. 2단계 본체다.
+- web/index.html — 1단계에서 동작을 확인한 관광공사 API 호출 방식. 그대로 재사용한다.
 - 허깅페이스 인증은 tour/.env 의 HF_TOKEN(Write 권한)으로. 토큰 값은 어디에도 남기지 마.
-- 스페이스에 넣을 키는 tour/.env 의 DATAGOKR_API_KEY, GOOGLE_API_KEY.
 
 [할 일]
-1. chatbot/space/ 에 세 파일을 만든다
-   - app.py           gr.ChatInterface. 답변 아래에 참고한 관광지 이름·주소를 붙인다
-   - requirements.txt gradio, requests, google-genai
-   - README.md        머리말: title / sdk: gradio / app_file: app.py
-2. whoami() 로 내 허깅페이스 아이디를 알아낸다. 나에게 묻지 마
-3. create_repo(repo_id=&quot;&lt;아이디&gt;/tour&quot;, repo_type=&quot;space&quot;, space_sdk=&quot;gradio&quot;, exist_ok=True)
-4. add_space_secret 으로 DATAGOKR_API_KEY, GOOGLE_API_KEY 를 등록한다 (값은 출력하지 마)
-5. upload_folder 로 그 세 파일만 올리고, 스페이스 주소를 알려 준다
+1. chatbot/space_static/ 에 두 파일을 만든다
+   - index.html   대화 화면 + 관광공사 API 호출 + Gemini 호출을 한 파일에
+   - README.md    머리말: title / sdk: static / app_file: index.html
+2. index.html 안에서
+   - 맨 위에 Gemini API 키 입력란(password)을 둔다. 입력하면 localStorage 에 저장하고
+     '키 삭제' 버튼도 만든다. 키가 없으면 대화 대신 입력 안내를 보여 준다
+   - 관광공사 인증키는 Encoding 키를 const SERVICE_KEY 한 줄에 둔다
+   - Gemini 는 REST 로 부른다:
+     POST https://generativelanguage.googleapis.com/v1beta/models/&lt;모델&gt;:generateContent
+     헤더 x-goog-api-key 에 이용자가 입력한 키를 넣는다
+   - 답변 아래에 참고한 관광지 이름·주소와 호출한 오퍼레이션·총 건수를 붙인다
+   - 직전 3턴을 기억한다
+3. whoami() 로 내 허깅페이스 아이디를 알아낸다. 나에게 묻지 마
+4. create_repo(repo_id=&quot;&lt;아이디&gt;/tour&quot;, repo_type=&quot;space&quot;, space_sdk=&quot;static&quot;, exist_ok=True)
+5. upload_folder 로 그 두 파일만 올리고, 스페이스 주소를 알려 준다
 
 [제약]
-- 올릴 파일은 그 셋뿐. .env·인증키·토큰은 절대 올리지 마
-- app.py 는 키를 os.getenv 로만 읽는다. 스페이스에는 .env 가 없다
-- 키가 비어 있으면 &quot;Settings → Variables and secrets 에 키를 등록하세요&quot;라고 화면에 안내한다
+- 올릴 파일은 index.html 과 README.md 둘뿐. .env·인증키·토큰은 절대 올리지 마
+- Gemini 키를 코드·Secret·Variable 어디에도 넣지 마. 정적 스페이스는 Secret 도 브라우저에서 읽힌다
+- add_space_secret 을 쓰지 마. 등록할 키가 없다
+- chatbot/chatbot.py 는 건드리지 마. 로직을 읽어 오기만 한다
 
 [확인]
-올린 뒤 빌드 상태를 확인해 RUNNING 이면 알려 주고, 에러면 로그를 가져와 원인을 알려 줘.
+올리기 전에 index.html 의 자바스크립트를 문법 검사하고, 실제로 API를 한 번 호출해
+'부산 해수욕장 추천해 줘'가 동작하는지 확인해서 결과를 보여 줘.
+올린 뒤에는 배포 주소를 열어 페이지가 뜨는지 확인하고 알려 줘.
 </code></pre>
 <blockquote>
-<p>✅ <strong>체크포인트</strong>: 스페이스 주소를 열었을 때 대화창이 뜨고, "제주 오름 알려 줘"에 실제 오름 이름과 주소가 나오면 성공입니다. 빌드에 1~3분 걸립니다.</p>
+<p>✅ <strong>체크포인트</strong>: 스페이스 주소를 열었을 때 <strong>키 입력 상자</strong>가 보이고, 자기 Gemini 키를 넣은 뒤 "제주 오름 알려 줘"에 실제 오름 이름과 주소가 나오면 성공입니다. 정적 스페이스는 빌드가 거의 즉시 끝납니다.</p>
 </blockquote>
-<h4 id="3_2">③ 막히면 — 손으로 올리는 방법</h4>
-<p>프롬프트가 중간에 실패해도, 파일 3개(<code>chatbot/space/</code>)만 만들어져 있으면 웹에서 직접 올릴 수 있습니다.</p>
+<h4 id="5-4-5">⑤ 막히면 — 손으로 올리는 방법</h4>
+<p>프롬프트가 중간에 실패해도, 파일 2개(<code>chatbot/space_static/</code>)만 만들어져 있으면 웹에서 직접 올릴 수 있습니다.</p>
 <ol>
-<li>huggingface.co 오른쪽 위 <strong>+ → New Space</strong>. 이름은 <code>tour</code>, SDK는 <strong>Gradio</strong>, 공개 여부는 <strong>Public</strong>.</li>
-<li>만들어진 스페이스에서 <strong>Settings → Variables and secrets → New secret</strong>으로 <code>DATAGOKR_API_KEY</code>와 <code>GOOGLE_API_KEY</code> 두 개를 등록합니다. <strong>Variable이 아니라 Secret</strong>입니다. Variable로 넣으면 키가 남에게 보입니다.</li>
-<li><strong>Files → ＋ Add file → Upload files</strong>로 <code>app.py</code>, <code>requirements.txt</code>, <code>README.md</code> 세 개를 끌어다 놓고 아래 <strong>Commit changes to main</strong>을 누릅니다.</li>
-<li>위쪽 <strong>App</strong> 탭으로 가면 빌드가 돌아갑니다. 1~3분 뒤 화면이 뜹니다.</li>
+<li>huggingface.co 오른쪽 위 <strong>+ → New Space</strong>. 이름은 <code>tour</code>, SDK는 <strong>Static</strong>, 공개 여부는 <strong>Public</strong>.</li>
+<li><strong>Files → ＋ Add file → Upload files</strong>로 <code>index.html</code>과 <code>README.md</code>를 끌어다 놓고 아래 <strong>Commit changes to main</strong>을 누릅니다. 새로 만든 스페이스에 들어 있던 <code>index.html</code>·<code>style.css</code>는 덮어쓰거나 지우면 됩니다.</li>
+<li>위쪽 <strong>App</strong> 탭으로 가면 화면이 바로 뜹니다.</li>
 </ol>
 <blockquote>
-<p><strong><code>.env</code> 파일은 절대 올리지 마세요.</strong> 스페이스에서는 Secret 기능이 <code>.env</code> 역할을 대신합니다. 코드의 <code>os.getenv("GOOGLE_API_KEY")</code>는 그대로 동작합니다.</p>
-<p><strong>빌드가 실패하면</strong> 스페이스의 <strong>Logs</strong> 탭(또는 Build logs)을 열어 오류 메시지를 <strong>그대로 복사해</strong> AI에게 붙여 넣으세요. 대부분 <code>requirements.txt</code>에 빠진 패키지 하나입니다.</p>
+<p><strong>Secret은 등록하지 마세요.</strong> 정적 스페이스에서는 Secret도 브라우저에서 읽힙니다. Gemini 키는 이용자가 화면에서 넣는 것이 이 방식의 핵심입니다.</p>
+<p><strong><code>.env</code> 파일은 절대 올리지 마세요.</strong> 올릴 파일은 <code>index.html</code>과 <code>README.md</code> 둘뿐입니다.</p>
+</blockquote>
+<h4 id="5-4-6">⑥ 그래도 파이썬으로 띄우고 싶다면</h4>
+<p>"파이썬이 서버에서 돌고 있다"를 보여 주는 것이 목적이라면 선택지는 넷입니다.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>방법</th>
+<th>비용</th>
+<th>오늘 바로 되나</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>HF PRO 구독</strong></td>
+<td>유료</td>
+<td>○</td>
+<td><code>chatbot.py</code>를 Gradio로 감싼 <code>app.py</code>를 만들어 올리면 됩니다</td>
+</tr>
+<tr>
+<td><strong>HF ZeroGPU</strong></td>
+<td>무료 (2개까지)</td>
+<td><strong>✕</strong></td>
+<td>계정이 <strong>30일</strong>을 넘겨야 합니다. Gradio 전용</td>
+</tr>
+<tr>
+<td><strong>Streamlit Community Cloud</strong></td>
+<td>무료</td>
+<td>○</td>
+<td>GitHub 계정만 있으면 됩니다. <strong>Streamlit으로 고쳐 써야</strong> 합니다</td>
+</tr>
+<tr>
+<td><strong>Render</strong></td>
+<td>무료 티어</td>
+<td>○</td>
+<td>Gradio 그대로 됩니다. 15분 무접속 시 잠들고 재기동에 ~1분</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>수업이나 발표 자리라면</strong> Google Colab에서 <code>demo.launch(share=True)</code> 한 줄이 가장 빠릅니다. 코드 셀과 실행 로그를 그대로 보여 주면서 챗봇을 돌릴 수 있습니다. 다만 공유 주소는 오래가지 않으니 과제 제출용 링크로는 쓰지 마세요.</p>
 </blockquote>
 <hr />
 <h2 id="6-3">6. 3단계 — 글쓰기 에이전트</h2>
@@ -713,8 +835,20 @@ tour/writing_agent 에 글쓰기 파이프라인을 만들어 줘.
 관광 키워드 하나 → 자료 수집 → 사실만 정리 → 재미있는 글 → result.md
 
 [만들 것]
+- CLAUDE.md        tour 폴더 전체를 관장하는 메모리. 아래 [메모리] 참고
 - .claude/agents/  tour-collector(수집) · tour-summarizer(정리) · tour-writer(작성)
 - .claude/skills/  tour-search(관광공사 API 호출 절차) · fun-writing(글쓰기 절차)
+
+[메모리 — tour/CLAUDE.md]
+이 폴더에서 일할 때 매번 되풀이해 말하지 않아도 되도록, 아래를 한 파일에 적어 둬.
+에이전트와 스킬이 이 파일을 바탕에 깔고 움직인다.
+- 폴더 구조와 각 단계의 산출물
+- 인증키 두 종류 규칙(주소에 붙일 땐 Encoding, requests params= 엔 Decoding)
+- 관광공사 API 주소·공통 파라미터·쓰는 오퍼레이션·resultCode 확인법
+- 파이썬 실행 경로(.venv) 와 한글 출력 설정
+- 지킬 것: .env 와 키 값을 남기지 않는다, 없는 값을 지어내지 않는다,
+  호출 실패를 조용히 넘기지 않는다
+짧게 써. 여기 적은 것을 에이전트·스킬 파일에 다시 베껴 적지 마.
 
 [참고 자료 — 이대로 연결해 줘]
 - tour-search 스킬에는 web/index.html 에서 이미 동작이 확인된 관광공사 API 호출 방식
@@ -733,6 +867,7 @@ tour/writing_agent 에 글쓰기 파이프라인을 만들어 줘.
 - 순서대로 실행하고, 앞 단계가 남긴 파일만 다음 단계에 넘긴다
 - 관광지 이름·주소는 API 응답 값을 그대로 쓴다
 - 각 description 에 '언제 쓰는지'를 한 문장으로 분명히 적는다
+- 공통 규칙은 CLAUDE.md 한 곳에만 두고, 에이전트·스킬은 그것을 전제로 쓴다
 
 [산출물]
 result.md — 제목, 본문 1,200자 내외, 맨 아래 '참고한 관광지' 표(이름·주소·출처)
@@ -743,6 +878,7 @@ result.md — 제목, 본문 1,200자 내외, 맨 아래 '참고한 관광지' �
 <h3 id="6-3_1">6-3. 만들어질 구조</h3>
 <p>AI가 대략 이런 구성을 만듭니다. 파일 이름은 조금씩 다를 수 있습니다.</p>
 <pre><code class="language-text">tour/
+├── CLAUDE.md                 # 이 폴더 전체를 관장하는 메모리 (항상 먼저 읽힌다)
 ├── writing_agent/
 │   ├── writing_tips.txt      # 글쓰기 기준 (내가 만든 것)
 │   ├── collected.md          # ① 수집한 원자료
@@ -757,6 +893,10 @@ result.md — 제목, 본문 1,200자 내외, 맨 아래 '참고한 관광지' �
         ├── tour-search/SKILL.md   # API 호출 절차 (web/index.html 참조)
         └── fun-writing/SKILL.md   # 글쓰기 절차 (writing_tips.txt 참조)
 </code></pre>
+<p><code>CLAUDE.md</code>는 나머지 파일들이 딛고 서는 바닥입니다. 이 폴더에서 작업을 시작하면
+<strong>매번 자동으로 읽힙니다.</strong> 인증키 규칙이나 API 주소처럼 <strong>세 에이전트가 모두 알아야 하는
+것</strong>은 여기 한 번만 적습니다. 에이전트·스킬 파일에 같은 내용을 베껴 적으면, 나중에 하나를
+고쳤을 때 나머지가 어긋납니다.</p>
 <p>세 일꾼이 순서대로 일합니다. <strong>각자 자기 책상(독립 문맥)을 쓰기 때문에</strong>, 수집한 원자료가 글쓰기 단계까지 그대로 흘러들어 대화가 지저분해지는 일이 없습니다.</p>
 <pre><code class="language-text">키워드 &quot;제주 오름&quot;
    │
@@ -767,6 +907,52 @@ result.md — 제목, 본문 1,200자 내외, 맨 아래 '참고한 관광지' �
 <h3 id="6-4">6-4. 만들어진 파일은 이렇게 생겼습니다</h3>
 <p>AI가 만들어 준 파일을 열어 보면 아래와 비슷합니다. <strong>똑같이 나오지는 않습니다</strong> — 내용을 읽어 보고 어색한 곳은 말로 고치라는 뜻으로 실어 둡니다.</p>
 <p>파일 맨 위 <code>---</code> 사이가 <strong>머리말(front matter)</strong>입니다. 그중 <code>description</code> 줄이 특히 중요합니다. AI는 이 한 줄만 보고 "지금 이 일꾼을 부를 때인가"를 판단하기 때문에, 여기가 모호하면 에이전트가 아예 불리지 않습니다.</p>
+<p><strong>⓪ <code>tour/CLAUDE.md</code></strong> — 머리말이 없습니다. 그냥 읽히는 메모입니다.</p>
+<pre><code class="language-markdown"># tour — 관광지 검색 · 챗봇 · 글쓰기 실습
+
+공공데이터포털 한국관광공사 관광정보 API 하나로 세 가지를 만든다.
+뒤 단계는 앞 단계의 결과물을 재료로 쓴다.
+
+## 폴더
+tour/
+├── .env              키 보관함. 절대 커밋하지 않는다
+├── web/              1단계 — 검색 웹페이지
+├── chatbot/          2단계 — 챗봇
+├── writing_agent/    3단계 — 글쓰기 파이프라인
+└── .claude/          에이전트와 스킬
+
+## 인증키 — 가장 자주 틀리는 곳
+.env 의 DATAGOKR_API_KEY 에는 Encoding 키(%2B, %3D 포함)가 들어 있다.
+- 주소 문자열에 직접 이어 붙일 때(HTML/JS) : .env 값 그대로
+- requests 의 params= 로 넘길 때(파이썬)   : urllib.parse.unquote() 로 푼 값
+바꿔 쓰면 키가 멀쩡해도 403 SERVICE_KEY_IS_NOT_REGISTERED_ERROR 가 난다.
+
+## 관광공사 API
+- 주소: https://apis.data.go.kr/B551011/KorService2
+- 공통 파라미터: serviceKey, MobileOS=ETC, MobileApp=tour, _type=json, numOfRows, pageNo
+- response.header.resultCode 가 0000 이어야 정상. XML 이 오면 _type=json 이 빠진 것이다.
+- 오퍼레이션: searchKeyword2(키워드) / areaBasedList2(지역) / ldongCode2(지역코드) /
+  detailCommon2(개요)
+- 지역은 lDongRegnCd(법정동 시도 코드)로 받는다. areaCode 가 아니다.
+
+## Gemini
+모델 gemini-3.1-flash-lite. 키는 .env 의 GOOGLE_API_KEY. 무료 등급은 분당 약 15회.
+
+## 실행 환경 (Windows)
+파이썬은 .venv\Scripts\python.exe 를 쓴다. 한글이 깨지면
+$env:PYTHONIOENCODING=&quot;utf-8&quot; 를 먼저 설정한다.
+
+## 글쓰기 파이프라인
+키워드 → tour-collector → collected.md → tour-summarizer → summary.md
+      → tour-writer → result.md
+순서대로 실행하고, 앞 단계가 남긴 파일만 다음 단계에 넘긴다.
+
+## 지킬 것
+- .env 와 인증키 값을 화면·파일·커밋에 남기지 않는다.
+- API 응답에 없는 이름·주소·전화번호·요금을 지어내지 않는다. 없으면 비워 둔다.
+- 호출이 실패하면 조용히 넘어가지 말고 상태 코드와 응답을 그대로 드러낸다.
+- 연속 호출 사이에 0.3초쯤 쉰다. 개발계정은 하루 1,000건 한도다.
+</code></pre>
 <p><strong>① <code>.claude/agents/tour-collector.md</code></strong></p>
 <pre><code class="language-markdown">---
 name: tour-collector
