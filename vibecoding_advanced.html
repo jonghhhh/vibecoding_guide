@@ -121,9 +121,8 @@ td code,th code{font-size:.82em}
     <nav id="toc"><a class="nav-h2" href="#0-5">0부. 5분 만에 잡는 큰 그림</a>
 <a class="nav-h3" href="#0-1">0-1. 오늘 배울 것을 한 문장으로</a>
 <a class="nav-h3" href="#0-2-7">0-2. 7개 부품 — 비유로 한 번에</a>
-<a class="nav-h3" href="#0-3-3">0-3. 이것만 먼저 — 오늘 당장 효과 보는 3가지</a>
-<a class="nav-h3" href="#0-4">0-4. 도구별 대응표</a>
-<a class="nav-h3" href="#0-5_1">0-5. 설치 확인 (심화 실습 전)</a>
+<a class="nav-h3" href="#0-3">0-3. 도구별 대응표</a>
+<a class="nav-h3" href="#0-4">0-4. 설치 확인 (심화 실습 전)</a>
 <a class="nav-h2" href="#1-3">1장. 슬래시 명령어의 기본기 (3도구 공통)</a>
 <a class="nav-h3" href="#1-1">1-1. 슬래시 명령어란?</a>
 <a class="nav-h3" href="#1-2">1-2. 슬래시와 함께 쓰는 두 기호: @ 와 !</a>
@@ -236,20 +235,10 @@ td code,th code{font-size:.82em}
 </tr>
 </tbody>
 </table></div>
-<h3 id="0-3-3">0-3. 이것만 먼저 — 오늘 당장 효과 보는 3가지</h3>
-<p>심화 기능이 많아 보이지만, <strong>투자 대비 효과 순서</strong>는 명확합니다. 위에서부터 하나씩 하세요.</p>
-<pre><code class="language-text">1순위  ② 메모리 파일 (CLAUDE.md / AGENTS.md)   → /init 한 번이면 초안 생성. 효과 가장 큼
-   ↓
-2순위  ③ 커스텀 명령어                          → 자주 쓰는 프롬프트를 파일 하나로 저장
-   ↓
-3순위  ⑦ MCP (깃허브 등 꼭 필요한 것 하나만)     → 외부 도구 연결
-   ↓
-그 다음  ④스킬 ⑤서브에이전트 ⑥훅 → 9~11장(병렬·반복·대량)
-</code></pre>
 <blockquote>
-<p><strong>④~⑦과 9~11장은 필요해진 다음에 보세요.</strong> 안 쓰면서 미리 설정해 두면 오히려 헷갈립니다.</p>
+<p><strong>이 특강의 중심은 ② 메모리 파일 · ④ 스킬 · ⑤ 서브에이전트 셋입니다</strong> — 각각 <strong>3장 · 5장 · 6장</strong>에서 다룹니다. 나머지 넷은 이름만 알아 두고, 필요해질 때 해당 장을 찾아보세요.</p>
 </blockquote>
-<h3 id="0-4">0-4. 도구별 대응표</h3>
+<h3 id="0-3">0-3. 도구별 대응표</h3>
 <div class="tbl"><table>
 <thead>
 <tr>
@@ -307,7 +296,7 @@ td code,th code{font-size:.82em}
 <blockquote>
 <p><strong>구글 도구 이름 변경 주의</strong> — 2026년 6월 18일부로 <strong>Gemini CLI(<code>gemini</code>)는 종료</strong>됐고, 후속은 <strong>Antigravity CLI(<code>agy</code>)</strong>입니다. 이 문서의 세 번째 열은 모두 <code>agy</code> 기준입니다. 옛 <code>gemini</code> 명령과 <code>.gemini/commands/*.toml</code> 방식은 더 이상 동작하지 않습니다.</p>
 </blockquote>
-<h3 id="0-5_1">0-5. 설치 확인 (심화 실습 전)</h3>
+<h3 id="0-4">0-4. 설치 확인 (심화 실습 전)</h3>
 <p>세 도구 모두 <strong>설치 스크립트</strong>로 깔면 Node.js가 필요 없습니다. 이미 깔았다면 건너뛰세요.</p>
 <pre><code class="language-bash"># Claude Code — macOS · Linux · WSL
 curl -fsSL <a href="https://claude.ai/install.sh">https://claude.ai/install.sh</a> | bash
