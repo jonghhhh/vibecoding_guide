@@ -132,7 +132,8 @@ td code,th code{font-size:.82em}
 <a class="nav-h3" href="#2-3-antigravity-cli-agy">2-3. Antigravity CLI (agy) 핵심</a>
 <a class="nav-h2" href="#3-claudemd-agentsmd">3장. 메모리 파일 — CLAUDE.md · AGENTS.md</a>
 <a class="nav-h3" href="#3-1">3-1. 왜 가장 중요한가?</a>
-<a class="nav-h3" href="#3-2">3-2. 작성 예시 (도구가 달라도 내용은 거의 동일)</a>
+<a class="nav-h3" href="#auto">3-2. 스킬·서브에이전트는 어떻게 '알아서' 발동하나</a>
+<a class="nav-h3" href="#3-3">3-3. 작성 예시 (도구가 달라도 내용은 거의 동일)</a>
 <a class="nav-h2" href="#4">4장. 커스텀 슬래시 명령어 만들기</a>
 <a class="nav-h3" href="#4-1-claude-code">4-1. Claude Code</a>
 <a class="nav-h3" href="#4-2-openai-codex">4-2. OpenAI Codex</a>
@@ -154,17 +155,12 @@ td code,th code{font-size:.82em}
 <a class="nav-h3" href="#8-2">8-2. 도구별 설정 위치</a>
 <a class="nav-h3" href="#8-3-mcp-claude">8-3. 예시 — 깃허브 MCP 서버 (Claude 기준)</a>
 <a class="nav-h3" href="#8-4">8-4. 플러그인 / 확장 (여러 부품을 한 번에 묶어 배포)</a>
-<a class="nav-h2" href="#9">9장. 다중·병렬 에이전트 — 여러 일꾼을 동시에</a>
-<a class="nav-h3" href="#9-1">9-1. 왜 여럿을, 동시에?</a>
-<a class="nav-h3" href="#9-2-claude-code-4">9-2. Claude Code — 4가지 병렬 방식</a>
-<a class="nav-h2" href="#10">10장. 반복·장기 실행·예약 — 시간을 다루기</a>
-<a class="nav-h3" href="#10-1">10-1. 세 가지 축 구분</a>
-<a class="nav-h3" href="#10-2-claude-code-loopgoal">10-2. Claude Code — /loop·/goal·백그라운드·예약</a>
-<a class="nav-h2" href="#11">11장. 대량 배치 처리 &amp; 재현성 — 데이터·연구 작업</a>
-<a class="nav-h3" href="#11-1-message-batches-api">11-1. Message Batches API — 대량 처리</a>
-<a class="nav-h3" href="#11-2">11-2. 재현성 주의 — 시드로 "똑같이" 재현되지 않습니다</a>
-<a class="nav-h2" href="#12">12장. 언제 무엇을 쓸까? — 의사결정 가이드</a>
-<a class="nav-h2" href="#13">13장. 안전 수칙 &amp; 자주 막히는 곳</a>
+<a class="nav-h2" href="#9">9장. 더 큰 규모로 — 이름만 알아 두기</a>
+<a class="nav-h3" href="#9-1">9-1. 여럿을 동시에 — 병렬</a>
+<a class="nav-h3" href="#9-2">9-2. 반복과 예약 — 시간</a>
+<a class="nav-h3" href="#9-3">9-3. 수천 건 이상 — 대량 처리</a>
+<a class="nav-h2" href="#10">10장. 언제 무엇을 쓸까? — 의사결정 가이드</a>
+<a class="nav-h2" href="#11">11장. 안전 수칙 &amp; 자주 막히는 곳</a>
 <a class="nav-h2" href="#codex">부록. Codex만으로 진행하기</a>
 <a class="nav-h3" href="#a-1-claude-codex">A-1. 부품별 대응표 (Claude → Codex)</a>
 <a class="nav-h3" href="#a-2">A-2. 서브에이전트 변환 — 유일하게 형식이 다른 부품</a>
@@ -178,7 +174,7 @@ td code,th code{font-size:.82em}
 <blockquote>
 <p><strong>대상</strong>: 입문 특강(설치·첫 실습)을 마치고 <strong>"같은 말을 더 똑똑하게, 더 자동으로 시키는 법"</strong>을 배우는 단계<br>
 <strong>핵심</strong>: 세 도구는 <strong>이름만 다를 뿐 거의 같은 7개 부품</strong>으로 되어 있습니다. 하나를 이해하면 나머지는 대응표로 충분합니다.<br>
-<strong>구성</strong>: 7개 부품(0~8장) → 이를 <strong>병렬·반복·예약·대량</strong>으로 엮는 오케스트레이션(9~11장)<br>
+<strong>구성</strong>: 7개 부품(0~8장) → 더 큰 규모로 엮는 법(9장) → 정리와 안전 수칙(10~11장)<br>
 <strong>기준일</strong>: 2026년 8월. 버전이 매주 바뀝니다. 명령어가 안 보이면 <code>/help</code>부터 확인하고, 마지막 절의 공식 문서를 참고하세요.</p>
 </blockquote></div></header>
     <div class="wrap">
@@ -626,7 +622,38 @@ irm <a href="https://antigravity.google/cli/install.ps1">https://antigravity.goo
 <li>세 도구 모두 <code>/init</code>으로 <strong>초안을 자동 생성</strong>할 수 있습니다. 먼저 만들고 다듬는 편이 빠릅니다.</li>
 <li>위치는 <strong>프로젝트 폴더 최상단</strong>입니다. 모든 프로젝트에 공통 적용할 규칙은 각 도구의 홈 디렉터리에 둡니다.</li>
 </ul>
-<h3 id="3-2">3-2. 작성 예시 (도구가 달라도 내용은 거의 동일)</h3>
+<h3 id="auto">3-2. 스킬·서브에이전트는 어떻게 '알아서' 발동하나</h3>
+<p>5장 <strong>스킬</strong>과 6장 <strong>서브에이전트</strong>는 둘 다 내가 부르지 않아도 AI가 맥락을 보고 스스로 꺼내 씁니다. 그러려면 두 가지가 갖춰져야 합니다.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>단계</th>
+<th>무엇이 필요한가</th>
+<th>어디에</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>① 등록</strong></td>
+<td>파일이 <strong>정해진 폴더</strong>에 있어야 AI가 존재를 압니다</td>
+<td>스킬 <code>.claude/skills/&lt;이름&gt;/SKILL.md</code><br>서브에이전트 <code>.claude/agents/&lt;이름&gt;.md</code></td>
+</tr>
+<tr>
+<td><strong>② 판단</strong></td>
+<td>AI는 파일 머리말의 <strong><code>description</code> 한 줄</strong>을 보고 "지금 쓸까"를 정합니다</td>
+<td>파일 맨 위 <code>---</code> 사이 (= 프론트매터)</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong><code>description</code>이 전부입니다.</strong> AI는 평소 본문을 읽지 않습니다. 이름과 <code>description</code>만 목록으로 갖고 있다가, 필요해 보일 때 그 파일을 열어 봅니다. 그래서 "관광 관련 작업" 같은 두루뭉술한 설명이면 영영 안 불립니다. <strong>"언제 쓰는지"를 문장으로</strong> 쓰세요.</p>
+</blockquote>
+<p><strong>메모리 파일은 '등록하는 곳'이 아니라 '발동을 못박는 곳'입니다.</strong></p>
+<p><code>CLAUDE.md</code>에 적는다고 스킬·서브에이전트가 등록되지는 않습니다 — 등록은 ①의 폴더가 합니다. 대신 <strong>"이럴 땐 이걸 써라"는 규칙을 적어 두면 발동이 훨씬 안정적으로 걸립니다.</strong> <code>description</code>만으로는 AI가 놓칠 때가 있는데, 메모리 파일은 매 세션 자동으로 읽히므로 그 빈틈을 메웁니다. 실제 문장은 다음 절 예시의 <strong><code># 스킬·서브에이전트 사용 규칙</code></strong> 항목을 보세요.</p>
+<blockquote>
+<p><strong>정리</strong> — <strong>폴더</strong>가 "무엇이 있는지", <strong><code>description</code></strong>이 "언제 쓰는지", <strong>메모리 파일</strong>이 "그래도 놓치지 마라"를 담당합니다. 셋이 함께 있을 때 자동 발동이 제대로 걸립니다.</p>
+</blockquote>
+<h3 id="3-3">3-3. 작성 예시 (도구가 달라도 내용은 거의 동일)</h3>
 <pre><code class="language-markdown"># 프로젝트 개요
 이 저장소는 미디어학과 수업용 뉴스 분석 파이썬 프로젝트다.
 
@@ -634,6 +661,11 @@ irm <a href="https://antigravity.google/cli/install.ps1">https://antigravity.goo
 - 모든 주석과 설명은 한국어로 작성한다.
 - 의존성은 requirements.txt에 명시하고, 불필요한 라이브러리는 추가하지 않는다.
 - 함수에는 한 줄 설명을 단다.
+
+# 스킬·서브에이전트 사용 규칙
+- 코드 리뷰를 요청하면 reviewer 서브에이전트(.claude/agents/reviewer.md)에게 맡긴다.
+- 뉴스 CSV를 정리하는 작업이면 news-cleaner 스킬(.claude/skills/news-cleaner/)을 먼저 읽는다.
+- 자료 조사처럼 오래 걸리는 일은 서브에이전트에 떼어 맡기고, 요약만 받는다.
 
 # 자주 쓰는 명령
 - 테스트:  pytest
@@ -739,7 +771,7 @@ description: 뉴스 CSV의 중복·결측을 정리할 때 사용한다.
 </code></pre>
 <ul>
 <li>인자 치환: <code>$ARGUMENTS</code>, <code>$1 $2</code>, 스킬 폴더 경로 <code>${CLAUDE_SKILL_DIR}</code>.</li>
-<li><strong><code>description</code>을 잘 쓰는 게 핵심</strong>입니다. AI는 이 한 줄을 보고 "지금 이 스킬을 쓸까?"를 판단합니다.</li>
+<li><strong><code>description</code>을 잘 쓰는 게 핵심</strong>입니다. AI는 이 한 줄을 보고 "지금 이 스킬을 쓸까?"를 판단합니다 → <a href="#auto">3-2절</a>.</li>
 </ul>
 <h3 id="5-3-codex-antigravity">5-3. Codex / Antigravity</h3>
 <ul>
@@ -768,6 +800,14 @@ model: haiku        # 가벼운 작업은 저렴한 모델로
 ---
 너는 까다로운 코드 리뷰어다. 보안 취약점과 누락된 테스트를 우선 지적해라.
 </code></pre>
+<p><strong>부르는 법은 두 가지입니다.</strong></p>
+<ul>
+<li><strong>자동</strong> — 만들어 두기만 하면 "코드 리뷰해 줘"라고만 해도 AI가 <code>description</code>을 보고 이 에이전트에게 넘깁니다.</li>
+<li><strong>직접</strong> — "reviewer 서브에이전트로 검토해 줘"처럼 이름을 부르면 확실합니다.</li>
+</ul>
+<blockquote>
+<p>자동 발동이 자꾸 안 걸리면 <code>description</code>을 구체적으로 고치고, 메모리 파일에 "코드 리뷰는 reviewer에게 맡긴다"를 한 줄 적으세요(<a href="#auto">3-2절</a>).</p>
+</blockquote>
 <h3 id="6-3-codex-antigravity">6-3. Codex / Antigravity</h3>
 <ul>
 <li><strong>Codex</strong>: 서브에이전트 스레드로 분기하고, 리뷰를 <strong>guardian 서브에이전트</strong>로 라우팅할 수 있습니다. <code>/agents</code>, 터미널에서는 <code>codex agents</code> 대시보드.</li>
@@ -859,16 +899,12 @@ model: haiku        # 가벼운 작업은 저렴한 모델로
 <li><strong>Antigravity</strong>: <code>agy plugin</code> 으로 관리합니다. 구 Gemini CLI 설정을 가져올 때도 같은 명령을 씁니다(<code>agy plugin import gemini</code>).</li>
 </ul>
 <hr />
-<h2 id="9">9장. 다중·병렬 에이전트 — 여러 일꾼을 동시에</h2>
+<h2 id="9">9장. 더 큰 규모로 — 이름만 알아 두기</h2>
 <blockquote>
-<p><strong>한 줄 요약</strong>: 6장이 <em>일꾼 하나</em>라면, 9장은 <em>일꾼 여럿을 동시에</em> 굴리는 단계입니다.</p>
+<p><strong>한 줄 요약</strong>: 여기부터는 <strong>필요해질 때 찾아보는 영역</strong>입니다. 지금은 "이런 게 있다"만 알면 충분합니다.</p>
 </blockquote>
-<h3 id="9-1">9-1. 왜 여럿을, 동시에?</h3>
-<p>대규모 리팩터링·코드베이스 전체 감사·다각도 검증처럼 <strong>한 대화로는 조율이 벅찬</strong> 작업에 씁니다.</p>
-<blockquote>
-<p><strong>도구별 성숙도 차이가 큽니다</strong> — 이 기능들은 Claude Code에서 가장 정돈돼 있습니다. Codex·Antigravity에도 백그라운드·병렬 실행이 있지만 명칭과 완성도가 다르므로 각 도구의 <code>/help</code>와 공식 문서를 확인하세요. 특히 Antigravity는 <strong>병렬 실행 시 사용량 소모가 매우 빠릅니다.</strong></p>
-</blockquote>
-<h3 id="9-2-claude-code-4">9-2. Claude Code — 4가지 병렬 방식</h3>
+<h3 id="9-1">9-1. 여럿을 동시에 — 병렬</h3>
+<p>한 대화로는 조율이 벅찬 작업(대규모 리팩터링, 코드베이스 전체 감사)에 씁니다.</p>
 <div class="tbl"><table>
 <thead>
 <tr>
@@ -879,56 +915,44 @@ model: haiku        # 가벼운 작업은 저렴한 모델로
 </thead>
 <tbody>
 <tr>
-<td><strong>서브에이전트</strong></td>
-<td>한 세션 안에서 일을 위임하고 결과만 본 대화로 보고받음</td>
-<td><code>/agents</code> · <code>/tasks</code></td>
+<td><strong>서브에이전트</strong> (6장)</td>
+<td>일을 위임하고 결과만 보고받음</td>
+<td><code>/agents</code></td>
 </tr>
 <tr>
 <td><strong>에이전트 뷰</strong></td>
-<td>여러 백그라운드 세션을 <strong>화면 하나</strong>에서 감독·부착</td>
+<td>여러 백그라운드 세션을 화면 하나에서 감독</td>
 <td><code>claude agents</code> · <code>--bg</code></td>
 </tr>
 <tr>
 <td><strong>에이전트 팀</strong></td>
-<td>리드+팀원이 <strong>공유 작업목록·메시지</strong>로 협업</td>
-<td>팀 구성(팀원별 파일 담당 분할)</td>
+<td>리드+팀원이 공유 작업목록으로 협업</td>
+<td>팀 구성</td>
 </tr>
 <tr>
 <td><strong>다이내믹 워크플로</strong></td>
-<td>Claude가 <strong>JS 오케스트레이션 스크립트</strong>를 써서 수십~수백 서브에이전트를 조율</td>
+<td>스크립트로 수십~수백 서브에이전트를 조율</td>
 <td><code>/workflows</code> · <code>/deep-research</code></td>
 </tr>
 </tbody>
 </table></div>
-<ul>
-<li><strong>에이전트 뷰</strong>: 각 세션을 자동으로 별도 <strong>워크트리(git worktree)</strong>에 격리하고 상태를 한 줄씩 보여줍니다. 입력이 필요한 세션에만 부착하면 됩니다.</li>
-<li><strong>다이내믹 워크플로</strong>: 조율과 중간 결과가 스크립트 안에 있어 <strong>대화 문맥엔 최종 답만</strong> 남습니다. 한 런에 동시 16개·총 1,000개까지 가능하고, 진행 상황이 저장돼 중단돼도 이어서 실행됩니다. <code>/workflows</code>로 실행 목록을 보며, <strong>effort를 최고(<code>max</code>·<code>ultracode</code>)로 올리면 자동 발동</strong>되기도 합니다.</li>
-<li><strong><code>/deep-research</code></strong>: 여러 서브에이전트로 웹·코드베이스를 <strong>다단계로 조사·종합</strong>하는 <strong>기본 내장 워크플로</strong>입니다. 위 '다이내믹 워크플로'의 대표 예시입니다.</li>
-<li><strong><code>/batch</code></strong>: 큰 변경을 <strong>5~30개</strong>의 워크트리 격리 서브에이전트로 쪼개 각각 PR을 엽니다.</li>
-</ul>
 <blockquote>
-<p><strong>선택 기준</strong> — 한 번의 병렬 판단이면 <strong>서브에이전트</strong>, 서로 대화하며 오래 협업하면 <strong>에이전트 팀</strong>, 앞 단계 결과가 다음 단계를 좌우하거나 서로의 결과를 반증(adversarial verify)시키려면 <strong>다이내믹 워크플로</strong>, 감독 화면이 필요하면 <strong>에이전트 뷰</strong>입니다.</p>
-<p><strong>비용 주의</strong>: 에이전트 10개를 병렬로 돌리면 토큰(=구독 할당량·비용)도 <strong>약 10배</strong>로 나갑니다. 반드시 <strong>작은 범위로 먼저</strong> 시험하세요.</p>
+<p><strong>비용 주의</strong>: 에이전트 10개를 병렬로 돌리면 토큰(=구독 할당량·비용)도 <strong>약 10배</strong>로 나갑니다. 반드시 작은 범위로 먼저 시험하세요. Antigravity 무료 등급에서는 시도하지 마세요.</p>
 </blockquote>
-<hr />
-<h2 id="10">10장. 반복·장기 실행·예약 — 시간을 다루기</h2>
-<blockquote>
-<p><strong>한 줄 요약</strong>: 같은 일을 <em>반복</em>하거나, 오래 걸리는 일을 <em>백그라운드</em>로 떼거나, 내가 없을 때 <em>예약 실행</em>합니다.</p>
-</blockquote>
-<h3 id="10-1">10-1. 세 가지 축 구분</h3>
+<h3 id="9-2">9-2. 반복과 예약 — 시간</h3>
 <div class="tbl"><table>
 <thead>
 <tr>
-<th>축</th>
+<th>방식</th>
 <th>언제 동작하나</th>
-<th>대표 도구</th>
+<th>예</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>훅</strong>(7장)</td>
+<td><strong>훅</strong> (7장)</td>
 <td><em>이벤트</em>가 발생할 때</td>
-<td><code>settings.json</code>의 hooks</td>
+<td>파일 저장 후 자동 포맷팅</td>
 </tr>
 <tr>
 <td><strong><code>/loop</code></strong></td>
@@ -936,85 +960,41 @@ model: haiku        # 가벼운 작업은 저렴한 모델로
 <td><code>/loop 5m 배포 확인</code></td>
 </tr>
 <tr>
+<td><strong><code>/goal</code></strong></td>
+<td>완료 조건을 채울 때까지 자기수정 반복</td>
+<td><code>/loop</code>과 짝지어 사용</td>
+</tr>
+<tr>
+<td><strong>백그라운드</strong></td>
+<td>오래 걸리는 일을 떼어서 실행</td>
+<td><code>--bg</code> · <code>/tasks</code></td>
+</tr>
+<tr>
 <td><strong>루틴</strong></td>
 <td><em>내가 없을 때</em> 클라우드에서 예약 실행</td>
-<td>스케줄·트리거 기반</td>
-</tr>
-</tbody>
-</table></div>
-<h3 id="10-2-claude-code-loopgoal">10-2. Claude Code — /loop·/goal·백그라운드·예약</h3>
-<div class="tbl"><table>
-<thead>
-<tr>
-<th>도구</th>
-<th>언제</th>
-<th>핵심</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>/loop</code></td>
-<td>세션을 <strong>내가 지켜보는 동안</strong> 반복</td>
-<td><code>/loop 5m 배포 확인</code>처럼 간격+프롬프트. 세션을 넘겨 살아남지 않음</td>
-</tr>
-<tr>
-<td><code>/goal</code></td>
-<td>검증 가능한 <strong>완료 조건</strong>까지 자율 반복</td>
-<td><code>/loop</code>와 짝지어 "통과할 때까지" 자기수정 루프</td>
-</tr>
-<tr>
-<td>백그라운드 에이전트</td>
-<td>오래 걸리는 일을 <strong>떼어서</strong> 실행</td>
-<td><code>--bg</code> · <code>/background</code> · <code>/tasks</code>. 터미널을 닫아도 계속(로컬)</td>
-</tr>
-<tr>
-<td>루틴(Routines)</td>
-<td>내가 <strong>없을 때</strong> 클라우드에서 예약 실행</td>
-<td>스케줄·트리거 기반, 무인 실행</td>
-</tr>
-<tr>
-<td>Managed Agents</td>
-<td>운영급 <strong>예약 배포</strong></td>
-<td>스케줄드 디플로이먼트(cron+타임존)·볼트 환경변수·<code>/remote-env</code></td>
+<td>매일 아침 정해진 작업</td>
 </tr>
 </tbody>
 </table></div>
 <blockquote>
-<p><strong>구독 한도 주의</strong>: <code>/loop</code>은 대화형 세션이라 <strong>5시간·주간 한도</strong>를 그대로 씁니다. 반면 헤드리스 자동화(<code>claude -p</code>·Agent SDK)는 2026-06-15부터 대화 한도가 아니라 <strong>별도 월 크레딧</strong>에서 차감되고, 소진되면 멈춥니다. 수천 건을 <code>/loop</code>으로 도는 건 한도상 비현실적입니다.</p>
+<p><code>/loop</code>은 대화형 세션이라 <strong>구독 한도를 그대로 씁니다.</strong> 수천 건 반복에는 맞지 않습니다.</p>
 </blockquote>
-<hr />
-<h2 id="11">11장. 대량 배치 처리 &amp; 재현성 — 데이터·연구 작업</h2>
-<blockquote>
-<p><strong>한 줄 요약</strong>: 수천 건 이상의 반복 작업은 대화형 도구가 아니라 <strong>배치 API</strong>가 정답입니다.</p>
-</blockquote>
-<h3 id="11-1-message-batches-api">11-1. Message Batches API — 대량 처리</h3>
-<p>수천~수만 건의 <strong>독립적·동일한 작업</strong>(예: 기사마다 취재원 추출·투명/익명 분류, 대량 라벨링·요약)은 대화형 도구가 아니라 <strong>Message Batches API</strong>로 처리합니다.</p>
+<h3 id="9-3">9-3. 수천 건 이상 — 대량 처리</h3>
 <ul>
-<li>한 배치 <strong>최대 10만 건</strong>(또는 256MB), <strong>50% 할인</strong>, 대부분 1시간 내 완료(상한 24시간). <code>custom_id</code>로 결과를 매핑하고, 웹훅 없이 폴링하며, 결과는 <strong>29일</strong> 보관되므로 <strong>받는 즉시 영구 저장</strong>해야 합니다.</li>
-<li>모든 요청이 같은 시스템 프롬프트를 쓰면 <strong>프롬프트 캐싱</strong>이 배치 할인 위에 겹쳐 비용이 더 내려갑니다.</li>
-<li>다단계(추출→검증→분류)나 상호 반증이 필요하면 <strong>다이내믹 워크플로</strong>(9장)를 얹습니다.</li>
+<li>수천~수만 건의 <strong>독립적이고 똑같은 작업</strong>(대량 분류·라벨링·요약)은 대화형 도구가 아니라 <strong>Message Batches API</strong>로 처리합니다. 한 배치 최대 10만 건, <strong>50% 할인</strong>, 보통 1시간 안에 끝납니다. <strong>결과는 29일 뒤 사라지므로 받는 즉시 저장하세요.</strong></li>
+<li><strong>같은 입력이라도 결과는 매번 조금씩 다릅니다.</strong> Claude API에는 시드(seed)가 없고, 온도를 0으로 둬도 완전히 같지는 않습니다. 연구용이라면 <strong>여러 번 반복해 분포로 보고</strong>하고 프롬프트와 응답을 전부 기록으로 남기세요.</li>
 </ul>
-<h3 id="11-2">11-2. 재현성 주의 — 시드로 "똑같이" 재현되지 않습니다</h3>
-<ul>
-<li>Claude API에는 <strong>시드(seed) 파라미터가 없습니다.</strong> 시드 기반 리플레이 자체가 불가능합니다.</li>
-<li><strong>온도 0에서도 완전히 결정적이지 않습니다</strong>(Anthropic 문서 명시) — GPU 부동소수점·요청 배칭·MoE 라우팅 때문입니다.</li>
-<li>연구용 재현성은 <strong>통계적 재현</strong>으로 접근하세요: 조건당 다수 반복 → 분포·신뢰구간 보고(예: GLMM), 모델 스냅샷·파라미터 고정, 프롬프트·응답 전량 로깅. "전사(transcript)"가 아니라 "발견"을 재현하는 것입니다.</li>
-<li>비트 단위 정확 재현이 꼭 필요하면 <strong>로컬 오픈모델</strong>(vLLM/PyTorch 시드 고정+동적 배칭 비활성)만이 답입니다.</li>
-</ul>
-<blockquote>
-<p>소셜 시뮬레이션·에이전트 페르소나 실험에 <strong>에이전트 팀</strong>을 쓰면 병렬·비동기 탓에 재현성이 더 나빠집니다. 통제된 실험은 <strong>Agent SDK나 커스텀 루프</strong>(스케줄러·순서·로깅을 직접 소유)로 구성하세요.</p>
-</blockquote>
 <hr />
-<h2 id="12">12장. 언제 무엇을 쓸까? — 의사결정 가이드</h2>
+<h2 id="10">10장. 언제 무엇을 쓸까? — 의사결정 가이드</h2>
 <pre><code class="language-text">무엇을 자동화/확장하고 싶은가?
 ├── 항상 지켜야 할 규칙                → ② 메모리 파일 (CLAUDE.md / AGENTS.md)
 ├── 내가 직접 부르는 반복 프롬프트      → ③ 커스텀 슬래시 명령어
 ├── 상황 보고 '알아서' 적용될 지식      → ④ 스킬(Skill)
 ├── 독립 문맥이 필요한 큰 하위 작업      → ⑤ 서브에이전트
-├── 여러 작업을 '동시에' 병렬로         → 다중 에이전트: 뷰·팀·워크플로 (9장)
-├── 조건 충족까지 '반복'               → /loop + /goal (10장)
-├── 내가 없을 때 '예약' 실행           → 루틴·스케줄드 디플로이먼트 (10장)
-├── 수천~수만 건 '대량' 처리           → Message Batches API (11장)
+├── 여러 작업을 '동시에' 병렬로         → 다중 에이전트: 뷰·팀·워크플로 (9-1)
+├── 조건 충족까지 '반복'               → /loop + /goal (9-2)
+├── 내가 없을 때 '예약' 실행           → 루틴 (9-2)
+├── 수천~수만 건 '대량' 처리           → Message Batches API (9-3)
 ├── 특정 순간 '자동으로' 실행할 동작     → ⑥ 훅(Hook)
 └── 외부 서비스(깃허브·DB·노션) 연결    → ⑦ MCP
 </code></pre>
@@ -1069,7 +1049,7 @@ model: haiku        # 가벼운 작업은 저렴한 모델로
 </tr>
 <tr>
 <td>없을 때 예약 실행</td>
-<td>루틴·스케줄드 디플로이먼트</td>
+<td>루틴</td>
 <td>무인 클라우드 실행</td>
 </tr>
 <tr>
@@ -1085,7 +1065,7 @@ model: haiku        # 가벼운 작업은 저렴한 모델로
 </tbody>
 </table></div>
 <hr />
-<h2 id="13">13장. 안전 수칙 &amp; 자주 막히는 곳</h2>
+<h2 id="11">11장. 안전 수칙 &amp; 자주 막히는 곳</h2>
 <p><strong>안전 수칙</strong></p>
 <ol>
 <li><strong><code>--yolo</code> / <code>danger-full-access</code> / <code>always-proceed</code> 는 격리 환경에서만.</strong> 승인·샌드박스를 모두 끕니다.</li>
@@ -1270,11 +1250,11 @@ args = [&quot;-y&quot;, &quot;@playwright/mcp@latest&quot;]
 <td>검색 MCP(Tavily·Brave 등)를 <code>config.toml</code>에 추가</td>
 </tr>
 <tr>
-<td>다중·병렬 에이전트(9장)</td>
+<td>다중·병렬 에이전트(9-1)</td>
 <td>Claude Code만큼 정돈되지 않음. 작업을 나눠 순차 실행하는 편이 안전</td>
 </tr>
 <tr>
-<td>대량 배치(11장)</td>
+<td>대량 배치(9-3)</td>
 <td>OpenAI의 Batch API를 별도로 사용. 개념은 동일</td>
 </tr>
 </tbody>
