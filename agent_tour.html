@@ -119,7 +119,10 @@ td code,th code{font-size:.82em}
     <div class="brandmark">VIBE CODING</div>
     <div class="brandsub">관광 실습<br>웹페이지 · 챗봇 · 글쓰기 에이전트</div>
     <nav id="toc"><a class="nav-h2" href="#1">1. 무엇을 만드나</a>
-<a class="nav-h2" href="#2">2. 폴더 만들기</a>
+<a class="nav-h2" href="#2">2. 폴더와 가상환경 만들기</a>
+<a class="nav-h3" href="#2-1">2-1. 폴더 만들기</a>
+<a class="nav-h3" href="#venv">2-2. 가상환경(.venv) 만들기</a>
+<a class="nav-h3" href="#2-3-vs-code">2-3. VS Code에서 열기</a>
 <a class="nav-h2" href="#3-env">3. .env — 열쇠 보관함</a>
 <a class="nav-h3" href="#3-1-env">3-1. .env가 뭔가요?</a>
 <a class="nav-h3" href="#3-2">3-2. 이 실습에 필요한 키 두 개</a>
@@ -200,14 +203,42 @@ td code,th code{font-size:.82em}
 <p>1·2단계 끝에는 <strong>(선택) 배포</strong>가 붙어 있습니다. 남에게 링크로 보여 주고 싶을 때만 하면 되고, 건너뛰어도 실습에는 지장이 없습니다.</p>
 </blockquote>
 <hr />
-<h2 id="2">2. 폴더 만들기</h2>
+<h2 id="2">2. 폴더와 가상환경 만들기</h2>
+<h3 id="2-1">2-1. 폴더 만들기</h3>
 <p>원하는 위치에 <code>tour</code> 폴더를 만들고, 그 안에 하위 폴더 셋을 만듭니다.</p>
 <pre><code class="language-bash">mkdir tour
 cd tour
 mkdir web chatbot writing_agent
 </code></pre>
+<h3 id="venv">2-2. 가상환경(<code>.venv</code>) 만들기</h3>
+<p>2·3단계에서는 파이썬을 쓰고 <code>requests</code>·<code>python-dotenv</code>·<code>google-genai</code> 같은 패키지를 설치합니다. 이 패키지들이 컴퓨터 전체가 아니라 <strong><code>tour</code> 폴더 안에만</strong> 들어가도록 가상환경을 먼저 만듭니다. 이걸 건너뛰면 뒤에서 <code>ModuleNotFoundError</code>로 막힙니다.</p>
+<p><code>tour</code> 폴더 안에서 실행합니다. <strong>만들기는 한 번뿐이고, 켜기는 터미널을 새로 열 때마다</strong> 합니다.</p>
+<pre><code class="language-bash"># ① 만들기 — 한 번만 (Windows는 python, macOS/Linux는 python3)
+python -m venv .venv
+
+# ② 켜기 — Windows PowerShell
+.venv\Scripts\Activate.ps1
+
+# ② 켜기 — Windows 명령 프롬프트(cmd)
+.venv\Scripts\activate.bat
+
+# ② 켜기 — macOS / Linux
+source .venv/bin/activate
+</code></pre>
+<p>켜지면 터미널 입력줄 맨 앞에 <code>(.venv)</code>가 붙습니다. <strong>이 표시가 곧 "켜져 있다"는 뜻</strong>입니다.</p>
+<pre><code class="language-text">(.venv) PS C:\vscode\tour&gt;
+</code></pre>
+<p>이 상태에서 이 실습에 필요한 패키지를 미리 설치해 둡니다.</p>
+<pre><code class="language-bash">pip install requests python-dotenv google-genai
+</code></pre>
+<blockquote>
+<p><strong><code>Activate.ps1</code> 실행이 막히면</strong> (Windows PowerShell) — <code>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code>를 한 번 실행하고 <code>Y</code>로 답한 뒤 다시 시도하세요.</p>
+<p><strong><code>python</code>을 못 찾으면</strong> 파이썬이 안 깔렸거나 PATH에 없는 것입니다. 파이썬 설치부터 가상환경까지 자세한 설명은 <a href="./vibecoding_basic.html#venv">입문 가이드 2부</a>에 있습니다.</p>
+</blockquote>
+<h3 id="2-3-vs-code">2-3. VS Code에서 열기</h3>
 <p>완성되면 이런 모양입니다.</p>
 <pre><code class="language-text">tour/
+├── .venv/               # 가상환경 (2-2에서 만든 것)
 ├── .env                 # 열쇠 보관함 (3장에서 만듭니다)
 ├── .gitignore
 ├── web/                 # 1단계 — 검색 웹페이지
@@ -216,7 +247,7 @@ mkdir web chatbot writing_agent
 </code></pre>
 <p>VS Code에서 <strong>File → Open Folder</strong>로 <code>tour</code> 폴더를 열고, 터미널에서 <code>claude</code>를 실행합니다.</p>
 <blockquote>
-<p>✅ <strong>체크포인트</strong>: 터미널 경로 끝이 <code>tour</code>이고, 왼쪽 탐색기에 <code>web</code>·<code>chatbot</code>·<code>writing_agent</code> 세 폴더가 보이면 준비 완료입니다.</p>
+<p>✅ <strong>체크포인트</strong>: 터미널 입력줄이 <code>(.venv)</code>로 시작하고 경로 끝이 <code>tour</code>이며, 왼쪽 탐색기에 <code>web</code>·<code>chatbot</code>·<code>writing_agent</code> 세 폴더가 보이면 준비 완료입니다.</p>
 </blockquote>
 <hr />
 <h2 id="3-env">3. <code>.env</code> — 열쇠 보관함</h2>
@@ -311,7 +342,7 @@ __pycache__/
 <p><strong>키가 이미 공개됐다면</strong> 파일을 지우는 것만으로는 부족합니다. 발급처에서 <strong>키를 폐기하고 새로 받으세요.</strong> 공공데이터포털·AI Studio 모두 재발급이 무료입니다.</p>
 </blockquote>
 <h3 id="3-5-env">3-5. <code>.env</code>를 읽는 법</h3>
-<p><strong>파이썬</strong>은 <code>python-dotenv</code> 패키지를 씁니다. 가상환경을 켠 상태에서 설치하세요.</p>
+<p><strong>파이썬</strong>은 <code>python-dotenv</code> 패키지를 씁니다. <a href="#venv">2-2절</a>에서 이미 설치했습니다. 건너뛰었다면 <code>(.venv)</code>가 켜진 상태에서 지금 설치하세요.</p>
 <pre><code class="language-bash">pip install python-dotenv google-genai requests
 </code></pre>
 <pre><code class="language-python">import os
@@ -423,39 +454,58 @@ start web/index.html
 <p><strong>웹페이지에 키가 노출됩니다.</strong> 단일 HTML 파일은 키를 코드 안에 적을 수밖에 없고, 배포하면 누구나 볼 수 있습니다. 이 실습은 <strong>무료·공개 데이터 키</strong>라 교육용으로는 괜찮지만, 유료 API 키는 절대 이렇게 쓰지 마세요. 제대로 하려면 키를 감추는 서버(백엔드)를 따로 둡니다.</p>
 </blockquote>
 <h3 id="4-6-github-pages">4-6. (선택) GitHub Pages로 배포하기</h3>
-<p>만든 페이지를 링크로 공유하고 싶을 때만 하면 됩니다.</p>
+<p>만든 페이지를 링크로 공유하고 싶을 때만 하면 됩니다. 손으로 하는 일은 <strong>토큰 발급 하나</strong>뿐이고, 나머지(저장소 만들기 → 파일 올리기 → Pages 켜기)는 프롬프트 하나로 끝납니다.</p>
+<h4 id="1_1">① 토큰 발급 — 이것만 직접 합니다</h4>
 <ol>
-<li><a href="https://github.com">github.com</a>에 가입합니다.</li>
-<li><strong>Settings → Developer settings → Personal access tokens</strong>에서 <strong>읽기·쓰기(read and write)</strong> 권한 토큰을 발급받습니다.</li>
-<li>토큰을 <code>tour/.env</code>에 넣습니다.</li>
+<li><a href="https://github.com">github.com</a>에 가입·로그인합니다.</li>
+<li>오른쪽 위 프로필 → <strong>Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token (classic)</strong>.</li>
+<li>권한(Scopes)에서 <strong><code>repo</code>에 체크</strong>합니다. 저장소 만들기·파일 올리기·Pages 켜기가 모두 이 하나에 들어 있습니다.</li>
+<li>만들어진 토큰을 <code>tour/.env</code>에 넣습니다. <strong>창을 닫으면 다시 볼 수 없습니다.</strong></li>
 </ol>
 <pre><code class="language-bash"># 깃허브 (선택 — 배포할 때만)
-GITHUB_TOKEN=여기에_토큰_붙여넣기
-</code></pre>
-<p>나머지는 AI에게 맡깁니다.</p>
-<pre><code class="language-text">[목표]
-web/index.html 을 GitHub Pages로 배포해서 링크 하나로 공유할 수 있게 해 줘.
-
-[참고 자료]
-- 인증은 tour/.env 의 GITHUB_TOKEN 을 읽어서 쓴다. 토큰 값을 화면에 출력하거나 코드·커밋 메시지에 남기지 마.
-- 올릴 파일은 web/index.html 하나뿐이다. tour/.env 와 .gitignore 에 적힌 것은 절대 올리지 마.
-
-[할 일]
-1. 내 깃허브 계정에 tour-web 이라는 public 저장소를 만든다. 이미 있으면 그것을 쓴다.
-2. web/index.html 을 main 브랜치 최상단에 올린다.
-3. 저장소 Settings → Pages 를 'main 브랜치 / 루트(/)'로 설정한다.
-4. 완성된 배포 주소를 알려 준다.
-
-[제약]
-- 커밋은 한 번으로 정리해 줘.
-- 저장소 이름이 이미 쓰이고 있으면 멋대로 다른 이름을 만들지 말고 나에게 먼저 물어봐.
-
-[확인]
-올리기 전에, web/index.html 안에 적힌 공공데이터포털 인증키가 공개돼도 되는 무료 키가 맞는지 나에게 한 번 확인해 줘.
-올린 뒤에는 배포 주소를 실제로 열어 페이지가 뜨는지 확인하고 결과를 알려 줘.
+GITHUB_TOKEN=여기에_발급받은_토큰_붙여넣기
 </code></pre>
 <blockquote>
-<p>Pages는 반영에 1~2분쯤 걸립니다. 바로 404가 떠도 잠시 뒤 다시 열어 보세요.</p>
+<p><strong>Fine-grained 토큰으로도 됩니다.</strong> 다만 Contents·Pages·Administration 세 가지를 따로 켜고 대상 저장소도 지정해야 해서 실수하기 쉽습니다. <strong>처음이면 classic이 편합니다.</strong></p>
+</blockquote>
+<h4 id="2_1">② 나머지는 프롬프트 하나로</h4>
+<pre><code class="language-text">[목표]
+web/index.html 을 GitHub Pages로 배포해서 링크 하나로 공유할 수 있게 해 줘.
+저장소 만들기부터 Pages 켜기까지 네가 다 해 줘.
+
+[참고 자료]
+- 인증은 tour/.env 의 GITHUB_TOKEN(classic, repo 권한)을 읽어서 쓴다.
+  토큰 값을 화면에 출력하거나 코드·커밋 메시지·원격 주소에 남기지 마.
+- gh CLI 가 깔려 있으면 그것으로, 없으면 GitHub REST API 로 처리해.
+
+[할 일]
+1. 토큰으로 내 깃허브 계정 아이디를 알아낸다. 나에게 묻지 마.
+2. tour-web 이라는 public 저장소를 만든다. 이미 있으면 그것을 쓴다.
+3. web/index.html 을 main 브랜치 최상단에 index.html 로 올린다.
+4. Pages 를 'main 브랜치 / 루트(/)' 로 켠다.
+5. 배포 주소(<a href="https://&lt;내아이디&gt;.github.io/tour-web/">https://&lt;내아이디&gt;.github.io/tour-web/</a>)를 알려 준다.
+
+[제약]
+- 올릴 파일은 web/index.html 하나뿐이다. tour/.env 와 .gitignore 에 적힌 것은 절대 올리지 마.
+- 커밋은 한 번으로 정리해 줘.
+- 저장소 이름이 이미 다른 용도로 쓰이고 있으면 멋대로 다른 이름을 만들지 말고 나에게 먼저 물어봐.
+
+[확인]
+1. 올리기 전에, web/index.html 안에 적힌 공공데이터포털 인증키가 공개돼도 되는 무료 키가 맞는지 나에게 한 번 확인해 줘.
+2. 올린 뒤 배포 주소를 실제로 열어 페이지가 뜨는지 확인하고 결과를 알려 줘.
+</code></pre>
+<blockquote>
+<p>✅ <strong>체크포인트</strong>: 배포 주소를 열었을 때 검색창이 뜨고 <code>경복궁</code> 검색이 되면 성공입니다. <strong>첫 빌드에 1~2분</strong> 걸립니다. 바로 404가 떠도 잠시 뒤 다시 열어 보세요.</p>
+</blockquote>
+<h4 id="3">③ 막히면 — 손으로 올리는 방법</h4>
+<ol>
+<li>github.com 오른쪽 위 <strong>＋ → New repository</strong>. 이름은 <code>tour-web</code>, 공개 여부는 <strong>Public</strong>, <strong>Add a README file</strong>에 체크하고 <strong>Create repository</strong>.</li>
+<li>만들어진 저장소에서 <strong>Add file → Upload files</strong>로 <code>web/index.html</code>을 끌어다 놓고 아래 <strong>Commit changes</strong>.</li>
+<li><strong>Settings → Pages → Build and deployment</strong>에서 Source를 <strong>Deploy from a branch</strong>, Branch를 <strong>main / (root)</strong> 로 두고 <strong>Save</strong>.</li>
+<li>1~2분 뒤 같은 화면 위쪽에 배포 주소가 나옵니다.</li>
+</ol>
+<blockquote>
+<p><strong>키가 웹에 그대로 노출됩니다.</strong> <a href="#key">4-5절</a>에서 말한 대로 단일 HTML 파일은 인증키를 숨길 수 없습니다. 교육용 무료 키라 괜찮지만, <strong>유료 API 키는 이렇게 배포하지 마세요.</strong></p>
 </blockquote>
 <hr />
 <h2 id="5-2">5. 2단계 — 관광 안내 챗봇</h2>
@@ -497,7 +547,7 @@ web/index.html 을 GitHub Pages로 배포해서 링크 하나로 공유할 수 �
   print(response.text)
 </code></pre>
 <h3 id="5-3">5-3. 프롬프트</h3>
-<p>가상환경을 켜고 <code>tour</code> 폴더에서 <code>claude</code>를 실행한 뒤 붙여넣습니다.</p>
+<p><a href="#venv">2-2절</a>대로 <code>(.venv)</code>를 켠 상태에서 <code>tour</code> 폴더에서 <code>claude</code>를 실행한 뒤 붙여넣습니다.</p>
 <pre><code class="language-text">[목표]
 chatbot/chatbot.py 파일 하나로 도는 터미널 챗봇을 만들어 줘.
 이용자가 관광지를 물으면 한국관광공사 API로 실제 정보를 가져오고, 그 정보를 근거로 Gemini가 한국어로 답한다.
@@ -549,7 +599,7 @@ chatbot/chatbot.py 파일 하나로 도는 터미널 챗봇을 만들어 줘.
 </code></pre>
 <h3 id="5-4-hugging-face-spaces">5-4. (선택) Hugging Face Spaces에 배포하기</h3>
 <p>챗봇을 웹 주소로 만들어 남에게 보여 주고 싶을 때만 하면 됩니다. 손으로 하는 일은 <strong>토큰 발급 하나</strong>뿐이고, 나머지(스페이스 만들기 → Secret 등록 → 파일 만들기 → 업로드)는 프롬프트 하나로 끝납니다.</p>
-<h4 id="1_1">① 토큰 발급 — 이것만 직접 합니다</h4>
+<h4 id="1_2">① 토큰 발급 — 이것만 직접 합니다</h4>
 <ol>
 <li><a href="https://huggingface.co">huggingface.co</a>에 가입·로그인합니다.</li>
 <li>오른쪽 위 프로필 → <strong>Settings → Access Tokens → Create new token</strong>.</li>
@@ -562,8 +612,8 @@ HF_TOKEN=여기에_발급받은_토큰_붙여넣기
 <blockquote>
 <p>이름을 <code>HF_TOKEN</code>으로 두면 <code>huggingface_hub</code> 라이브러리가 알아서 찾아 씁니다.</p>
 </blockquote>
-<h4 id="2_1">② 나머지는 프롬프트 하나로</h4>
-<p>먼저 라이브러리를 설치합니다. 이 라이브러리가 스페이스 만들기·Secret 등록·파일 업로드를 다 해 줍니다.</p>
+<h4 id="2_2">② 나머지는 프롬프트 하나로</h4>
+<p>먼저 라이브러리를 설치합니다(<code>(.venv)</code>가 켜진 상태에서). 이 라이브러리가 스페이스 만들기·Secret 등록·파일 업로드를 다 해 줍니다.</p>
 <pre><code class="language-bash">pip install huggingface_hub
 </code></pre>
 <pre><code class="language-text">[목표]
@@ -606,7 +656,7 @@ chatbot.py 를 Hugging Face Spaces(Gradio)에 올려 웹 주소로 쓸 수 있�
 <blockquote>
 <p>✅ <strong>체크포인트</strong>: 스페이스 주소를 열었을 때 대화창이 뜨고, "제주 오름 알려 줘"에 실제 오름 이름과 주소가 나오면 성공입니다. 빌드에 1~3분 걸립니다.</p>
 </blockquote>
-<h4 id="3">③ 막히면 — 손으로 올리는 방법</h4>
+<h4 id="3_1">③ 막히면 — 손으로 올리는 방법</h4>
 <p>프롬프트가 중간에 실패해도, 파일 3개(<code>chatbot/space/</code>)만 만들어져 있으면 웹에서 직접 올릴 수 있습니다.</p>
 <ol>
 <li>huggingface.co 오른쪽 위 <strong>+ → New Space</strong>. 이름은 <code>tour</code>, SDK는 <strong>Gradio</strong>, 공개 여부는 <strong>Public</strong>.</li>
@@ -901,7 +951,7 @@ description: 정리된 자료를 재미있는 글로 쓸 때 사용한다. writi
 </tr>
 <tr>
 <td><code>ModuleNotFoundError: No module named 'dotenv'</code></td>
-<td>가상환경이 꺼져 있습니다. <code>(.venv)</code> 표시를 확인하고 <code>pip install python-dotenv</code> 재실행</td>
+<td>가상환경이 꺼져 있습니다. <code>(.venv)</code> 표시를 확인하고(<a href="#venv">2-2절</a>) <code>pip install python-dotenv</code> 재실행</td>
 </tr>
 <tr>
 <td>Gemini <code>429 RESOURCE_EXHAUSTED</code></td>

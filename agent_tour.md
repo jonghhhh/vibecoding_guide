@@ -36,7 +36,9 @@
 
 ---
 
-## 2. 폴더 만들기
+## 2. 폴더와 가상환경 만들기
+
+### 2-1. 폴더 만들기
 
 원하는 위치에 `tour` 폴더를 만들고, 그 안에 하위 폴더 셋을 만듭니다.
 
@@ -46,10 +48,49 @@ cd tour
 mkdir web chatbot writing_agent
 ```
 
+### 2-2. 가상환경(`.venv`) 만들기 {#venv}
+
+2·3단계에서는 파이썬을 쓰고 `requests`·`python-dotenv`·`google-genai` 같은 패키지를 설치합니다. 이 패키지들이 컴퓨터 전체가 아니라 **`tour` 폴더 안에만** 들어가도록 가상환경을 먼저 만듭니다. 이걸 건너뛰면 뒤에서 `ModuleNotFoundError`로 막힙니다.
+
+`tour` 폴더 안에서 실행합니다. **만들기는 한 번뿐이고, 켜기는 터미널을 새로 열 때마다** 합니다.
+
+```bash
+# ① 만들기 — 한 번만 (Windows는 python, macOS/Linux는 python3)
+python -m venv .venv
+
+# ② 켜기 — Windows PowerShell
+.venv\Scripts\Activate.ps1
+
+# ② 켜기 — Windows 명령 프롬프트(cmd)
+.venv\Scripts\activate.bat
+
+# ② 켜기 — macOS / Linux
+source .venv/bin/activate
+```
+
+켜지면 터미널 입력줄 맨 앞에 `(.venv)`가 붙습니다. **이 표시가 곧 "켜져 있다"는 뜻**입니다.
+
+```text
+(.venv) PS C:\vscode\tour>
+```
+
+이 상태에서 이 실습에 필요한 패키지를 미리 설치해 둡니다.
+
+```bash
+pip install requests python-dotenv google-genai
+```
+
+> **`Activate.ps1` 실행이 막히면** (Windows PowerShell) — `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`를 한 번 실행하고 `Y`로 답한 뒤 다시 시도하세요.
+>
+> **`python`을 못 찾으면** 파이썬이 안 깔렸거나 PATH에 없는 것입니다. 파이썬 설치부터 가상환경까지 자세한 설명은 [입문 가이드 2부](./vibecoding_basic.html#venv)에 있습니다.
+
+### 2-3. VS Code에서 열기
+
 완성되면 이런 모양입니다.
 
 ```text
 tour/
+├── .venv/               # 가상환경 (2-2에서 만든 것)
 ├── .env                 # 열쇠 보관함 (3장에서 만듭니다)
 ├── .gitignore
 ├── web/                 # 1단계 — 검색 웹페이지
@@ -59,7 +100,7 @@ tour/
 
 VS Code에서 **File → Open Folder**로 `tour` 폴더를 열고, 터미널에서 `claude`를 실행합니다.
 
-> ✅ **체크포인트**: 터미널 경로 끝이 `tour`이고, 왼쪽 탐색기에 `web`·`chatbot`·`writing_agent` 세 폴더가 보이면 준비 완료입니다.
+> ✅ **체크포인트**: 터미널 입력줄이 `(.venv)`로 시작하고 경로 끝이 `tour`이며, 왼쪽 탐색기에 `web`·`chatbot`·`writing_agent` 세 폴더가 보이면 준비 완료입니다.
 
 ---
 
@@ -120,7 +161,7 @@ __pycache__/
 
 ### 3-5. `.env`를 읽는 법
 
-**파이썬**은 `python-dotenv` 패키지를 씁니다. 가상환경을 켠 상태에서 설치하세요.
+**파이썬**은 `python-dotenv` 패키지를 씁니다. [2-2절](#venv)에서 이미 설치했습니다. 건너뛰었다면 `(.venv)`가 켜진 상태에서 지금 설치하세요.
 
 ```bash
 pip install python-dotenv google-genai requests
@@ -241,43 +282,61 @@ start web/index.html
 
 ### 4-6. (선택) GitHub Pages로 배포하기
 
-만든 페이지를 링크로 공유하고 싶을 때만 하면 됩니다.
+만든 페이지를 링크로 공유하고 싶을 때만 하면 됩니다. 손으로 하는 일은 **토큰 발급 하나**뿐이고, 나머지(저장소 만들기 → 파일 올리기 → Pages 켜기)는 프롬프트 하나로 끝납니다.
 
-1. [github.com](https://github.com)에 가입합니다.
-2. **Settings → Developer settings → Personal access tokens**에서 **읽기·쓰기(read and write)** 권한 토큰을 발급받습니다.
-3. 토큰을 `tour/.env`에 넣습니다.
+#### ① 토큰 발급 — 이것만 직접 합니다
+
+1. [github.com](https://github.com)에 가입·로그인합니다.
+2. 오른쪽 위 프로필 → **Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token (classic)**.
+3. 권한(Scopes)에서 **`repo`에 체크**합니다. 저장소 만들기·파일 올리기·Pages 켜기가 모두 이 하나에 들어 있습니다.
+4. 만들어진 토큰을 `tour/.env`에 넣습니다. **창을 닫으면 다시 볼 수 없습니다.**
 
 ```bash
 # 깃허브 (선택 — 배포할 때만)
-GITHUB_TOKEN=여기에_토큰_붙여넣기
+GITHUB_TOKEN=여기에_발급받은_토큰_붙여넣기
 ```
 
-나머지는 AI에게 맡깁니다.
+> **Fine-grained 토큰으로도 됩니다.** 다만 Contents·Pages·Administration 세 가지를 따로 켜고 대상 저장소도 지정해야 해서 실수하기 쉽습니다. **처음이면 classic이 편합니다.**
+
+#### ② 나머지는 프롬프트 하나로
 
 ```text
 [목표]
 web/index.html 을 GitHub Pages로 배포해서 링크 하나로 공유할 수 있게 해 줘.
+저장소 만들기부터 Pages 켜기까지 네가 다 해 줘.
 
 [참고 자료]
-- 인증은 tour/.env 의 GITHUB_TOKEN 을 읽어서 쓴다. 토큰 값을 화면에 출력하거나 코드·커밋 메시지에 남기지 마.
-- 올릴 파일은 web/index.html 하나뿐이다. tour/.env 와 .gitignore 에 적힌 것은 절대 올리지 마.
+- 인증은 tour/.env 의 GITHUB_TOKEN(classic, repo 권한)을 읽어서 쓴다.
+  토큰 값을 화면에 출력하거나 코드·커밋 메시지·원격 주소에 남기지 마.
+- gh CLI 가 깔려 있으면 그것으로, 없으면 GitHub REST API 로 처리해.
 
 [할 일]
-1. 내 깃허브 계정에 tour-web 이라는 public 저장소를 만든다. 이미 있으면 그것을 쓴다.
-2. web/index.html 을 main 브랜치 최상단에 올린다.
-3. 저장소 Settings → Pages 를 'main 브랜치 / 루트(/)'로 설정한다.
-4. 완성된 배포 주소를 알려 준다.
+1. 토큰으로 내 깃허브 계정 아이디를 알아낸다. 나에게 묻지 마.
+2. tour-web 이라는 public 저장소를 만든다. 이미 있으면 그것을 쓴다.
+3. web/index.html 을 main 브랜치 최상단에 index.html 로 올린다.
+4. Pages 를 'main 브랜치 / 루트(/)' 로 켠다.
+5. 배포 주소(https://<내아이디>.github.io/tour-web/)를 알려 준다.
 
 [제약]
+- 올릴 파일은 web/index.html 하나뿐이다. tour/.env 와 .gitignore 에 적힌 것은 절대 올리지 마.
 - 커밋은 한 번으로 정리해 줘.
-- 저장소 이름이 이미 쓰이고 있으면 멋대로 다른 이름을 만들지 말고 나에게 먼저 물어봐.
+- 저장소 이름이 이미 다른 용도로 쓰이고 있으면 멋대로 다른 이름을 만들지 말고 나에게 먼저 물어봐.
 
 [확인]
-올리기 전에, web/index.html 안에 적힌 공공데이터포털 인증키가 공개돼도 되는 무료 키가 맞는지 나에게 한 번 확인해 줘.
-올린 뒤에는 배포 주소를 실제로 열어 페이지가 뜨는지 확인하고 결과를 알려 줘.
+1. 올리기 전에, web/index.html 안에 적힌 공공데이터포털 인증키가 공개돼도 되는 무료 키가 맞는지 나에게 한 번 확인해 줘.
+2. 올린 뒤 배포 주소를 실제로 열어 페이지가 뜨는지 확인하고 결과를 알려 줘.
 ```
 
-> Pages는 반영에 1~2분쯤 걸립니다. 바로 404가 떠도 잠시 뒤 다시 열어 보세요.
+> ✅ **체크포인트**: 배포 주소를 열었을 때 검색창이 뜨고 `경복궁` 검색이 되면 성공입니다. **첫 빌드에 1~2분** 걸립니다. 바로 404가 떠도 잠시 뒤 다시 열어 보세요.
+
+#### ③ 막히면 — 손으로 올리는 방법
+
+1. github.com 오른쪽 위 **＋ → New repository**. 이름은 `tour-web`, 공개 여부는 **Public**, **Add a README file**에 체크하고 **Create repository**.
+2. 만들어진 저장소에서 **Add file → Upload files**로 `web/index.html`을 끌어다 놓고 아래 **Commit changes**.
+3. **Settings → Pages → Build and deployment**에서 Source를 **Deploy from a branch**, Branch를 **main / (root)** 로 두고 **Save**.
+4. 1~2분 뒤 같은 화면 위쪽에 배포 주소가 나옵니다.
+
+> **키가 웹에 그대로 노출됩니다.** [4-5절](#key)에서 말한 대로 단일 HTML 파일은 인증키를 숨길 수 없습니다. 교육용 무료 키라 괜찮지만, **유료 API 키는 이렇게 배포하지 마세요.**
 
 ---
 
@@ -326,7 +385,7 @@ web/index.html 을 GitHub Pages로 배포해서 링크 하나로 공유할 수 �
 
 ### 5-3. 프롬프트
 
-가상환경을 켜고 `tour` 폴더에서 `claude`를 실행한 뒤 붙여넣습니다.
+[2-2절](#venv)대로 `(.venv)`를 켠 상태에서 `tour` 폴더에서 `claude`를 실행한 뒤 붙여넣습니다.
 
 ```text
 [목표]
@@ -404,7 +463,7 @@ HF_TOKEN=여기에_발급받은_토큰_붙여넣기
 
 #### ② 나머지는 프롬프트 하나로
 
-먼저 라이브러리를 설치합니다. 이 라이브러리가 스페이스 만들기·Secret 등록·파일 업로드를 다 해 줍니다.
+먼저 라이브러리를 설치합니다(`(.venv)`가 켜진 상태에서). 이 라이브러리가 스페이스 만들기·Secret 등록·파일 업로드를 다 해 줍니다.
 
 ```bash
 pip install huggingface_hub
@@ -774,7 +833,7 @@ tour-collector 서브에이전트만 먼저 돌려서 "제주 오름" 자료를 
 |---|---|
 | `SERVICE_KEY_IS_NOT_REGISTERED_ERROR` (403) | ① 이 API에 활용신청을 했는지 ② 승인 후 시간이 지났는지 ③ **인코딩/디코딩 키를 바꿔 썼는지**([4-5절](#key)) 순서로 확인 |
 | `.env`를 못 읽음 | 파일 위치가 `tour/` 최상단인지, 이름이 `.env.txt`가 아닌지 확인. 파이썬은 `load_dotenv()`를 호출했는지 확인 |
-| `ModuleNotFoundError: No module named 'dotenv'` | 가상환경이 꺼져 있습니다. `(.venv)` 표시를 확인하고 `pip install python-dotenv` 재실행 |
+| `ModuleNotFoundError: No module named 'dotenv'` | 가상환경이 꺼져 있습니다. `(.venv)` 표시를 확인하고([2-2절](#venv)) `pip install python-dotenv` 재실행 |
 | Gemini `429 RESOURCE_EXHAUSTED` | 무료 한도(분당 15회) 초과입니다. 1분 기다렸다 다시 시도하세요 |
 | 챗봇이 관광지를 지어냄 | API 호출이 실패해 AI가 자기 지식으로 답한 것입니다. "API 응답을 그대로 출력해 봐"라고 시켜 확인하세요 |
 | 서브에이전트가 안 불림 | `.claude/agents/`의 `description` 줄이 모호하면 AI가 언제 쓸지 판단하지 못합니다. "언제 쓰는지"를 구체적으로 고쳐 주세요 |
