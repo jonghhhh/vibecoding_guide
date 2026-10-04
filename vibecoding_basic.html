@@ -157,7 +157,7 @@ td code,th code{font-size:.82em}
 <a class="nav-h3" href="#5-5">5-5. 무료 한도 주의 (강의 전 확인 필수)</a>
 <a class="nav-h3" href="#5-6">5-6. 설정과 승인 모드</a>
 <a class="nav-h2" href="#6">6부. 도구 비교와 공통 원칙</a>
-<a class="nav-h3" href="#6-1-2026-8">6-1. 한눈에 비교 (2026년 8월 기준)</a>
+<a class="nav-h3" href="#6-1-2026-8">6-1. 한눈에 비교 (2026년 10월 기준)</a>
 <a class="nav-h3" href="#6-2-5">6-2. 어떤 도구든 통하는 원칙 5가지</a>
 <a class="nav-h3" href="#6-3-vs">6-3. 좋은 프롬프트 vs 아쉬운 프롬프트</a>
 <a class="nav-h2" href="#a">부록 A. 자주 나오는 오류 해결</a>
@@ -173,9 +173,9 @@ td code,th code{font-size:.82em}
 <h3 id="_2">코딩을 몰라도 됩니다 — 말로 시켜서 프로그램 만들기</h3>
 <blockquote>
 <p><strong>대상</strong>: 코딩을 거의 해본 적 없는 완전 초보<br>
-<strong>준비물</strong>: 노트북(Windows / macOS), 인터넷, 도구 계정 하나<br>
+<strong>준비물</strong>: 노트북(Windows / macOS), 인터넷(<strong>설치는 집 Wi-Fi 또는 내 휴대폰 핫스폿</strong> — 1부 참고), 도구 계정 하나<br>
 <strong>목표</strong>: 코드를 외워서 타이핑하는 방식에서 벗어나, <strong>AI에게 우리말로 시켜 프로그램을 만드는</strong> 경험을 직접 해보기<br>
-<strong>기준일</strong>: 2026년 8월 — 도구 버전·모델명·요금은 자주 바뀝니다. 마지막 절 참고문헌에서 최신 정보를 확인하세요.</p>
+<strong>기준일</strong>: 2026년 10월 — Claude Code·Codex 설치와 로그인은 이 날짜 기준 최신판(Claude Code 2.1.289, Codex CLI 0.160)으로 직접 설치해 확인했습니다. 도구 버전·모델명·요금은 자주 바뀝니다. 마지막 절 참고문헌에서 최신 정보를 확인하세요.</p>
 </blockquote></div></header>
     <div class="wrap">
 <h2 id="0-5">0부. 5분 오리엔테이션</h2>
@@ -247,6 +247,21 @@ td code,th code{font-size:.82em}
 <blockquote>
 <p><strong>용어가 낯설면</strong> 부록 B의 <a href="#b">용어 사전</a>을 먼저 훑어보세요.</p>
 </blockquote>
+<blockquote>
+<p><strong>설치는 어느 인터넷에서 하나요? — 학교·기관 Wi-Fi는 피하세요</strong></p>
+<p>학교·회사·공공기관 Wi-Fi는 보안 필터가 프로그램 내려받기를 막거나 느리게 하는 경우가 많습니다. 여럿이 같은 Wi-Fi로 수백 MB를 한꺼번에 받으면 중간에 끊기기도 합니다. 이때 나는 오류는 명령을 잘못 친 것처럼 보여서 원인을 찾기 어렵습니다.</p>
+<ol>
+<li><strong>집 Wi-Fi에서 수업 전에 설치·로그인까지 끝내 오기</strong> — 가장 권합니다.</li>
+<li>수업 중에 설치해야 하면 <strong>내 휴대폰 핫스폿</strong>으로. 기관 Wi-Fi에서 아래 증상이 <strong>한 번이라도</strong> 나오면 고민하지 말고 바로 바꾸세요.</li>
+<li>설치가 끝난 뒤의 실습(대화·검색)은 기관 Wi-Fi로도 대개 문제없습니다.</li>
+</ol>
+<ul>
+<li><strong>망 문제의 증상</strong> — <code>ETIMEDOUT</code> · <code>ECONNRESET</code> · <code>ENOTFOUND</code> · <code>403</code> · <code>certificate</code>·<code>SSL</code>이 들어간 오류, 설치 스크립트의 <code>syntax error near unexpected token '&lt;'</code>, 진행률이 몇 분째 멈춤, 로그인 브라우저 창이 "연결할 수 없음".</li>
+<li><strong>핫스폿 데이터(대략)</strong> — Claude Code 약 110MB · Codex 약 160MB · VS Code 약 100MB · Node.js 약 30MB · 파이썬 약 30MB. 도구 하나만 고르면 300MB 안팎입니다.</li>
+<li><strong>핫스폿은 각자 자기 휴대폰으로</strong> 켜세요. 한 사람의 핫스폿에 여럿이 붙으면 똑같이 느려집니다.</li>
+<li>망을 바꾼 뒤에는 <strong>터미널을 새로 열고 실패했던 명령을 그대로 다시</strong> 실행하면 됩니다. 반쯤 설치된 것을 지울 필요는 없습니다.</li>
+</ul>
+</blockquote>
 <h3 id="1-1-vs-code">1-1. VS Code 설치 (글 쓰는 창)</h3>
 <ol>
 <li>브라우저에서 <strong><code>code.visualstudio.com</code></strong> 접속 → <strong>Download</strong> 버튼.</li>
@@ -265,6 +280,14 @@ td code,th code{font-size:.82em}
 <p>✅ <strong>체크포인트</strong>: 까만 창에 <code>PS C:\...&gt;</code>(Windows) 또는 <code>사용자이름@맥북 ~ %</code>(macOS) 같은 글자가 보이면 준비 완료입니다.</p>
 <p><strong>터미널이 무섭게 생겼나요?</strong> 그냥 <strong>명령어를 받아 적는 메모장</strong>이라고 생각하세요. 이 문서의 명령어는 모두 <strong>복사해서 붙여넣고 Enter</strong>만 누르면 됩니다. 코드 블록 오른쪽 위의 <strong>복사</strong> 버튼을 쓰세요.</p>
 </blockquote>
+<p><strong>Windows 사용자 — 터미널은 PowerShell 하나로 통일하고, 처음에 이 한 줄부터 실행하세요</strong></p>
+<pre><code class="language-powershell">Set-ExecutionPolicy -Scope CurrentUser RemoteSigned -Force
+</code></pre>
+<ul>
+<li>VS Code 터미널의 기본값이 PowerShell이고, 이 문서의 Windows 명령도 PowerShell 기준입니다. <strong>명령 프롬프트(CMD)는 쓰지 마세요</strong> — 두 종류의 명령이 섞이면 실패가 늘어납니다.</li>
+<li>새 Windows PC의 PowerShell은 <strong>npm으로 깐 <code>claude</code>·<code>codex</code> 명령과 가상환경 켜기(<code>Activate.ps1</code>)를 막아 둡니다.</strong> 위 한 줄은 <strong>내 계정에만</strong> 적용되고 관리자 권한도 필요 없습니다. 한 번 해 두면 이 오류가 다시 생기지 않습니다.</li>
+<li>학교 PC처럼 관리자가 정책을 잠가 둔 컴퓨터에서는 이 명령이 거부될 수 있습니다. 그때는 <strong>개인 노트북</strong>을 쓰세요.</li>
+</ul>
 <h3 id="1-3-nodejs">1-3. Node.js 설치 (엔진)</h3>
 <p>Claude Code와 Codex를 <strong>npm으로 설치할 때</strong> 필요합니다. (설치 스크립트 방식을 쓰면 없어도 되지만, 깔아 두면 두루 편합니다.)</p>
 <ol>
@@ -278,7 +301,7 @@ td code,th code{font-size:.82em}
 npm -v
 </code></pre>
 <blockquote>
-<p>✅ <strong>체크포인트</strong>: <code>v22.x.x</code> 처럼 버전 번호가 나오면 성공입니다.</p>
+<p>✅ <strong>체크포인트</strong>: <code>v22.x.x</code> 처럼 버전 번호가 나오면 성공입니다. <strong>Claude Code는 Node.js 22 이상</strong>, Codex는 16 이상이면 npm으로 설치됩니다. 22보다 낮으면 LTS로 다시 설치하세요.</p>
 <p><strong>macOS</strong>에서 Homebrew를 쓴다면 <code>brew install node</code> 한 줄로 끝납니다.
 <strong>Antigravity CLI</strong>는 단일 실행파일이라 Node.js 없이도 설치됩니다(5부 참고).</p>
 </blockquote>
@@ -454,7 +477,7 @@ source .venv/bin/activate
 <h3 id="3-1-claude-code">3-1. Claude Code란?</h3>
 <ul>
 <li>Anthropic이 만든 <strong>터미널 기반 AI 코딩 에이전트</strong>입니다.</li>
-<li>2026년 8월 기준 기본 모델은 <strong>Claude Opus 5</strong>입니다. 더 빠른 작업엔 <strong>Sonnet 5</strong>, 가벼운 작업엔 <strong>Haiku 4.5</strong>를 고를 수 있습니다.</li>
+<li>2026년 10월 기준 기본 모델은 <strong>Claude Opus 5.5</strong>입니다. 더 빠른 작업엔 <strong>Sonnet 5.5</strong>, 가벼운 작업엔 <strong>Haiku 4.5</strong>를 고를 수 있습니다.</li>
 <li>모델 변경은 <code>/model</code>, 생각의 깊이 조절은 <code>/effort</code>입니다.</li>
 <li><strong>계정 주의</strong>: 무료 claude.ai 요금제로는 쓸 수 없습니다. Pro(약 $20) 이상 구독 또는 API 계정이 필요합니다.</li>
 </ul>
@@ -498,13 +521,16 @@ irm <a href="https://claude.ai/install.ps1">https://claude.ai/install.ps1</a> | 
 curl -fsSL <a href="https://claude.ai/install.cmd">https://claude.ai/install.cmd</a> -o install.cmd &amp;&amp; install.cmd &amp;&amp; del install.cmd
 </code></pre>
 <blockquote>
-<p><strong>PowerShell인지 CMD인지 구분하는 법</strong> — 입력줄이 <code>PS C:\Users\이름&gt;</code>이면 <strong>PowerShell</strong>, <code>C:\Users\이름&gt;</code>이면 <strong>CMD</strong>입니다. <code>'irm' is not recognized</code> 오류가 나면 CMD에서 PowerShell 명령을 쓴 것이고, <code>'&amp;&amp;' is not a valid statement separator</code> 오류가 나면 그 반대입니다.</p>
+<p><strong>Windows는 PowerShell 줄을 쓰세요</strong>(1-2절). CMD 줄은 PowerShell을 쓸 수 없는 경우를 위한 예비입니다.
+<strong>PowerShell인지 CMD인지 구분하는 법</strong> — 입력줄이 <code>PS C:\Users\이름&gt;</code>이면 <strong>PowerShell</strong>, <code>C:\Users\이름&gt;</code>이면 <strong>CMD</strong>입니다. <code>'irm' is not recognized</code> 오류가 나면 CMD에서 PowerShell 명령을 쓴 것이고, <code>'&amp;&amp;' is not a valid statement separator</code> 오류가 나면 그 반대입니다.</p>
 </blockquote>
 <p><strong>방법 B — npm</strong></p>
 <pre><code class="language-bash">npm install -g @anthropic-ai/claude-code
 </code></pre>
 <blockquote>
-<p><code>sudo npm install -g</code>는 쓰지 마세요. 권한 문제와 보안 위험이 생깁니다.</p>
+<p><code>sudo npm install -g</code>는 쓰지 마세요. 권한 문제와 보안 위험이 생깁니다.
+npm 설치 중 오류(<code>Native package ... not found</code>, <code>EBUSY</code>, <code>EACCES</code>, 망 오류 등)는 <a href="#a">부록 A</a>의 <strong>[Claude Code]</strong> 줄을 보세요.
+<strong>방법 A와 B를 둘 다 하지는 마세요</strong> — 설치가 두 개가 되면 업데이트해도 옛 버전이 실행되는 일이 생깁니다.</p>
 </blockquote>
 <p><strong>그 밖의 방법</strong> — macOS는 <code>brew install --cask claude-code</code>, Windows는 <code>winget install Anthropic.ClaudeCode</code>도 됩니다. 다만 이 둘은 자동 업데이트가 되지 않습니다.</p>
 <p><strong>설치 확인</strong></p>
@@ -518,13 +544,25 @@ claude doctor
 <p>작업 폴더 안에서 한 단어만 입력합니다.</p>
 <pre><code class="language-bash">claude
 </code></pre>
+<p><strong>로그인 따라 하기 — 구독한 계정 기준.</strong> 로그인은 <strong>처음 한 번만</strong> 합니다. 비밀번호를 터미널에 치는 일은 없고, <strong>브라우저에서 로그인하고 "허용"만 누르면</strong> 끝납니다.</p>
+<ol>
+<li>글자 색 테마를 고르라는 화면 → 방향키로 고르고 Enter (아무거나 괜찮습니다)</li>
+<li><strong>로그인 방법 선택</strong> → <strong><code>Claude account with subscription</code></strong>(Pro·Max·Team·Enterprise)을 고르고 Enter</li>
+<li><strong>브라우저가 저절로 열립니다</strong> → 구독한 claude.ai 계정으로 로그인 → <strong><code>Authorize</code>(승인)</strong></li>
+<li>"로그인 성공" 문구가 뜨면 터미널로 돌아와 Enter</li>
+<li>"이 폴더의 파일을 신뢰하나요?"라는 질문 → 작업 폴더에서 실행했다면 <strong><code>Yes, proceed</code></strong></li>
+<li>입력창에 <code>안녕</code>이라고 쳐서 답이 오면 끝. 나갈 때는 <code>/exit</code></li>
+</ol>
 <ul>
-<li>처음 실행하면 브라우저가 열리며 <strong>Anthropic 계정 로그인</strong>을 요청합니다.</li>
+<li><strong>브라우저가 안 열리면</strong> — 터미널에 긴 주소가 보입니다. 안내대로 <code>c</code>를 눌러 복사 → 브라우저 주소창에 붙여넣기 → 승인 후 나오는 <strong>코드를 복사해 터미널에 붙여넣기</strong>.</li>
+<li><strong>로그인 창이 계속 다시 뜨면</strong> — 기관 Wi-Fi라면 핫스폿으로 바꿔 다시 해 보세요(1부 망 안내).</li>
+<li>계정을 바꾸려면 <code>claude</code> 안에서 <code>/logout</code> 후 다시 <code>claude</code>.</li>
 <li>구독은 Pro 약 $20 / Max $100·$200입니다. 사용량에 따라 고르세요.</li>
 </ul>
 <blockquote>
 <p>✅ <strong>체크포인트</strong>: 터미널에 Claude Code 환영 화면과 입력창이 뜨면 성공입니다.</p>
-<p><strong>VS Code 안에서 쓰기</strong> — 확장 탭에서 <strong>"Claude Code for VS Code"</strong>(제작사 anthropic)를 설치하면, 사이드 패널에서 인라인 diff(바뀐 부분 미리보기), <code>@파일명</code> 멘션, <code>/model</code>·<code>/context</code> 같은 슬래시 명령을 화면으로 쓸 수 있습니다.</p>
+<p><strong>VS Code 안에서 쓰기</strong> — 확장 탭에서 <strong>"Claude Code for VS Code"</strong>(제작사 Anthropic)를 설치하면, 사이드 패널에서 인라인 diff(바뀐 부분 미리보기), <code>@파일명</code> 멘션, <code>/model</code>·<code>/context</code> 같은 슬래시 명령을 화면으로 쓸 수 있습니다.
+<strong>확장에서 로그인</strong>: ✱ 아이콘으로 패널 열기 → <code>Sign in</code> → <strong>Claude.ai 구독</strong> 쪽 선택 → 브라우저에서 <code>Authorize</code> → 브라우저가 "Visual Studio Code를 여시겠습니까?"라고 물으면 <strong>열기</strong>. 터미널에서 이미 로그인했다면 그대로 이어집니다.</p>
 </blockquote>
 <h3 id="3-4">3-4. 첫 실습 — 할 일 웹앱 만들기</h3>
 <p><code>claude</code>가 실행된 상태에서 <strong>우리말로</strong> 그대로 입력합니다.</p>
@@ -658,11 +696,11 @@ print(&quot;문장 수:&quot;, sentence_count)
 <h3 id="4-1-codex">4-1. Codex란?</h3>
 <ul>
 <li>OpenAI의 <strong>에이전트형 코딩 시스템</strong>입니다. 터미널 CLI·IDE 확장·클라우드·깃허브 봇이 <strong>하나의 계정, 하나의 모델</strong>로 연결됩니다.</li>
-<li>2026년 8월 기준 모델은 <strong>GPT-5.6 계열</strong>입니다. <code>/model</code>로 고를 수 있습니다.</li>
-<li><strong>GPT-5.6 Sol</strong> — 가장 강력. 복잡한 코딩·리서치용</li>
-<li><strong>GPT-5.6 Terra</strong> — 일상 작업용 균형형(기본으로 무난)</li>
-<li><strong>GPT-5.6 Luna</strong> — 가장 빠르고 저렴</li>
-<li>예전 자료에 나오는 <code>gpt-5.3-codex</code>·<code>gpt-5.2</code>는 ChatGPT 계정 기준으로 이미 사용이 중단됐고, <code>gpt-5.4</code>는 <strong>2026년 8월 31일에 종료</strong>됩니다.</li>
+<li>2026년 10월 기준 모델은 <strong>GPT-6 계열</strong>입니다. <code>/model</code>로 고를 수 있습니다.</li>
+<li><strong>GPT-6.1-Sol</strong> — 코딩과 일상 작업의 기본 모델(기본으로 무난)</li>
+<li><strong>GPT-6-Astra</strong> — 가장 강력. 어려운 작업용</li>
+<li><strong>GPT-6-Luna</strong> — 빠르고 저렴. 쉬운 작업용</li>
+<li>예전 자료에 나오는 <code>gpt-5.6</code> 계열(Sol·Terra·Luna)은 이제 <strong>이전 세대</strong>로 분류됩니다. 목록은 계정·버전마다 다르니 <code>/model</code>에서 확인하세요.</li>
 </ul>
 <h3 id="4-2-1">4-2. 설치 — 두 가지 방법 중 택 1</h3>
 <p><strong>방법 A — 설치 스크립트 (curl / irm)</strong></p>
@@ -678,18 +716,34 @@ powershell -ExecutionPolicy ByPass -c &quot;irm <a href="https://chatgpt.com/cod
 <blockquote>
 <p><strong>패키지 이름 주의</strong> — 반드시 <code>@openai/codex</code>입니다. 앞의 <code>@openai/</code>를 빼고 <code>codex</code>만 설치하면 2012년의 전혀 다른 패키지가 깔립니다.</p>
 </blockquote>
-<p><strong>그 밖의 방법</strong> — macOS는 <code>brew install --cask codex</code>도 됩니다.</p>
+<p><strong>그 밖의 방법</strong> — Windows는 <code>winget install OpenAI.Codex</code>, macOS는 <code>brew install --cask codex</code>도 됩니다.</p>
+<blockquote>
+<p><strong>npm 설치는 2026년 10월 최신판(0.160)으로 빈 환경에 직접 설치해 확인했습니다.</strong> Windows에서 npm으로 설치했다면 1-2절의 <code>Set-ExecutionPolicy</code> 한 줄을 먼저 해 두어야 <code>codex</code> 명령이 막히지 않습니다. macOS에서 <code>EACCES</code>가 나면 <code>sudo</code>를 붙이지 말고 방법 A나 <code>brew</code>로 바꾸세요(<a href="#a">부록 A</a>).</p>
+</blockquote>
 <p><strong>설치 확인과 실행</strong></p>
 <pre><code class="language-bash">codex --version
 codex
 </code></pre>
 <ul>
-<li>처음 실행하면 <strong>ChatGPT 계정으로 로그인</strong>합니다.</li>
-<li>요금: ChatGPT Plus $20 / Pro $200. 사용량 한도가 다릅니다.</li>
+<li><code>codex --version</code>에 <code>codex-cli 0.1xx.x</code>가 나오면 설치 성공입니다.</li>
+<li>요금: ChatGPT Plus·Pro·Business·Edu·Enterprise에 포함됩니다. Free·Go에도 한시적으로 열려 있지만 한도가 작아 <strong>실습엔 Plus 이상</strong>을 권합니다.</li>
+</ul>
+<p><strong>로그인 따라 하기 — ChatGPT 구독 계정 기준</strong></p>
+<ol>
+<li>작업 폴더에서 <code>codex</code> 입력 → Enter</li>
+<li>로그인 방법 화면에서 <strong><code>Sign in with ChatGPT</code></strong>를 고르고 Enter</li>
+<li>브라우저가 열림 → ChatGPT 계정으로 로그인 → 승인(Continue) → "로그인됨" 화면이 나오면 브라우저를 닫음</li>
+<li><code>Trust this folder?</code>가 뜨면 <strong>작업 폴더일 때만 Yes</strong></li>
+<li>입력창에 <code>안녕</code>을 쳐서 답이 오면 끝. 나갈 때는 <code>/quit</code></li>
+</ol>
+<pre><code class="language-bash">codex login status     # Logged in using ChatGPT 가 나오면 정상
+</code></pre>
+<ul>
+<li><strong>브라우저 로그인이 안 돌아오면</strong> — <code>codex login --device-auth</code>를 실행해, 화면의 주소를 브라우저로 열고 <strong>화면에 나온 코드</strong>를 입력하세요. 회사망·원격 PC에서 특히 잘 됩니다.</li>
 </ul>
 <blockquote>
-<p>✅ <strong>체크포인트</strong>: 터미널에 Codex 입력창이 뜨면 성공입니다.</p>
-<p><strong>VS Code 안에서 쓰기</strong> — 확장 탭에서 <strong>"OpenAI Codex"</strong> 확장을 설치하면 사이드 패널 에이전트가 열려 있는 파일을 맥락으로 활용합니다. CLI와 상태를 공유합니다.</p>
+<p>✅ <strong>체크포인트</strong>: 터미널에 Codex 입력창이 뜨고 <code>codex login status</code>가 <code>Logged in using ChatGPT</code>이면 성공입니다.</p>
+<p><strong>VS Code 안에서 쓰기</strong> — 확장 탭에서 <code>Codex</code>를 검색해 <strong>제작사가 OpenAI인 확장</strong>을 설치하면 사이드 패널 에이전트가 열려 있는 파일을 맥락으로 활용합니다. 패널에서 <code>Sign in with ChatGPT</code>를 누르면 위와 같은 브라우저 로그인이 진행됩니다. 터미널 <code>codex</code>와 <strong>로그인·설정을 함께 씁니다.</strong></p>
 </blockquote>
 <h3 id="4-3-claude-code">4-3. Claude Code와 다른 점</h3>
 <div class="tbl"><table>
@@ -709,17 +763,17 @@ codex
 <tr>
 <td>계획 먼저 보기</td>
 <td><code>Shift+Tab</code>(플랜 모드)</td>
-<td><strong><code>/plan</code> → <code>/exec</code></strong></td>
+<td><strong><code>/plan</code></strong>(플랜 모드) → 계획이 마음에 들면 "이대로 진행해 줘"</td>
 </tr>
 <tr>
 <td>바뀐 파일 확인</td>
 <td>인라인 diff</td>
-<td><strong><code>/diff</code></strong></td>
+<td><strong><code>/diff</code></strong> (폴더가 git 저장소일 때)</td>
 </tr>
 <tr>
 <td>권한</td>
 <td>매번 승인 프롬프트</td>
-<td><strong>샌드박스 모드를 미리 지정</strong></td>
+<td><strong>샌드박스 모드를 미리 지정</strong> + 필요할 때 승인 요청 (<code>/permissions</code>로 변경)</td>
 </tr>
 <tr>
 <td>현재 상태</td>
@@ -729,21 +783,21 @@ codex
 </tbody>
 </table></div>
 <ul>
-<li><strong>구조화 명령어</strong>: <code>/plan</code>(계획) → <code>/exec</code>(실행) → <code>/review</code>(검토) 흐름으로 작업을 끊어서 지시할 수 있습니다.</li>
+<li><strong>작업 흐름</strong>: <code>/plan</code>으로 계획만 먼저 받고 → 확인 후 "이대로 진행해 줘"로 실행 → <code>/review</code>로 바뀐 내용을 검토하게 합니다. (<code>/exec</code>라는 명령은 없습니다. 옛 자료에 나오면 무시하세요.)</li>
 <li><strong>주의점</strong>: 변경 전 diff(미리보기)가 약하고 승인 흐름이 거칠다는 평이 있습니다. <strong>바뀐 파일을 꼭 직접 확인</strong>하세요.</li>
-<li>최근 버전에는 작업 폴더를 옮기는 <code>/cd</code>·<code>/pwd</code>, 대화를 마크다운으로 내보내는 <code>/export</code>, 예상 비용을 보여주는 <code>/status</code> 등이 추가됐습니다.</li>
+<li>그 밖에 대화를 마크다운으로 내보내는 <code>/export</code>, 현재 설정과 사용량을 보여주는 <code>/status</code>, 규칙 파일 초안을 만드는 <code>/init</code>이 있습니다. 전체 목록은 입력창에 <code>/</code>만 쳐 보면 나옵니다.</li>
 </ul>
 <h3 id="4-4">4-4. 같은 과제 실습</h3>
+<p>먼저 <code>/plan</code>을 입력해 <strong>플랜 모드</strong>로 바꾼 뒤 요청합니다. 플랜 모드에서는 파일을 만들지 않고 계획만 보여 줍니다.</p>
 <pre><code class="language-text">/plan
-할 일을 추가·완료체크·삭제할 수 있는 '오늘의 할 일' 웹앱을
+</code></pre>
+<pre><code class="language-text">할 일을 추가·완료체크·삭제할 수 있는 '오늘의 할 일' 웹앱을
 index.html 한 파일로 만들고 싶어. 브라우저 저장 기능도 포함해 줘.
 </code></pre>
-<p>계획이 마음에 들면 실행합니다.</p>
-<pre><code class="language-text">/exec
+<p>계획이 마음에 들면 실행을 요청합니다. 화면에 실행 여부를 묻는 선택지가 나오면 그것을 골라도 됩니다.</p>
+<pre><code class="language-text">좋아, 이 계획대로 만들어 줘.
 </code></pre>
-<p>작업이 끝나면 무엇이 바뀌었는지 확인하고 다듬습니다.</p>
-<pre><code class="language-text">/diff
-</code></pre>
+<p>파일을 만들거나 명령을 실행하기 전에 승인을 물으면 <strong>무엇을 하는지 읽고</strong> 승인합니다. 작업이 끝나면 <code>index.html</code>을 직접 열어 확인하고 다듬습니다.</p>
 <pre><code class="language-text">/review
 방금 만든 코드에서 초보가 헷갈릴 만한 부분에 한국어 주석을 더 달아 줘.
 </code></pre>
@@ -887,7 +941,11 @@ agy inspect
 </tr>
 <tr>
 <td>스킬(나만의 절차)</td>
-<td><code>.agents/skills/&lt;이름&gt;.md</code> → <code>/&lt;이름&gt;</code>으로 호출</td>
+<td><code>.agents/skills/&lt;이름&gt;/SKILL.md</code> (<strong>폴더 안에 SKILL.md</strong>) → <code>/&lt;이름&gt;</code>으로 호출</td>
+</tr>
+<tr>
+<td>서브에이전트</td>
+<td><code>.agents/agents/&lt;이름&gt;.md</code> — 맨 위 설정에 <code>subagent: true</code>와 <code>tools</code>가 있어야 불림</td>
 </tr>
 <tr>
 <td>MCP 연결</td>
@@ -976,7 +1034,7 @@ agy inspect
 </table></div>
 <hr />
 <h2 id="6">6부. 도구 비교와 공통 원칙</h2>
-<h3 id="6-1-2026-8">6-1. 한눈에 비교 (2026년 8월 기준)</h3>
+<h3 id="6-1-2026-8">6-1. 한눈에 비교 (2026년 10월 기준)</h3>
 <div class="tbl"><table>
 <thead>
 <tr>
@@ -1013,8 +1071,8 @@ agy inspect
 </tr>
 <tr>
 <td>기본 모델</td>
-<td>Claude Opus 5</td>
-<td>GPT-5.6 계열</td>
+<td>Claude Opus 5.5</td>
+<td>GPT-6 계열</td>
 <td>Gemini 3 계열</td>
 </tr>
 <tr>
@@ -1026,7 +1084,7 @@ agy inspect
 <tr>
 <td>무료 시작</td>
 <td>불가(Pro 이상 필요)</td>
-<td>제한적(Plus 권장)</td>
+<td>한시적·제한적(Plus 권장)</td>
 <td><strong>하루 20회 안팎</strong></td>
 </tr>
 <tr>
@@ -1034,6 +1092,24 @@ agy inspect
 <td><code>CLAUDE.md</code></td>
 <td><code>AGENTS.md</code></td>
 <td><code>AGENTS.md</code></td>
+</tr>
+<tr>
+<td>서브에이전트 위치</td>
+<td><code>.claude/agents/*.md</code></td>
+<td><code>.codex/agents/*.toml</code> (<strong>신뢰한 폴더에서만</strong> 읽음)</td>
+<td><code>.agents/agents/*.md</code></td>
+</tr>
+<tr>
+<td>스킬 위치</td>
+<td><code>.claude/skills/&lt;이름&gt;/SKILL.md</code></td>
+<td><code>.agents/skills/&lt;이름&gt;/SKILL.md</code></td>
+<td><code>.agents/skills/&lt;이름&gt;/SKILL.md</code></td>
+</tr>
+<tr>
+<td>내장 웹 검색</td>
+<td>있음</td>
+<td>있음(<code>codex --search</code> 또는 설정 <code>web_search = "live"</code>)</td>
+<td>있음</td>
 </tr>
 <tr>
 <td>VS Code 통합</td>
@@ -1050,7 +1126,7 @@ agy inspect
 <tr>
 <td>주의</td>
 <td>구독 비용</td>
-<td>diff 미리보기 약함</td>
+<td>파일 위치가 Claude와 다름 · 샌드박스가 인터넷을 막음(부록 C-3)</td>
 <td>무료 한도 매우 빡빡</td>
 </tr>
 </tbody>
@@ -1128,8 +1204,48 @@ agy inspect
 <td>가상환경 미활성화. <code>(.venv)</code> 표시를 확인한 뒤 <code>pip install</code> 재실행</td>
 </tr>
 <tr>
-<td>PowerShell에서 활성화 스크립트 차단</td>
-<td><code>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code> 실행 후 재시도</td>
+<td>PowerShell에서 <code>이 시스템에서 스크립트를 실행할 수 없으므로</code> — <code>claude.ps1</code>·<code>codex.ps1</code>·<code>Activate.ps1</code></td>
+<td>새 Windows PC의 실행 정책 때문입니다. <code>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned -Force</code> 실행 → 터미널 새로 열고 재시도(1-2절)</td>
+</tr>
+<tr>
+<td>설치 중 <code>ETIMEDOUT</code> · <code>ECONNRESET</code> · <code>ENOTFOUND</code> · <code>403</code> · <code>certificate</code>/<code>SSL</code> 오류, 진행이 멈춤</td>
+<td>학교·기관 Wi-Fi가 내려받기를 막은 경우가 대부분입니다. <strong>내 휴대폰 핫스폿으로 바꿔 같은 명령을 다시</strong> 실행하세요(1부 망 안내)</td>
+</tr>
+<tr>
+<td><strong>[Claude Code]</strong> npm 설치 끝에 <code>Native package "@anthropic-ai/claude-code-…" not found</code></td>
+<td>운영체제용 본체 파일을 내려받다 실패했습니다. 같은 명령을 <strong>다시 실행</strong>. 또 실패하면 핫스폿에서 재시도하거나 방법 A(설치 스크립트)로 바꾸세요</td>
+</tr>
+<tr>
+<td><strong>[Claude Code]</strong> <code>Failed to place binary</code> · <code>EBUSY</code> · <code>EPERM</code></td>
+<td>Claude가 실행 중이라 파일을 바꿀 수 없습니다. 열려 있는 <code>claude</code>를 모두 <code>/exit</code>하고 터미널도 닫은 뒤 새 터미널에서 다시 설치</td>
+</tr>
+<tr>
+<td><strong>[Claude Code]</strong> Mac에서 <code>running x64 Node under Rosetta 2</code></td>
+<td>M1 이후 Mac에 Intel용 Node.js가 깔렸습니다. nodejs.org에서 LTS를 다시 설치하거나 방법 A(<code>curl ... | bash</code>)로 바꾸세요</td>
+</tr>
+<tr>
+<td><strong>[Claude Code]</strong> <code>claude doctor</code>가 설치가 여러 개라고 경고 · 업데이트해도 옛 버전</td>
+<td>npm과 설치 스크립트로 두 번 깔린 경우입니다. 하나만 남기세요 — npm 쪽 삭제: <code>npm uninstall -g @anthropic-ai/claude-code</code></td>
+</tr>
+<tr>
+<td><strong>[Codex]</strong> macOS에서 npm 설치가 <code>EACCES</code></td>
+<td><code>sudo</code>를 붙이지 마세요. <code>brew install --cask codex</code> 또는 <code>curl -fsSL https://chatgpt.com/codex/install.sh | sh</code>로 설치</td>
+</tr>
+<tr>
+<td><strong>[Codex]</strong> npm 설치는 성공했는데 <code>codex</code>를 못 찾음</td>
+<td>터미널을 완전히 닫았다 열기 → 그래도 안 되면 <code>npm prefix -g</code>로 나온 폴더(Windows는 보통 <code>C:\Users\내이름\AppData\Roaming\npm</code>)가 PATH에 있는지 확인. 없으면 Node.js 설치 파일을 다시 실행해 <strong>Add to PATH</strong> 체크</td>
+</tr>
+<tr>
+<td><strong>[Codex]</strong> 명령이 전부 <code>setup refresh had errors</code>로 실패 (Windows)</td>
+<td>Windows용 Codex 샌드박스(관리자 모드) 준비 실패입니다. <code>%USERPROFILE%\.codex\config.toml</code>을 메모장으로 열어 맨 아래에 <code>[windows]</code> 줄과 <code>sandbox = "unelevated"</code> 줄을 넣고 저장. <strong><code>[windows]</code>가 이미 있으면 새로 넣지 말고</strong> 그 아래 값을 <code>"unelevated"</code>로 고치세요</td>
+</tr>
+<tr>
+<td><strong>[Codex]</strong> <code>codex</code>가 바로 꺼지거나 "액세스 거부" · 백신 경고</td>
+<td>백신이 <code>codex.exe</code>를 막았을 수 있습니다. <code>codex doctor</code>로 점검 → 백신 격리 목록에서 복원·허용. 학교 PC면 개인 노트북을 쓰세요</td>
+</tr>
+<tr>
+<td><strong>[Codex]</strong> 만든 서브에이전트·스킬이 안 보임 · 파이썬 스크립트의 인터넷 접속이 늘 실패</td>
+<td>부록 C-3의 "서브에이전트·스킬까지 쓸 때" 항목을 보세요(폴더 신뢰 · 파일 위치 · 샌드박스)</td>
 </tr>
 <tr>
 <td>한글이 깨짐</td>
@@ -1262,12 +1378,12 @@ agy inspect
 <tr>
 <td>계획 먼저 보기</td>
 <td><code>Shift+Tab</code> 플랜 모드</td>
-<td><code>/plan</code></td>
+<td><code>/plan</code> 플랜 모드</td>
 </tr>
 <tr>
 <td>실행</td>
 <td>승인 프롬프트에 동의</td>
-<td><code>/exec</code></td>
+<td>"이대로 진행해 줘" + 승인 요청에 동의</td>
 </tr>
 <tr>
 <td>검토</td>
@@ -1277,7 +1393,7 @@ agy inspect
 <tr>
 <td>바뀐 파일 확인</td>
 <td>인라인 diff</td>
-<td><code>/diff</code></td>
+<td><code>/diff</code> (git 저장소일 때)</td>
 </tr>
 <tr>
 <td>모델 변경</td>
@@ -1297,17 +1413,34 @@ agy inspect
 <tr>
 <td>VS Code 확장</td>
 <td>Claude Code for VS Code</td>
-<td>OpenAI Codex</td>
+<td>Codex (제작사 OpenAI)</td>
+</tr>
+<tr>
+<td>서브에이전트</td>
+<td><code>.claude/agents/*.md</code></td>
+<td><strong><code>.codex/agents/*.toml</code></strong> — 신뢰한 폴더에서만 읽음, 이름을 불러야 실행</td>
+</tr>
+<tr>
+<td>스킬</td>
+<td><code>.claude/skills/&lt;이름&gt;/SKILL.md</code></td>
+<td><strong><code>.agents/skills/&lt;이름&gt;/SKILL.md</code></strong> — <code>$이름</code> 또는 <code>/skills</code>로 호출</td>
 </tr>
 </tbody>
 </table></div>
 <h3 id="c-2">C-2. 설치부터 첫 실습까지</h3>
 <p><strong>① 공통 준비는 동일합니다</strong> — VS Code·터미널·Node.js·파이썬·작업 폴더(1부), 가상환경(2부). 여기까지는 도구와 무관하게 같습니다.</p>
 <p><strong>② 설치와 로그인</strong></p>
-<pre><code class="language-bash">curl -fsSL <a href="https://chatgpt.com/codex/install.sh">https://chatgpt.com/codex/install.sh</a> | sh
+<pre><code class="language-powershell"># Windows · PowerShell (npm 방식 — 1-2절의 Set-ExecutionPolicy 한 줄을 먼저)
+npm install -g @openai/codex
 cd my-first-vibe
 codex
 </code></pre>
+<pre><code class="language-bash"># macOS
+curl -fsSL https://chatgpt.com/codex/install.sh | sh
+cd my-first-vibe
+codex
+</code></pre>
+<p>로그인은 4-2절의 "로그인 따라 하기"와 같습니다. <code>Trust this folder?</code>가 뜨면 작업 폴더이므로 <strong>Yes</strong>.</p>
 <p><strong>③ 권한(샌드박스) 정하기</strong> — 실습에서는 <code>workspace-write</code>가 적절합니다. 작업 폴더 안의 파일만 고칠 수 있습니다.</p>
 <div class="tbl"><table>
 <thead>
@@ -1345,26 +1478,31 @@ codex
 </code></pre>
 <p><strong>⑤ 할 일 웹앱 만들기</strong> — 3-4절 프롬프트를 그대로 쓰되, 계획·실행을 끊어서 지시합니다.</p>
 <pre><code class="language-text">/plan
-초보자도 이해하기 쉽게, 할 일을 추가·완료체크·삭제할 수 있는 '오늘의 할 일' 웹앱을 만들어 줘.
+</code></pre>
+<pre><code class="language-text">초보자도 이해하기 쉽게, 할 일을 추가·완료체크·삭제할 수 있는 '오늘의 할 일' 웹앱을 만들어 줘.
 조건:
 1) 설치 없이 브라우저로 바로 열리도록 index.html 파일 하나로 만들 것
 2) 디자인은 깔끔하고 모바일에서도 보기 좋게
 3) 할 일 목록은 새로고침해도 남아 있도록 브라우저에 저장
 </code></pre>
-<pre><code class="language-text">/exec
-</code></pre>
-<pre><code class="language-text">/diff
+<pre><code class="language-text">좋아, 이 계획대로 만들어 줘.
 </code></pre>
 <p><strong>⑥ 파이썬 프로그램 만들기</strong> — 3-6절과 동일합니다. 가상환경을 켠 뒤 진행하세요.</p>
-<pre><code class="language-text">/plan
-글자 수·단어 수·문장 수를 세는 파이썬 프로그램을 wordcount.py로 만들어 줘.
+<pre><code class="language-text">글자 수·단어 수·문장 수를 세는 파이썬 프로그램을 wordcount.py로 만들어 줘.
 표준 라이브러리만 쓰고, 한국어 주석을 충분히 달아 줘. 만든 뒤 실행해서 결과도 보여줘.
 </code></pre>
 <h3 id="c-3-codex">C-3. Codex를 쓸 때 특히 주의할 점</h3>
 <ul>
-<li><strong>바뀐 파일을 꼭 눈으로 확인하세요</strong> — diff 미리보기가 Claude Code보다 약합니다. 작업 후 <code>/diff</code>를 습관화하세요.</li>
+<li><strong>바뀐 파일을 꼭 눈으로 확인하세요</strong> — 작업 후 파일을 직접 열어 보는 습관을 들이세요. 폴더가 git 저장소라면 <code>/diff</code>로 바뀐 줄만 볼 수 있습니다.</li>
 <li><strong><code>--yolo</code>·<code>danger-full-access</code> 금지</strong> — 승인과 샌드박스를 모두 끕니다. 강의 환경에서는 절대 쓰지 마세요.</li>
-<li><strong>웹 검색이 환경에 따라 약합니다</strong> — 근거 검색이 필요한 작업은 결과를 반드시 링크로 확인하세요. 부족하면 검색 MCP(Tavily·Brave 등)를 붙이는 방법도 있습니다(심화 가이드 참고).</li>
+<li><strong>웹 검색은 켜야 실시간으로 됩니다</strong> — <code>codex --search</code>로 실행하거나 설정에 <code>web_search = "live"</code>를 넣으세요. 검색 결과는 반드시 링크를 열어 확인하세요.</li>
+<li><strong>Codex가 실행하는 명령은 기본적으로 인터넷이 막혀 있습니다</strong> — Codex에게 만들어 달라고 한 파이썬 프로그램이 인터넷(API 등)을 써야 한다면, 작업 폴더의 <code>.codex/config.toml</code>에 <code>[sandbox_workspace_write]</code>와 <code>network_access = true</code> 두 줄이 필요합니다. 이 설정은 폴더를 <strong>신뢰(Trust)</strong>했을 때만 읽힙니다.</li>
+<li><strong>서브에이전트·스킬까지 쓸 때 (실제로 확인한 함정 넷)</strong>
+<br>① 스킬은 <code>.agents/skills/&lt;이름&gt;/SKILL.md</code>에 둬야 합니다. <code>.claude/skills</code>·<code>.codex/skills</code>는 읽지 않습니다.
+<br>② 서브에이전트(<code>.codex/agents/*.toml</code>, 필수 항목 <code>name</code>·<code>description</code>·<code>developer_instructions</code>)는 <strong>신뢰한 폴더에서만</strong> 읽힙니다. 신뢰하지 않으면 <code>default</code>·<code>explorer</code>·<code>worker</code>만 보입니다.
+<br>③ Codex의 샌드박스가 <code>.codex/</code> 폴더를 보호해서, Codex에게 이 파일을 만들라고 시키면 PC에 따라 거부될 수 있습니다. VS Code에서 직접 만들거나 설치 스크립트를 쓰세요.
+<br>④ Codex는 서브에이전트를 알아서 부르지 않습니다. "searcher, judge 서브에이전트로 해 줘"처럼 <strong>이름을 불러야</strong> 합니다.
+<br>파일을 만들거나 고친 뒤에는 <code>/quit</code>로 나갔다 다시 <code>codex</code>를 실행해야 새 설정이 읽힙니다.</li>
 <li><strong>명령·설정이 자주 바뀝니다</strong> — <code>codex</code> 안에서 <code>/help</code>로 현재 버전의 명령 목록을 먼저 확인하세요.</li>
 </ul>
 <blockquote>
@@ -1376,7 +1514,7 @@ codex
 <li>조태호, 『혼자 공부하는 바이브코딩 with 클로드코드』 공식 GitHub. <a href="https://github.com/taehojo/vibecoding">https://github.com/taehojo/vibecoding</a></li>
 <li>Claude Code 설치·설정 공식 문서. <a href="https://code.claude.com/docs/en/setup">https://code.claude.com/docs/en/setup</a></li>
 <li>Claude Code VS Code 확장 공식 문서. <a href="https://code.claude.com/docs/en/vs-code">https://code.claude.com/docs/en/vs-code</a></li>
-<li>Anthropic, 모델 개요(Claude Opus 5 · Sonnet 5 · Haiku 4.5). <a href="https://platform.claude.com/docs/en/about-claude/models/overview">https://platform.claude.com/docs/en/about-claude/models/overview</a></li>
+<li>Anthropic, 모델 개요(Claude Opus 5.5 · Sonnet 5.5 · Haiku 4.5). <a href="https://platform.claude.com/docs/en/about-claude/models/overview">https://platform.claude.com/docs/en/about-claude/models/overview</a></li>
 <li>OpenAI Codex 공식 저장소(설치 명령). <a href="https://github.com/openai/codex">https://github.com/openai/codex</a></li>
 <li>OpenAI Codex 모델 목록·종료 일정. <a href="https://learn.chatgpt.com/docs/models">https://learn.chatgpt.com/docs/models</a></li>
 <li>OpenAI Codex 변경 이력. <a href="https://learn.chatgpt.com/docs/changelog">https://learn.chatgpt.com/docs/changelog</a></li>
@@ -1387,11 +1525,16 @@ codex
 <li>파이썬 공식 문서 — 모듈 설치하기(pip). <a href="https://docs.python.org/ko/3/installing/index.html">https://docs.python.org/ko/3/installing/index.html</a></li>
 <li>Visual Studio Code 공식 다운로드. <a href="https://code.visualstudio.com">https://code.visualstudio.com</a></li>
 <li>Node.js 공식 다운로드(LTS). <a href="https://nodejs.org">https://nodejs.org</a></li>
+<li>OpenAI Codex 서브에이전트(<code>.codex/agents</code>) 문서. <a href="https://learn.chatgpt.com/docs/agent-configuration/subagents">https://learn.chatgpt.com/docs/agent-configuration/subagents</a></li>
+<li>OpenAI Codex 스킬(<code>.agents/skills</code>) 문서. <a href="https://learn.chatgpt.com/docs/build-skills">https://learn.chatgpt.com/docs/build-skills</a></li>
+<li>Using Codex with your ChatGPT plan. <a href="https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan">https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan</a></li>
+<li>Google Antigravity 서브에이전트 문서. <a href="https://antigravity.google/docs/subagents/">https://antigravity.google/docs/subagents/</a></li>
+<li>Google Antigravity 스킬 문서. <a href="https://antigravity.google/docs/skills/">https://antigravity.google/docs/skills/</a></li>
 </ol>
 <blockquote>
-<p>도구 버전·모델·요금·전환 일정은 2026년 8월 기준이며 변경이 잦습니다. 위 1차 출처에서 최신 정보를 확인하세요.</p>
+<p>도구 버전·모델·요금·전환 일정은 2026년 10월 기준이며 변경이 잦습니다. 위 1차 출처에서 최신 정보를 확인하세요.</p>
 </blockquote></div>
-    <div class="docfoot">바이브 코딩 입문 가이드 · 도구 버전·모델·요금은 2026년 8월 기준이며 자주 바뀝니다.</div>
+    <div class="docfoot">바이브 코딩 입문 가이드 · 도구 버전·모델·요금은 2026년 10월 기준이며 자주 바뀝니다.</div>
   </main>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
