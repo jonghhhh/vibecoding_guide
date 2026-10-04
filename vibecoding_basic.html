@@ -138,7 +138,7 @@ td code,th code{font-size:.82em}
 <a class="nav-h3" href="#2-5">2-5. 가상환경에서 자주 나는 오류</a>
 <a class="nav-h2" href="#3-claude-code">3부. Claude Code 실습 — 가장 쉬운 출발점</a>
 <a class="nav-h3" href="#3-1-claude-code">3-1. Claude Code란?</a>
-<a class="nav-h3" href="#3-2-1">3-2. 설치 — 두 가지 방법 중 택 1</a>
+<a class="nav-h3" href="#3-2-1">3-2. 설치 — 네 가지 방법 중 택 1</a>
 <a class="nav-h3" href="#3-3">3-3. 실행과 로그인</a>
 <a class="nav-h3" href="#3-4">3-4. 첫 실습 — 할 일 웹앱 만들기</a>
 <a class="nav-h3" href="#3-5">3-5. 대화로 고치기 (바이브 코딩의 핵심)</a>
@@ -146,7 +146,7 @@ td code,th code{font-size:.82em}
 <a class="nav-h3" href="#3-7-claudemd">3-7. CLAUDE.md — 프로젝트에 규칙 심기</a>
 <a class="nav-h2" href="#4-openai-codex">4부. OpenAI Codex 실습 — 같은 앱, 다른 도구</a>
 <a class="nav-h3" href="#4-1-codex">4-1. Codex란?</a>
-<a class="nav-h3" href="#4-2-1">4-2. 설치 — 두 가지 방법 중 택 1</a>
+<a class="nav-h3" href="#4-2-1">4-2. 설치 — 네 가지 방법 중 택 1</a>
 <a class="nav-h3" href="#4-3-claude-code">4-3. Claude Code와 다른 점</a>
 <a class="nav-h3" href="#4-4">4-4. 같은 과제 실습</a>
 <a class="nav-h2" href="#5-antigravity-cli">5부. 구글 도구 실습 — Antigravity CLI</a>
@@ -166,6 +166,7 @@ td code,th code{font-size:.82em}
 <a class="nav-h3" href="#c-1">C-1. 개념 대응표</a>
 <a class="nav-h3" href="#c-2">C-2. 설치부터 첫 실습까지</a>
 <a class="nav-h3" href="#c-3-codex">C-3. Codex를 쓸 때 특히 주의할 점</a>
+<a class="nav-h3" href="#c-4">C-4. Codex에서 서브에이전트·스킬을 확실하게 쓰는 법</a>
 <a class="nav-h2" href="#_3">참고문헌</a></nav>
   </aside>
   <main>
@@ -325,13 +326,43 @@ npm -v
 <p><strong>"Add to PATH"를 빠뜨렸다면</strong> — 터미널이 <code>python</code>을 못 찾습니다. 설치 파일을 다시 실행해 <strong>Modify → PATH 추가</strong>를 선택하세요.</p>
 </blockquote>
 <h3 id="1-5">1-5. 작업 폴더 만들기 (집 짓기 전 땅 고르기)</h3>
-<p>원하는 위치에 빈 폴더를 만들고 VS Code에서 <strong>File → Open Folder</strong>로 엽니다. 터미널에서 직접 만들어도 됩니다.</p>
-<pre><code class="language-bash">mkdir my-first-vibe
+<p><strong>AI 코딩 도구는 "지금 열려 있는 폴더"를 작업 공간으로 삼습니다.</strong> 그 폴더 안의 파일을 읽고, 만들고, 고칩니다.
+그래서 <strong>폴더를 먼저 만들고, 그 안에서</strong> 도구를 실행해야 합니다. 이 순서가 뒤바뀌면 엉뚱한 곳에 파일이 생기거나, 중요한 폴더 전체가 작업 대상이 됩니다.</p>
+<div class="tbl"><table>
+<thead>
+<tr><th>규칙</th><th>이유</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Windows는 <code>C:\vibecoding\</code> 아래</strong>에 만들기</td><td>바탕화면은 OneDrive 동기화 때문에 실제 경로가 <code>C:\Users\...\OneDrive\바탕 화면\</code>처럼 <strong>한글·띄어쓰기가 섞인 주소</strong>가 되어 오류가 잦습니다</td></tr>
+<tr><td>macOS는 <code>~/Desktop/</code>(바탕화면) 아래</td><td>찾기 쉽고 경로 문제가 거의 없습니다</td></tr>
+<tr><td>폴더 이름은 <strong>영문 소문자 + 하이픈(-) 또는 밑줄(_)</strong></td><td>한글·공백·특수문자는 일부 도구에서 오류를 냅니다</td></tr>
+<tr><td><strong>실습 하나 = 폴더 하나</strong></td><td>규칙 파일(<code>CLAUDE.md</code>·<code>AGENTS.md</code>)과 설정 폴더(<code>.claude/</code>·<code>.codex/</code>)는 <strong>폴더 단위</strong>로 적용됩니다. 섞이면 엉뚱한 규칙이 발동합니다</td></tr>
+<tr><td>홈 폴더·바탕화면 자체에서 <strong>그냥 실행하지 않기</strong></td><td>그 안의 모든 파일이 작업 대상이 되어 버립니다</td></tr>
+</tbody>
+</table></div>
+<p><strong>① 터미널에서 만들기</strong> — 자기 운영체제 블록만 복사하세요.</p>
+<pre><code class="language-powershell"># Windows (PowerShell)
+cd C:\
+mkdir vibecoding -ErrorAction SilentlyContinue
+cd vibecoding
+mkdir my-first-vibe
 cd my-first-vibe
+</code></pre>
+<pre><code class="language-bash"># macOS
+cd ~/Desktop
+mkdir my-first-vibe
+cd my-first-vibe
+</code></pre>
+<p><strong>② VS Code에서 그 폴더 열기</strong> — <strong>File → Open Folder</strong> → 방금 만든 <code>my-first-vibe</code> 선택. "이 폴더의 작성자를 신뢰하나요?"가 뜨면 <strong>신뢰(Yes, I trust the authors)</strong>.
+이렇게 열면 VS Code 터미널이 <strong>자동으로 그 폴더에서</strong> 시작합니다.</p>
+<p><strong>③ 위치 확인</strong> — 도구를 실행하기 전에 매번 터미널 경로 끝을 눈으로 봅니다.</p>
+<pre><code class="language-text">PS C:\vibecoding\my-first-vibe&gt;          ← Windows
+사용자이름@맥북 my-first-vibe %           ← macOS
 </code></pre>
 <blockquote>
 <p>✅ <strong>체크포인트</strong>: VS Code 왼쪽 탐색기에 <code>MY-FIRST-VIBE</code> 폴더 이름이 보이고, 터미널 경로 끝이 <code>my-first-vibe</code>이면 성공입니다.</p>
-<p><strong>왜 폴더가 중요한가요?</strong> AI 코딩 도구는 <strong>터미널이 현재 열고 있는 폴더</strong>를 작업 공간으로 삼습니다. 엉뚱한 폴더에서 실행하면 엉뚱한 곳에 파일이 생깁니다. 실행 전 항상 폴더를 확인하세요.</p>
+<p><strong>VS Code 확장(3-2절 방법 1)으로 하는 경우</strong>도 똑같습니다 — <strong>File → Open Folder로 연 폴더</strong>가 곧 작업 폴더입니다. 폴더를 열지 않고 확장을 쓰면 AI가 일할 곳이 없습니다.</p>
+<p><strong>도구가 "이 폴더를 신뢰하나요?"라고 물으면</strong>(Claude Code의 <code>Yes, proceed</code>, Codex의 <code>Trust this folder?</code>) — <strong>방금 만든 작업 폴더일 때만 Yes</strong>를 고르세요. 모르는 폴더에서 이 질문이 뜨면 <code>cd</code>로 작업 폴더로 이동한 뒤 다시 실행합니다.</p>
 </blockquote>
 <h3 id="1-6">1-6. 오늘의 공통 과제</h3>
 <blockquote>
@@ -376,7 +407,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 </code></pre>
 <p><strong>④ 켜졌는지 확인</strong> — 터미널 입력줄 맨 앞에 <code>(.venv)</code>가 붙으면 성공입니다.</p>
-<pre><code class="language-text">(.venv) PS C:\vscode\my-first-vibe&gt;
+<pre><code class="language-text">(.venv) PS C:\vibecoding\my-first-vibe&gt;
  ↑ 이 표시가 핵심입니다
 </code></pre>
 <p><strong>⑤ 끄기</strong> — 다른 프로젝트로 옮길 때.</p>
@@ -481,64 +512,105 @@ source .venv/bin/activate
 <li>모델 변경은 <code>/model</code>, 생각의 깊이 조절은 <code>/effort</code>입니다.</li>
 <li><strong>계정 주의</strong>: 무료 claude.ai 요금제로는 쓸 수 없습니다. Pro(약 $20) 이상 구독 또는 API 계정이 필요합니다.</li>
 </ul>
-<h3 id="3-2-1">3-2. 설치 — 두 가지 방법 중 택 1</h3>
-<p><strong>어느 쪽을 고를까요?</strong></p>
+<h3 id="3-2-1">3-2. 설치 — 네 가지 방법 중 택 1</h3>
+<p><strong>결론부터 — 처음이면 방법 1(VS Code 확장), 터미널에서 <code>claude</code>를 쓰려면 방법 2(설치 스크립트).</strong>
+하나가 안 되면 바로 다음 방법으로 넘어가세요. 네 방법 모두 2026년 10월 기준 실제 경로·명령을 확인했습니다.</p>
 <div class="tbl"><table>
 <thead>
-<tr>
-<th></th>
-<th><strong>방법 A. 설치 스크립트 (권장)</strong></th>
-<th><strong>방법 B. npm</strong></th>
-</tr>
+<tr><th></th><th>방법</th><th>Node.js</th><th>자동 업데이트</th><th>이럴 때</th></tr>
 </thead>
 <tbody>
-<tr>
-<td>Node.js 필요</td>
-<td>❌ 필요 없음</td>
-<td>✅ 필요(v22 이상)</td>
-</tr>
-<tr>
-<td>자동 업데이트</td>
-<td>✅ 자동</td>
-<td>수동(<code>npm install -g ...@latest</code>)</td>
-</tr>
-<tr>
-<td>이럴 때</td>
-<td><strong>대부분의 경우 이쪽</strong></td>
-<td>이미 Node.js를 쓰고 있고 npm에 익숙할 때</td>
-</tr>
+<tr><td><strong>1</strong></td><td><strong>VS Code 확장</strong></td><td>불필요</td><td>○</td><td><strong>초보자 · 터미널이 낯선 경우 ← 권장</strong></td></tr>
+<tr><td><strong>2</strong></td><td><strong>공식 설치 스크립트</strong></td><td>불필요</td><td>○</td><td>터미널에서 <code>claude</code> 명령을 쓰고 싶을 때 ← 권장</td></tr>
+<tr><td><strong>3</strong></td><td>패키지 관리자 (winget · Homebrew)</td><td>불필요</td><td>✕ (수동)</td><td>회사 PC 등 스크립트 실행이 막힌 환경</td></tr>
+<tr><td><strong>4</strong></td><td>npm</td><td><strong>22 이상 필요</strong></td><td>✕ (수동)</td><td>이미 Node.js를 쓰고 있을 때</td></tr>
 </tbody>
 </table></div>
-<p><strong>방법 A — 설치 스크립트 (curl / irm)</strong></p>
-<p>내 컴퓨터와 터미널 종류에 맞는 <strong>한 줄만</strong> 복사해 실행하세요.</p>
-<pre><code class="language-bash"># macOS · Linux · WSL
-curl -fsSL <a href="https://claude.ai/install.sh">https://claude.ai/install.sh</a> | bash
-</code></pre>
-<pre><code class="language-powershell"># Windows · PowerShell  (창 왼쪽에 PS 가 보이면 PowerShell)
-irm <a href="https://claude.ai/install.ps1">https://claude.ai/install.ps1</a> | iex
-</code></pre>
-<pre><code class="language-batch">REM Windows · 명령 프롬프트(CMD)  (PS 없이 C:\ 로 시작하면 CMD)
-curl -fsSL <a href="https://claude.ai/install.cmd">https://claude.ai/install.cmd</a> -o install.cmd &amp;&amp; install.cmd &amp;&amp; del install.cmd
-</code></pre>
 <blockquote>
-<p><strong>Windows는 PowerShell 줄을 쓰세요</strong>(1-2절). CMD 줄은 PowerShell을 쓸 수 없는 경우를 위한 예비입니다.
-<strong>PowerShell인지 CMD인지 구분하는 법</strong> — 입력줄이 <code>PS C:\Users\이름&gt;</code>이면 <strong>PowerShell</strong>, <code>C:\Users\이름&gt;</code>이면 <strong>CMD</strong>입니다. <code>'irm' is not recognized</code> 오류가 나면 CMD에서 PowerShell 명령을 쓴 것이고, <code>'&amp;&amp;' is not a valid statement separator</code> 오류가 나면 그 반대입니다.</p>
+<p><strong>설치 전에 확인</strong> — ① 집 Wi-Fi 또는 내 휴대폰 핫스폿인가(1부 망 안내) ② Windows라면 1-2절의 <code>Set-ExecutionPolicy</code> 한 줄을 했는가 ③ 유료 구독(Pro·Max·Team·Enterprise)이 있는가. <strong>무료 claude.ai 계정으로는 쓸 수 없습니다.</strong></p>
 </blockquote>
-<p><strong>방법 B — npm</strong></p>
+<p><strong>방법 1 — VS Code 확장 (가장 쉬움)</strong></p>
+<ol>
+<li>VS Code 왼쪽 <strong>확장(Extensions)</strong> 아이콘 — 단축키 <code>Ctrl</code>+<code>Shift</code>+<code>X</code> (Mac은 <code>Cmd</code>+<code>Shift</code>+<code>X</code>)</li>
+<li>검색창에 <code>Claude Code</code> → 이름이 <strong>Claude Code for VS Code</strong>, 만든 이가 <strong>Anthropic</strong>인 것을 확인하고 <strong>Install</strong></li>
+<li>설치되면 왼쪽(또는 편집기 오른쪽 위)에 <strong>✱ 아이콘</strong>이 생깁니다. 누르면 대화 패널이 열립니다</li>
+<li>처음 열면 로그인 화면 → 3-3절의 "확장에서 로그인"대로 진행</li>
+</ol>
+<ul>
+<li><strong>별도 본체 설치가 필요 없습니다.</strong> 확장이 실행 파일을 품고 있어 Node.js도 필요 없습니다.</li>
+<li>필요 조건 — <strong>VS Code 1.94 이상</strong>. Cursor 등 VS Code 계열 편집기에서도 같은 방식으로 설치됩니다.</li>
+<li>확장이 안 보이면 VS Code를 재시작하거나 <code>Ctrl</code>+<code>Shift</code>+<code>P</code> → <code>Developer: Reload Window</code>.</li>
+</ul>
+<blockquote>
+<p><strong>주의 — 확장을 깔아도 터미널에서 <code>claude</code>라고 치면 안 됩니다.</strong> 확장은 자기 패널 안에서만 돕니다. 터미널 명령까지 쓰려면 방법 2~4 중 하나를 <strong>추가로</strong> 하세요. 이 문서의 실습은 <code>claude</code> 명령 기준으로 적혀 있지만, <strong>확장 패널에 같은 문장을 넣어도 결과는 같습니다.</strong></p>
+</blockquote>
+<p><strong>방법 2 — 공식 설치 스크립트 (터미널에서 <code>claude</code>를 쓰려면)</strong></p>
+<p><strong>자기 운영체제·자기 터미널에 맞는 한 줄만</strong> 복사해 실행하세요. <strong>섞어 쓰면 반드시 실패합니다.</strong></p>
+<pre><code class="language-bash"># macOS · Linux · WSL (터미널)
+curl -fsSL https://claude.ai/install.sh | bash
+</code></pre>
+<pre><code class="language-powershell"># Windows — PowerShell (권장)
+irm https://claude.ai/install.ps1 | iex
+</code></pre>
+<pre><code class="language-batch">REM Windows — 명령 프롬프트(CMD)에서만. PowerShell에 붙여넣으면 실패
+curl -fsSL https://claude.ai/install.cmd -o install.cmd &amp;&amp; install.cmd &amp;&amp; del install.cmd
+</code></pre>
+<p><strong>지금 내 터미널이 무엇인지 — 입력줄 맨 앞을 보세요</strong></p>
+<div class="tbl"><table>
+<thead>
+<tr><th>화면에 이렇게 보이면</th><th>이것은</th><th>써야 할 명령</th></tr>
+</thead>
+<tbody>
+<tr><td><code>PS C:\Users\홍길동&gt;</code></td><td><strong>PowerShell</strong> (앞에 <code>PS</code>)</td><td><code>irm ... | iex</code></td></tr>
+<tr><td><code>C:\Users\홍길동&gt;</code></td><td><strong>CMD</strong> (<code>PS</code> 없음)</td><td><code>curl ... &amp;&amp; install.cmd ...</code></td></tr>
+<tr><td><code>사용자@맥북 ~ %</code> · <code>~ $</code></td><td><strong>macOS · Linux · Git Bash</strong></td><td><code>curl ... | bash</code></td></tr>
+</tbody>
+</table></div>
+<ul>
+<li>VS Code 터미널 오른쪽 위 <strong><code>+</code> 옆 꺾쇠(∨)</strong>를 누르면 <code>PowerShell</code>·<code>Command Prompt</code>·<code>Git Bash</code>를 골라 열 수 있습니다. <strong>이 문서는 PowerShell 기준</strong>입니다.</li>
+<li>설치 스크립트는 <code>claude</code> 실행 파일을 내 계정 폴더에 넣고 PATH에 등록합니다. 그래서 끝나면 <strong>터미널을 완전히 닫았다 새로 열어야</strong> <code>claude</code>가 인식됩니다.</li>
+<li>이 방법은 <strong>자동 업데이트</strong>됩니다.</li>
+</ul>
+<p><strong>방법 3 — 패키지 관리자 (스크립트가 막힐 때)</strong></p>
+<pre><code class="language-powershell"># Windows (PowerShell 또는 CMD)
+winget install Anthropic.ClaudeCode
+</code></pre>
+<pre><code class="language-bash"># macOS (Homebrew가 깔려 있어야 함)
+brew install --cask claude-code
+</code></pre>
+<ul>
+<li><strong>자동 업데이트가 안 됩니다.</strong> 가끔 직접 올리세요 — <code>winget upgrade Anthropic.ClaudeCode</code> / <code>brew upgrade claude-code</code></li>
+<li>Ubuntu·Debian·Fedora는 <code>apt</code>·<code>dnf</code> 저장소도 제공됩니다(공식 문서 참고).</li>
+</ul>
+<p><strong>방법 4 — npm (이미 Node.js를 쓰고 있다면)</strong></p>
 <pre><code class="language-bash">npm install -g @anthropic-ai/claude-code
 </code></pre>
+<ul>
+<li><strong>Node.js 22 이상</strong>이 필요합니다(<code>node -v</code>로 확인). 낮으면 <code>EBADENGINE</code> 경고가 뜹니다.</li>
+<li><strong><code>sudo npm install -g</code>는 쓰지 마세요.</strong> 권한이 꼬이고 보안상 나쁩니다. 권한 오류(<code>EACCES</code>)가 나면 방법 2·3으로 바꾸세요.</li>
+<li>npm은 운영체제용 본체 파일(Windows 약 110MB)을 따로 내려받습니다. 망이 불안하면 끝에서 <code>Native package ... not found</code>가 납니다 → <a href="#a">부록 A</a>.</li>
+<li>업데이트는 <code>npm install -g @anthropic-ai/claude-code@latest</code> (<code>npm update -g</code>는 최신으로 안 갈 수 있음).</li>
+<li><strong>방법 2와 4를 둘 다 하지 마세요.</strong> 설치가 두 개가 되면 업데이트해도 옛 버전이 실행되는 일이 생깁니다.</li>
+</ul>
 <blockquote>
-<p><code>sudo npm install -g</code>는 쓰지 마세요. 권한 문제와 보안 위험이 생깁니다.
-npm 설치 중 오류(<code>Native package ... not found</code>, <code>EBUSY</code>, <code>EACCES</code>, 망 오류 등)는 <a href="#a">부록 A</a>의 <strong>[Claude Code]</strong> 줄을 보세요.
-<strong>방법 A와 B를 둘 다 하지는 마세요</strong> — 설치가 두 개가 되면 업데이트해도 옛 버전이 실행되는 일이 생깁니다.</p>
+<p><strong>Windows에서 권하는 것 하나 더</strong> — <a href="https://git-scm.com/downloads/win">Git for Windows</a>. 필수는 아니지만 설치해 두면 Claude Code가 더 익숙한 방식(Bash)으로 명령을 실행합니다. 없으면 PowerShell로 돕니다.</p>
 </blockquote>
-<p><strong>그 밖의 방법</strong> — macOS는 <code>brew install --cask claude-code</code>, Windows는 <code>winget install Anthropic.ClaudeCode</code>도 됩니다. 다만 이 둘은 자동 업데이트가 되지 않습니다.</p>
-<p><strong>설치 확인</strong></p>
-<pre><code class="language-bash">claude --version
-claude doctor
+<p><strong>설치 확인</strong> — 터미널을 새로 열고:</p>
+<pre><code class="language-bash">claude --version      # 2.1.xxx (Claude Code) 처럼 버전이 찍히면 성공
+claude doctor         # 설치 상태를 스스로 점검해 문제를 알려 줌
 </code></pre>
+<div class="tbl"><table>
+<thead>
+<tr><th>명령</th><th>기대하는 화면</th></tr>
+</thead>
+<tbody>
+<tr><td><code>claude --version</code></td><td><code>2.1.289 (Claude Code)</code> 같은 줄 하나</td></tr>
+<tr><td><code>claude doctor</code></td><td>설치 방식·경로·업데이트 상태 점검 결과. 경고가 있으면 그 문장을 AI에게 물어보면 됩니다</td></tr>
+<tr><td><code>claude</code> 첫 실행</td><td>브라우저가 열리며 로그인 요청 → 승인하면 터미널로 돌아옴 (3-3절)</td></tr>
+</tbody>
+</table></div>
 <blockquote>
-<p>✅ <strong>체크포인트</strong>: <code>2.1.x (Claude Code)</code> 처럼 버전이 보이면 성공입니다. <code>command not found</code>가 나오면 <strong>터미널을 완전히 껐다 켠 뒤</strong> 다시 시도하세요.</p>
+<p>✅ <strong>체크포인트</strong>: <code>2.1.x (Claude Code)</code> 처럼 버전이 보이면 성공입니다. <code>command not found</code> / <code>'claude'은(는) ... 인식되지 않습니다</code>가 나오면 <strong>터미널을 완전히 껐다 켜고</strong>, 그래도 안 되면 VS Code 자체를 재시작하세요. 나머지 오류는 <a href="#a">부록 A</a>.</p>
 </blockquote>
 <h3 id="3-3">3-3. 실행과 로그인</h3>
 <p>작업 폴더 안에서 한 단어만 입력합니다.</p>
@@ -702,24 +774,59 @@ print(&quot;문장 수:&quot;, sentence_count)
 <li><strong>GPT-6-Luna</strong> — 빠르고 저렴. 쉬운 작업용</li>
 <li>예전 자료에 나오는 <code>gpt-5.6</code> 계열(Sol·Terra·Luna)은 이제 <strong>이전 세대</strong>로 분류됩니다. 목록은 계정·버전마다 다르니 <code>/model</code>에서 확인하세요.</li>
 </ul>
-<h3 id="4-2-1">4-2. 설치 — 두 가지 방법 중 택 1</h3>
-<p><strong>방법 A — 설치 스크립트 (curl / irm)</strong></p>
+<h3 id="4-2-1">4-2. 설치 — 네 가지 방법 중 택 1</h3>
+<p>Claude Code와 같은 네 갈래입니다. <strong>터미널에서 쓸 거면 npm(방법 4) 또는 설치 스크립트(방법 2)</strong>, 터미널이 낯설면 VS Code 확장(방법 1).
+<strong>npm 설치는 2026년 10월 최신판(Codex CLI 0.160)을 빈 환경에 직접 설치해 확인했습니다.</strong></p>
+<div class="tbl"><table>
+<thead>
+<tr><th></th><th>방법</th><th>Node.js</th><th>이럴 때</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>1</strong></td><td>VS Code 확장</td><td>불필요</td><td>터미널이 낯선 경우</td></tr>
+<tr><td><strong>2</strong></td><td>공식 설치 스크립트</td><td>불필요</td><td>Node.js 없이 터미널 <code>codex</code>를 쓰고 싶을 때</td></tr>
+<tr><td><strong>3</strong></td><td>패키지 관리자 (winget · Homebrew)</td><td>불필요</td><td>스크립트가 막힌 PC · npm 권한 오류가 난 Mac</td></tr>
+<tr><td><strong>4</strong></td><td><strong>npm</strong></td><td>16 이상</td><td><strong>Node.js를 이미 깔았다면 가장 확실 (직접 검증)</strong></td></tr>
+</tbody>
+</table></div>
+<p><strong>방법 1 — VS Code 확장</strong></p>
+<ol>
+<li>확장 탭(<code>Ctrl</code>+<code>Shift</code>+<code>X</code>)에서 <code>Codex</code> 검색</li>
+<li>이름이 <strong>Codex – OpenAI's coding agent</strong>, 만든 이가 <strong>OpenAI</strong>인 것을 <strong>Install</strong></li>
+<li>사이드바(왼쪽 또는 오른쪽)의 Codex 아이콘 → <code>Sign in with ChatGPT</code> → 브라우저 승인 (아래 "로그인 따라 하기")</li>
+</ol>
+<ul>
+<li>확장은 터미널 <code>codex</code>와 <strong>로그인·설정(<code>~/.codex/</code>)을 함께 씁니다.</strong> 한쪽에서 로그인하면 다른 쪽도 이어집니다.</li>
+</ul>
+<p><strong>방법 2 — 공식 설치 스크립트</strong></p>
+<pre><code class="language-powershell"># Windows — PowerShell
+irm https://chatgpt.com/codex/install.ps1 | iex
+</code></pre>
 <pre><code class="language-bash"># macOS · Linux
-curl -fsSL <a href="https://chatgpt.com/codex/install.sh">https://chatgpt.com/codex/install.sh</a> | sh
+curl -fsSL https://chatgpt.com/codex/install.sh | sh
 </code></pre>
+<ul>
+<li>Windows 스크립트는 <code>codex.exe</code>를 <code>%LOCALAPPDATA%\Programs\OpenAI\Codex\bin</code>에 넣고 PATH에 등록합니다. 끝나면 <strong>터미널을 새로 여세요.</strong></li>
+<li>Codex는 <strong>CMD용 설치 스크립트가 없습니다.</strong> Windows는 PowerShell에서 하세요.</li>
+</ul>
+<p><strong>방법 3 — 패키지 관리자</strong></p>
 <pre><code class="language-powershell"># Windows
-powershell -ExecutionPolicy ByPass -c &quot;irm <a href="https://chatgpt.com/codex/install.ps1">https://chatgpt.com/codex/install.ps1</a> | iex&quot;
+winget install OpenAI.Codex
 </code></pre>
-<p><strong>방법 B — npm</strong></p>
+<pre><code class="language-bash"># macOS
+brew install --cask codex
+</code></pre>
+<p><strong>방법 4 — npm (Node.js가 있다면 권장)</strong></p>
 <pre><code class="language-bash">npm install -g @openai/codex
 </code></pre>
 <blockquote>
-<p><strong>패키지 이름 주의</strong> — 반드시 <code>@openai/codex</code>입니다. 앞의 <code>@openai/</code>를 빼고 <code>codex</code>만 설치하면 2012년의 전혀 다른 패키지가 깔립니다.</p>
+<p><strong>패키지 이름 주의</strong> — 반드시 <code>@openai/codex</code>입니다. 앞의 <code>@openai/</code>를 빼고 <code>codex</code>만 설치하면 전혀 다른 패키지가 깔립니다.</p>
 </blockquote>
-<p><strong>그 밖의 방법</strong> — Windows는 <code>winget install OpenAI.Codex</code>, macOS는 <code>brew install --cask codex</code>도 됩니다.</p>
-<blockquote>
-<p><strong>npm 설치는 2026년 10월 최신판(0.160)으로 빈 환경에 직접 설치해 확인했습니다.</strong> Windows에서 npm으로 설치했다면 1-2절의 <code>Set-ExecutionPolicy</code> 한 줄을 먼저 해 두어야 <code>codex</code> 명령이 막히지 않습니다. macOS에서 <code>EACCES</code>가 나면 <code>sudo</code>를 붙이지 말고 방법 A나 <code>brew</code>로 바꾸세요(<a href="#a">부록 A</a>).</p>
-</blockquote>
+<ul>
+<li>Windows는 <strong>1-2절의 <code>Set-ExecutionPolicy</code> 한 줄을 먼저</strong> 해 두어야 설치 후 <code>codex</code>가 막히지 않습니다(<code>codex.ps1을 로드할 수 없습니다</code> 오류 예방).</li>
+<li>npm은 운영체제용 실행 파일(Windows 약 160MB)을 함께 내려받습니다. 기관 Wi-Fi에서 멈추면 핫스폿으로 바꿔 같은 명령을 다시 실행하세요.</li>
+<li>macOS에서 <code>EACCES</code>가 나면 <strong><code>sudo</code>를 붙이지 말고</strong> 방법 2나 3으로 바꾸세요.</li>
+<li>업데이트는 <code>npm install -g @openai/codex@latest</code>.</li>
+</ul>
 <p><strong>설치 확인과 실행</strong></p>
 <pre><code class="language-bash">codex --version
 codex
@@ -888,7 +995,12 @@ irm <a href="https://antigravity.google/cli/install.ps1">https://antigravity.goo
 <pre><code class="language-batch">REM Windows · 명령 프롬프트(CMD)
 curl -fsSL <a href="https://antigravity.google/cli/install.cmd">https://antigravity.google/cli/install.cmd</a> -o install.cmd &amp;&amp; install.cmd &amp;&amp; del install.cmd
 </code></pre>
-<p>설치 스크립트가 OS와 CPU 종류를 알아서 판별해 실행파일을 내려받고, 체크섬을 확인한 뒤 <code>~/.local/bin/agy</code>에 넣어 줍니다. 이후 업데이트도 자동입니다.</p>
+<p>설치 스크립트가 OS와 CPU 종류를 알아서 판별해 실행파일을 내려받고, 체크섬을 확인한 뒤 <code>~/.local/bin/agy</code>(Windows는 <code>C:\Users\내이름\AppData\Local\agy\bin</code>)에 넣어 줍니다. 이후 업데이트도 자동입니다.
+끝나면 <strong>터미널을 새로 열고</strong> <code>agy --version</code>으로 확인하세요. 명령 이름이 <strong><code>gemini</code>가 아니라 <code>agy</code></strong>입니다.</p>
+<ul>
+<li><code>npm install -g @google/gemini-cli</code>로 까는 옛 Gemini CLI는 <strong>설치는 되지만 개인 Google 계정으로 로그인해 쓸 수 없습니다</strong>(2026-06-18 종료).</li>
+<li>Windows는 PowerShell 줄을 쓰세요(1-2절). CMD 줄은 예비입니다.</li>
+</ul>
 <p><strong>실행과 로그인</strong> — 작업 폴더에서 <code>agy</code>를 입력하면 브라우저가 열리며 구글 계정 인증을 진행합니다.</p>
 <pre><code class="language-bash">agy
 </code></pre>
@@ -1171,98 +1283,72 @@ agy inspect
 </table></div>
 <hr />
 <h2 id="a">부록 A. 자주 나오는 오류 해결</h2>
+<p><strong>먼저 볼 것</strong> — 학교·기관 Wi-Fi에서 설치 중이라면, 아래 표를 보기 전에 <strong>내 휴대폰 핫스폿으로 바꿔 같은 명령을 다시</strong> 실행해 보세요(1부 망 안내). 망 문제가 가장 흔하고, 오류 문장만 봐서는 구분이 어렵습니다.</p>
+<p><strong>A-1. 터미널·설치 공통</strong></p>
 <div class="tbl"><table>
 <thead>
-<tr>
-<th>증상</th>
-<th>해결</th>
-</tr>
+<tr><th>화면에 뜨는 말</th><th>원인</th><th>해결</th></tr>
 </thead>
 <tbody>
-<tr>
-<td><code>command not found: claude</code> / <code>codex</code> / <code>agy</code></td>
-<td>설치가 안 됐거나 PATH 문제입니다. <strong>터미널을 완전히 껐다 켜고</strong> 설치 명령을 다시 실행하세요</td>
-</tr>
-<tr>
-<td><code>npm: command not found</code></td>
-<td>Node.js 미설치 → <code>nodejs.org</code>에서 LTS 설치. 또는 <strong>설치 스크립트 방식</strong>으로 바꾸세요</td>
-</tr>
-<tr>
-<td>Windows에서 <code>'irm' is not recognized</code></td>
-<td>CMD 창에서 PowerShell 명령을 쓴 것입니다. PowerShell을 열거나 CMD용 명령을 쓰세요</td>
-</tr>
-<tr>
-<td>Windows에서 <code>'&amp;&amp;' is not a valid statement separator</code></td>
-<td>반대로 PowerShell에서 CMD 명령을 쓴 것입니다</td>
-</tr>
-<tr>
-<td><code>gemini</code> 실행 시 <code>HTTP 410</code></td>
-<td>Gemini CLI가 종료됐습니다. <strong>Antigravity CLI(<code>agy</code>)</strong>로 이전하세요(5부)</td>
-</tr>
-<tr>
-<td><code>ModuleNotFoundError</code></td>
-<td>가상환경 미활성화. <code>(.venv)</code> 표시를 확인한 뒤 <code>pip install</code> 재실행</td>
-</tr>
-<tr>
-<td>PowerShell에서 <code>이 시스템에서 스크립트를 실행할 수 없으므로</code> — <code>claude.ps1</code>·<code>codex.ps1</code>·<code>Activate.ps1</code></td>
-<td>새 Windows PC의 실행 정책 때문입니다. <code>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned -Force</code> 실행 → 터미널 새로 열고 재시도(1-2절)</td>
-</tr>
-<tr>
-<td>설치 중 <code>ETIMEDOUT</code> · <code>ECONNRESET</code> · <code>ENOTFOUND</code> · <code>403</code> · <code>certificate</code>/<code>SSL</code> 오류, 진행이 멈춤</td>
-<td>학교·기관 Wi-Fi가 내려받기를 막은 경우가 대부분입니다. <strong>내 휴대폰 핫스폿으로 바꿔 같은 명령을 다시</strong> 실행하세요(1부 망 안내)</td>
-</tr>
-<tr>
-<td><strong>[Claude Code]</strong> npm 설치 끝에 <code>Native package "@anthropic-ai/claude-code-…" not found</code></td>
-<td>운영체제용 본체 파일을 내려받다 실패했습니다. 같은 명령을 <strong>다시 실행</strong>. 또 실패하면 핫스폿에서 재시도하거나 방법 A(설치 스크립트)로 바꾸세요</td>
-</tr>
-<tr>
-<td><strong>[Claude Code]</strong> <code>Failed to place binary</code> · <code>EBUSY</code> · <code>EPERM</code></td>
-<td>Claude가 실행 중이라 파일을 바꿀 수 없습니다. 열려 있는 <code>claude</code>를 모두 <code>/exit</code>하고 터미널도 닫은 뒤 새 터미널에서 다시 설치</td>
-</tr>
-<tr>
-<td><strong>[Claude Code]</strong> Mac에서 <code>running x64 Node under Rosetta 2</code></td>
-<td>M1 이후 Mac에 Intel용 Node.js가 깔렸습니다. nodejs.org에서 LTS를 다시 설치하거나 방법 A(<code>curl ... | bash</code>)로 바꾸세요</td>
-</tr>
-<tr>
-<td><strong>[Claude Code]</strong> <code>claude doctor</code>가 설치가 여러 개라고 경고 · 업데이트해도 옛 버전</td>
-<td>npm과 설치 스크립트로 두 번 깔린 경우입니다. 하나만 남기세요 — npm 쪽 삭제: <code>npm uninstall -g @anthropic-ai/claude-code</code></td>
-</tr>
-<tr>
-<td><strong>[Codex]</strong> macOS에서 npm 설치가 <code>EACCES</code></td>
-<td><code>sudo</code>를 붙이지 마세요. <code>brew install --cask codex</code> 또는 <code>curl -fsSL https://chatgpt.com/codex/install.sh | sh</code>로 설치</td>
-</tr>
-<tr>
-<td><strong>[Codex]</strong> npm 설치는 성공했는데 <code>codex</code>를 못 찾음</td>
-<td>터미널을 완전히 닫았다 열기 → 그래도 안 되면 <code>npm prefix -g</code>로 나온 폴더(Windows는 보통 <code>C:\Users\내이름\AppData\Roaming\npm</code>)가 PATH에 있는지 확인. 없으면 Node.js 설치 파일을 다시 실행해 <strong>Add to PATH</strong> 체크</td>
-</tr>
-<tr>
-<td><strong>[Codex]</strong> 명령이 전부 <code>setup refresh had errors</code>로 실패 (Windows)</td>
-<td>Windows용 Codex 샌드박스(관리자 모드) 준비 실패입니다. <code>%USERPROFILE%\.codex\config.toml</code>을 메모장으로 열어 맨 아래에 <code>[windows]</code> 줄과 <code>sandbox = "unelevated"</code> 줄을 넣고 저장. <strong><code>[windows]</code>가 이미 있으면 새로 넣지 말고</strong> 그 아래 값을 <code>"unelevated"</code>로 고치세요</td>
-</tr>
-<tr>
-<td><strong>[Codex]</strong> <code>codex</code>가 바로 꺼지거나 "액세스 거부" · 백신 경고</td>
-<td>백신이 <code>codex.exe</code>를 막았을 수 있습니다. <code>codex doctor</code>로 점검 → 백신 격리 목록에서 복원·허용. 학교 PC면 개인 노트북을 쓰세요</td>
-</tr>
-<tr>
-<td><strong>[Codex]</strong> 만든 서브에이전트·스킬이 안 보임 · 파이썬 스크립트의 인터넷 접속이 늘 실패</td>
-<td>부록 C-3의 "서브에이전트·스킬까지 쓸 때" 항목을 보세요(폴더 신뢰 · 파일 위치 · 샌드박스)</td>
-</tr>
-<tr>
-<td>한글이 깨짐</td>
-<td>파일 인코딩을 <strong>UTF-8</strong>로 저장</td>
-</tr>
-<tr>
-<td>권한/실행 승인 요청이 떴을 때</td>
-<td>내용을 읽고 <strong>이상 없으면 승인</strong>, 모르겠으면 거절한 뒤 AI에게 물어보세요</td>
-</tr>
-<tr>
-<td>사용량 한도 초과</td>
-<td>Antigravity는 <code>/usage</code>로 확인. 무료 등급은 금방 소진되니 유료 도구로 전환하세요</td>
-</tr>
+<tr><td><code>command not found: claude</code> / <code>codex</code> / <code>agy</code><br><code>'claude'은(는) ... 인식되지 않습니다</code></td><td>설치 경로가 아직 반영 안 됨</td><td><strong>터미널을 완전히 껐다 켜기.</strong> VS Code 자체를 재시작하면 더 확실합니다</td></tr>
+<tr><td><code>'irm' is not recognized ...</code></td><td>CMD에서 PowerShell 명령을 씀</td><td>PowerShell 창을 새로 열거나, CMD용 명령을 쓰기</td></tr>
+<tr><td><code>The token '&amp;&amp;' is not a valid statement separator</code></td><td>PowerShell에서 CMD 명령을 씀</td><td>PowerShell용 <code>irm ... | iex</code>를 쓰기</td></tr>
+<tr><td><code>이 시스템에서 스크립트를 실행할 수 없으므로</code> — <code>claude.ps1</code>·<code>codex.ps1</code>·<code>Activate.ps1</code></td><td>새 Windows PC의 PowerShell 실행 정책이 npm 명령 파일·가상환경 스크립트를 막음</td><td><code>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned -Force</code> → 터미널 새로 열기. 관리자 권한 불필요(1-2절)</td></tr>
+<tr><td>PowerShell에서 설치 스크립트 실행 자체가 차단됨</td><td>회사·학교 PC의 보안 정책</td><td>방법 3(<code>winget</code>) 또는 방법 1(VS Code 확장). 그래도 안 되면 개인 노트북</td></tr>
+<tr><td><code>syntax error near unexpected token '&lt;'</code> · <code>403</code></td><td>설치 스크립트 대신 차단 안내 페이지를 받음(네트워크·방화벽)</td><td>VPN을 끄고 <strong>핫스폿으로 바꿔</strong> 재시도. 안 되면 방법 3</td></tr>
+<tr><td><code>ETIMEDOUT</code> · <code>ECONNRESET</code> · <code>ENOTFOUND</code> · <code>certificate</code>/<code>SSL</code> 오류, 진행이 멈춤</td><td>기관 망이 npm 저장소·실행 파일 내려받기를 막음</td><td><strong>핫스폿으로 바꿔 같은 명령을 다시 실행</strong>. 반쯤 설치된 것을 지울 필요 없음</td></tr>
+<tr><td><code>npm: command not found</code></td><td>Node.js 미설치</td><td><code>nodejs.org</code>에서 LTS 설치. 또는 설치 스크립트 방식으로 바꾸기</td></tr>
+<tr><td>npm 권한 오류 <code>EACCES</code></td><td>전역 설치 폴더에 쓰기 권한 없음(Mac에 흔함)</td><td><strong><code>sudo</code>를 붙이지 말 것.</strong> 설치 스크립트·winget·brew로 바꾸기</td></tr>
+<tr><td><code>EBADENGINE</code> 경고</td><td>Node.js 버전이 낮음(Claude Code는 22 이상)</td><td>Node.js LTS를 다시 설치하거나 설치 스크립트로 바꾸기</td></tr>
+<tr><td>npm 설치는 성공했는데 명령을 못 찾음</td><td>npm 전역 폴더가 PATH에 없음</td><td><code>npm prefix -g</code>로 나온 폴더(Windows는 보통 <code>C:\Users\내이름\AppData\Roaming\npm</code>)가 PATH에 있는지 확인. 없으면 Node.js 설치 파일을 다시 실행해 <strong>Add to PATH</strong> 체크</td></tr>
+<tr><td><code>python</code>을 못 찾음 (Windows)</td><td>PATH에 안 잡힘</td><td>설치 파일 재실행 → <code>Modify</code> → <strong>Add to PATH</strong> 체크. macOS는 <code>python3</code></td></tr>
+<tr><td>로그인 화면이 계속 다시 뜸 · 브라우저가 "연결할 수 없음"</td><td>브라우저 승인이 돌아오지 않음</td><td>기관 Wi-Fi라면 먼저 핫스폿으로. 그다음 다른 브라우저를 기본으로 두고 재시도. 확장이면 <code>Developer: Reload Window</code></td></tr>
+<tr><td>한글이 깨짐</td><td>인코딩</td><td>파일을 <strong>UTF-8</strong>로 저장</td></tr>
+</tbody>
+</table></div>
+<p><strong>A-2. Claude Code</strong></p>
+<div class="tbl"><table>
+<thead>
+<tr><th>화면에 뜨는 말</th><th>원인</th><th>해결</th></tr>
+</thead>
+<tbody>
+<tr><td>npm 설치 끝에 <code>Native package "@anthropic-ai/claude-code-win32-x64" not found</code> (Mac은 <code>...-darwin-arm64</code> 등)</td><td>운영체제용 본체 파일을 내려받다 실패(망 차단·끊김), 또는 npm 설정이 선택 패키지를 건너뜀</td><td>같은 명령을 <strong>다시 실행</strong>. 또 실패하면 핫스폿에서 재시도하거나 방법 2(설치 스크립트)로</td></tr>
+<tr><td><code>Failed to place binary</code> · <code>EBUSY</code> · <code>EPERM</code></td><td>Claude가 실행 중이라 파일을 못 바꿈(업데이트·재설치 때 흔함), 또는 백신</td><td>열린 <code>claude</code>를 모두 <code>/exit</code>, VS Code 터미널도 모두 닫고 새 터미널에서 다시 설치</td></tr>
+<tr><td>Mac에서 <code>running x64 Node under Rosetta 2</code></td><td>M1 이후 Mac에 Intel용 Node.js가 깔림</td><td>nodejs.org에서 LTS 재설치 후 다시 설치. 또는 방법 2(<code>curl ... | bash</code>) — Node.js 불필요</td></tr>
+<tr><td><code>claude doctor</code>가 설치가 여러 개라고 경고 · 업데이트해도 옛 버전</td><td>npm과 설치 스크립트로 두 번 깔림</td><td>하나만 남기기. npm 쪽 삭제: <code>npm uninstall -g @anthropic-ai/claude-code</code> → 터미널 새로 열고 <code>claude --version</code></td></tr>
+<tr><td>무료 계정이라 로그인 후 사용 불가</td><td>Claude Code는 유료 구독 필요</td><td>Pro 이상 구독 또는 Console(API) 계정</td></tr>
+</tbody>
+</table></div>
+<p><strong>A-3. Codex</strong></p>
+<div class="tbl"><table>
+<thead>
+<tr><th>화면에 뜨는 말</th><th>원인</th><th>해결</th></tr>
+</thead>
+<tbody>
+<tr><td>명령이 전부 <code>setup refresh had errors</code>로 실패 (Windows)</td><td>Windows용 Codex 샌드박스(관리자 모드) 준비 실패 — 실제로 재현됨</td><td><code>%USERPROFILE%\.codex\config.toml</code>을 메모장으로 열어 맨 아래에 <code>[windows]</code> 줄과 <code>sandbox = "unelevated"</code> 줄을 넣고 저장. <strong><code>[windows]</code>가 이미 있으면 새로 넣지 말고</strong> 그 아래 값을 <code>"unelevated"</code>로 고치기(같은 줄이 두 번이면 Codex가 안 켜짐)</td></tr>
+<tr><td><code>codex</code>가 바로 꺼짐 · "액세스 거부" · 백신 경고</td><td>백신(Windows Defender 등)이 <code>codex.exe</code>를 차단·격리</td><td><code>codex doctor</code>로 점검 → 백신 격리 목록에서 복원·허용. 바꿀 수 없는 학교 PC면 개인 노트북</td></tr>
+<tr><td>브라우저 로그인이 끝나지 않음</td><td>기관망·원격 PC에서 로그인 콜백이 막힘</td><td><code>codex login --device-auth</code> → 화면의 주소를 열고 코드 입력. 확인은 <code>codex login status</code></td></tr>
+<tr><td>만든 서브에이전트가 안 보임(<code>default</code>·<code>explorer</code>·<code>worker</code>뿐)</td><td>폴더를 <strong>신뢰(Trust)</strong>하지 않았거나 다른 폴더에서 실행</td><td>부록 C-4의 "폴더 신뢰"</td></tr>
+<tr><td>만든 스킬이 안 보임</td><td>위치가 틀림 — Codex는 <code>.agents/skills/</code>만 읽음</td><td><code>.agents/skills/&lt;이름&gt;/SKILL.md</code>로 옮기고 Codex 재시작</td></tr>
+<tr><td>Codex가 실행한 파이썬 프로그램의 인터넷 접속이 늘 "연결 실패·시간 초과"</td><td>샌드박스가 기본으로 인터넷을 막음 — 실제로 재현됨</td><td>작업 폴더 <code>.codex/config.toml</code>에 <code>network_access = true</code> (부록 C-4)</td></tr>
+<tr><td>Codex에게 <code>.codex/</code> 안 파일을 만들라고 했더니 "액세스 거부"</td><td>샌드박스가 <code>.codex/</code>를 보호 구역으로 막음</td><td>VS Code에서 직접 파일을 만들기(부록 C-4)</td></tr>
+</tbody>
+</table></div>
+<p><strong>A-4. 구글 · 가상환경 · 기타</strong></p>
+<div class="tbl"><table>
+<thead>
+<tr><th>화면에 뜨는 말</th><th>원인</th><th>해결</th></tr>
+</thead>
+<tbody>
+<tr><td><code>gemini</code> 실행 시 <code>HTTP 410</code> · 로그인 불가</td><td>Gemini CLI는 2026-06-18부터 개인 계정 미지원</td><td><strong>Antigravity CLI(<code>agy</code>)</strong>로 이전(5부)</td></tr>
+<tr><td><code>ModuleNotFoundError</code></td><td>가상환경 미활성화</td><td><code>(.venv)</code> 표시를 확인한 뒤 <code>pip install</code> 재실행</td></tr>
+<tr><td>권한/실행 승인 요청이 떴을 때</td><td>정상 동작</td><td>내용을 읽고 <strong>이상 없으면 승인</strong>, 모르겠으면 거절한 뒤 AI에게 물어보기</td></tr>
+<tr><td>사용량 한도 초과</td><td>구독 등급의 한도</td><td>Antigravity는 <code>/usage</code>, Codex는 <code>/status</code>로 확인. 한도가 풀릴 때까지 기다리거나 상위 요금제</td></tr>
 </tbody>
 </table></div>
 <blockquote>
-<p><strong>모든 오류의 1번 해결책</strong> — 오류 메시지를 <strong>그대로 복사해서</strong> AI에게 붙여 넣고 "내 OS는 ○○이야. 원인과 해결 방법을 알려줘"라고 물어보세요. 설치 문제는 AI가 가장 잘 푸는 영역입니다.</p>
+<p><strong>모든 오류의 1번 해결책</strong> — 오류 메시지를 <strong>그대로 복사해서</strong> AI에게 붙여 넣고 "내 OS는 ○○이야. ○○를 하려던 중이야. 원인과 해결 방법을 알려줘"라고 물어보세요.
+<strong>추측해서 이것저것 지우지 마세요.</strong> 설치가 반쯤 된 상태에서 손대면 원인 찾기가 더 어려워집니다.</p>
 </blockquote>
 <hr />
 <h2 id="b">부록 B. 용어 사전</h2>
@@ -1502,11 +1588,68 @@ codex
 <br>② 서브에이전트(<code>.codex/agents/*.toml</code>, 필수 항목 <code>name</code>·<code>description</code>·<code>developer_instructions</code>)는 <strong>신뢰한 폴더에서만</strong> 읽힙니다. 신뢰하지 않으면 <code>default</code>·<code>explorer</code>·<code>worker</code>만 보입니다.
 <br>③ Codex의 샌드박스가 <code>.codex/</code> 폴더를 보호해서, Codex에게 이 파일을 만들라고 시키면 PC에 따라 거부될 수 있습니다. VS Code에서 직접 만들거나 설치 스크립트를 쓰세요.
 <br>④ Codex는 서브에이전트를 알아서 부르지 않습니다. "searcher, judge 서브에이전트로 해 줘"처럼 <strong>이름을 불러야</strong> 합니다.
-<br>파일을 만들거나 고친 뒤에는 <code>/quit</code>로 나갔다 다시 <code>codex</code>를 실행해야 새 설정이 읽힙니다.</li>
+<br>파일을 만들거나 고친 뒤에는 <code>/quit</code>로 나갔다 다시 <code>codex</code>를 실행해야 새 설정이 읽힙니다. 그대로 따라 할 수 있는 최소 구성은 <a href="#c-4">C-4</a>.</li>
 <li><strong>명령·설정이 자주 바뀝니다</strong> — <code>codex</code> 안에서 <code>/help</code>로 현재 버전의 명령 목록을 먼저 확인하세요.</li>
 </ul>
 <blockquote>
 <p><strong>핵심</strong> — 도구가 달라져도 바이브 코딩의 사이클은 같습니다. <strong>말로 요청 → 계획 확인 → 실행 → 결과 검수 → 규칙 파일로 고정.</strong> 이 흐름만 몸에 익히면 어느 도구로 옮겨도 30분이면 적응할 수 있습니다.</p>
+</blockquote>
+<h3 id="c-4">C-4. Codex에서 서브에이전트·스킬을 확실하게 쓰는 법</h3>
+<p>Claude Code처럼 "규칙 파일 + 서브에이전트 + 스킬"을 Codex에서 쓰려면 <strong>파일 위치와 설정이 다릅니다.</strong>
+아래는 2026년 10월 Codex CLI 0.160으로 <strong>빈 폴더에서 직접 만들어 서브에이전트 호출·스킬 인식·인터넷 접속까지 확인한</strong> 최소 구성입니다.</p>
+<pre><code class="language-text">my-agent/                                   (작업 폴더 — 1-5절 규칙대로)
+├── AGENTS.md                               규칙 파일 (Claude의 CLAUDE.md 자리)
+├── .codex/config.toml                      이 폴더 전용 Codex 설정
+├── .codex/agents/reviewer.toml             서브에이전트 하나당 파일 하나 (.toml)
+└── .agents/skills/my-report/SKILL.md       스킬 (폴더 안에 SKILL.md)
+</code></pre>
+<p><strong>① <code>.codex/config.toml</code> — 이 폴더 전용 설정</strong></p>
+<pre><code class="language-toml">sandbox_mode = "workspace-write"   # 이 폴더 안에서만 파일 생성·수정
+web_search = "live"                # 내장 웹 검색을 실시간으로
+
+[sandbox_workspace_write]
+network_access = true              # Codex가 실행하는 프로그램의 인터넷 접속 허용
+
+[windows]
+sandbox = "unelevated"             # Windows: 관리자 권한 없이 동작하는 샌드박스
+</code></pre>
+<p><strong>② 서브에이전트 — <code>.codex/agents/reviewer.toml</code></strong> (세 항목 <code>name</code>·<code>description</code>·<code>developer_instructions</code>는 필수)</p>
+<pre><code class="language-toml">name = "reviewer"
+description = "결과물을 저장하기 전에 오류와 근거 없는 문장을 검토할 때 사용한다."
+sandbox_mode = "read-only"         # 읽기만 가능 — 검토자가 직접 고치지 못하게 막음
+developer_instructions = """
+너는 검토자다. 직접 고치지 않고 지적만 한다.
+답의 첫 줄은 "검토: 통과" 또는 "검토: 지적"으로 쓴다.
+"""
+</code></pre>
+<p><strong>③ 스킬 — <code>.agents/skills/my-report/SKILL.md</code></strong></p>
+<pre><code class="language-markdown">---
+name: my-report
+description: 작업 결과를 output 폴더에 보고서 파일로 저장할 때 사용한다.
+---
+- 저장 위치: output/report_YYYY-MM-DD.md
+- 맨 위에 한 줄 요약, 그 아래 근거와 출처 URL
+</code></pre>
+<p><strong>④ 폴더 신뢰 — 가장 많이 빠뜨리는 단계</strong></p>
+<ul>
+<li>Codex는 <strong>신뢰한 폴더에서만</strong> <code>.codex/config.toml</code>과 <code>.codex/agents/</code>를 읽습니다. 신뢰하지 않으면 파일이 있어도 서브에이전트가 <code>default</code>·<code>explorer</code>·<code>worker</code>만 보입니다.</li>
+<li>그 폴더에서 <code>codex</code>를 처음 실행할 때 <code>Trust this folder?</code>가 뜨면 <strong>Yes</strong>.</li>
+<li>질문이 안 떴는데 안 읽힌다면 <code>~/.codex/config.toml</code>(Windows는 <code>C:\Users\내이름\.codex\config.toml</code>) 맨 아래에 직접 두 줄을 넣습니다. 경로는 내 작업 폴더로 바꾸세요.</li>
+</ul>
+<pre><code class="language-toml">[projects.'C:\vibecoding\my-agent']
+trust_level = "trusted"
+</code></pre>
+<p><strong>⑤ 파일은 사람이 만든다 · 이름을 불러 쓴다</strong></p>
+<ul>
+<li>Codex의 샌드박스는 <code>.codex/</code> 폴더를 보호해서, <strong>Codex에게 이 파일을 만들라고 시키면 PC에 따라 "액세스 거부"로 실패</strong>합니다. 위 파일들은 <strong>VS Code에서 직접</strong> 새 파일로 만들어 붙여넣으세요.</li>
+<li>파일을 만들거나 고친 뒤에는 <code>/quit</code> → <code>codex</code>로 <strong>다시 실행</strong>해야 읽힙니다.</li>
+<li>Codex는 서브에이전트를 알아서 부르지 않습니다. <strong>"reviewer 서브에이전트로 검토해 줘"처럼 이름을 넣어</strong> 요청하세요. 스킬은 <code>$my-report</code> 또는 <code>/skills</code>로 부를 수 있습니다.</li>
+</ul>
+<p><strong>⑥ 인식 확인</strong> — Codex에 이렇게 물어서 내 서브에이전트와 스킬 이름이 <strong>모두</strong> 나오면 준비 완료입니다.</p>
+<pre><code class="language-text">사용할 수 있는 서브에이전트(agent_type)와 이 폴더 스킬 이름을 알려줘
+</code></pre>
+<blockquote>
+<p>✅ <strong>체크포인트</strong>: 답에 <code>reviewer</code>와 <code>my-report</code>가 보이면 성공입니다. 안 보이면 ④(신뢰) → 파일 위치 → 재시작 순서로 확인하세요.</p>
 </blockquote>
 <hr />
 <h2 id="_3">참고문헌</h2>
